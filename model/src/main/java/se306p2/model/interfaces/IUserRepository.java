@@ -4,7 +4,7 @@ import java.util.Set;
 
 public interface IUserRepository {
 
-    UserRepository getInstance();
+    IUserRepository getInstance();
     String getCurrentUserID();
     void signInAnonymously();
     Set<String> favourites();

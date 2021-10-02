@@ -13,6 +13,7 @@ public interface IProductRepository {
     IProductRepository getInstance();
     List<IProduct> getProducts();
     IProduct getProductByID(String id);
+    List<IProduct> getProductsByCategoryID(String id);
     List<IProduct> getProductsByCategory(ICategory category);
     List<IProduct> getProductsBySearch(String searchTerm);
     List<IProduct> getProductsByFilter(String categoryID, String brandID, BigDecimal min,BigDecimal max);
