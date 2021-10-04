@@ -1,4 +1,4 @@
-package se306p2.view.landingpage;
+package se306p2.view.landingpage.adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -13,13 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import se306p2.view.R;
 
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<CategoryItemRecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapter";
 
@@ -27,7 +26,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<String> categoryIcons;
     private Context context;
 
-    public RecyclerViewAdapter(List<String> categoryNames, List<String> categoryIcons, Context context) {
+    public CategoryItemRecyclerViewAdapter(List<String> categoryNames, List<String> categoryIcons, Context context) {
         this.categoryNames = categoryNames;
         this.categoryIcons = categoryIcons;
         this.context = context;

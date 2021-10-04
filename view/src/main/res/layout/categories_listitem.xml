@@ -3,43 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="3dp"
     android:clipToPadding="false"
-    android:paddingEnd="20dp"
-    >
+    android:padding="3dp"
+    android:paddingEnd="20dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="80dp"
         android:layout_height="80dp"
         app:cardElevation="4dp"
-        app:cardMaxElevation="6dp"
-        >
+        app:cardMaxElevation="6dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            >
+            android:layout_height="60dp">
 
             <ImageView
+                android:id="@+id/category_icon"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_centerInParent="true"
-                android:id="@+id/category_icon"
                 android:src="@drawable/ic_placeholder" />
 
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/category_icon_name"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginTop="60dp"
             android:fontFamily="@font/raleway"
-            android:textColor="@color/black"
             android:text="Category"
             android:textAlignment="center"
+            android:textColor="@color/black"
             android:textFontWeight="400"
-            android:textSize="11dp"
-            android:id="@+id/category_icon_name"
-            android:layout_height="match_parent"/>
+            android:textSize="11dp" />
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

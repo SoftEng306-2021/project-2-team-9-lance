@@ -1,18 +1,10 @@
 package se306p2.view.landingpage;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.util.LayoutDirection;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import se306p2.view.R;
-import se306p2.view.main.MainActivity;
+import se306p2.view.landingpage.adapters.CategoryItemRecyclerViewAdapter;
 
 public class LandingPageActivity extends AppCompatActivity {
     private static final String TAG = "LandingPageActivity";
@@ -73,7 +65,7 @@ public class LandingPageActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(manager);
 
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(categoryNames, categoryIcons, this);
+        CategoryItemRecyclerViewAdapter adapter = new CategoryItemRecyclerViewAdapter(categoryNames, categoryIcons, this);
         recyclerView.setAdapter(adapter);
     }
 }
