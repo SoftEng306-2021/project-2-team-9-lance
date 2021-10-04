@@ -21,11 +21,15 @@ public class Product implements IProduct {
     private BigDecimal price;
     private double numericRating;
     private int numReviews;
+    private String defaultImageURI;
+
+
+
 
     public Product(String productID, String categoryID, String name, String brandID,
                    String brandName, String slogan, String details, String usage, String link,
                    List<String> ingredients, Form form, BigDecimal price,
-                   Double numericRating,int numReviews) {
+                   Double numericRating,int numReviews, String defaultImageURI) {
 
         this.productID = productID;
         this.categoryID = categoryID;
@@ -38,9 +42,10 @@ public class Product implements IProduct {
         this.link = link;
         this.ingredients = ingredients;
         this.form = form;
-        this.price = price;
         this.numericRating = numericRating;
         this.numReviews = numReviews;
+        this.defaultImageURI = defaultImageURI;
+        this.price = price;
 
     }
 
@@ -76,33 +81,30 @@ public class Product implements IProduct {
         return this.form;
     }
 
-    @Override
+    public String getDefaultImageURI() {return this.defaultImageURI; }
+
     public String getCategoryID() {
         return this.categoryID;
     }
 
-    @Override
     public String getBrandID() {
         return this.brandID;
     }
 
-    @Override
     public String getBrandName() {
-        return this.brandName
+        return this.brandName;
     }
 
-    @Override
     public BigDecimal getPrice() {
         return this.price;
     }
 
-    @Override
-    public double getNumericRating() {
+    public Double getNumericRating() {
         return this.numericRating;
     }
 
-    @Override
-    public int getnumReviews() {
+
+    public Number getNumReviews() {
         return this.numReviews;
     }
 }

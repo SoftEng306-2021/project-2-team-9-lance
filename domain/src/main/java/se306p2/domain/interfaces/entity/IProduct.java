@@ -30,7 +30,8 @@ public interface IProduct {
     String getBrandID();
     String getBrandName();
     BigDecimal getPrice();
-    double getNumericRating();
-    int getnumReviews();
+    Double getNumericRating();
+    Number getNumReviews();
+    String getDefaultImageURI();
 
 }

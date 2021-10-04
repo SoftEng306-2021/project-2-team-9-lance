@@ -32,9 +32,10 @@ public class ProductTransformer {
         map.put("form",product.getForm());
         map.put("price", product.getPrice());
         map.put("numericRating",product.getNumericRating());
-        map.put("numReviews", product.getnumReviews());
+        map.put("numReviews", product.getNumReviews());
+        map.put("defaultImageURI",product.getDefaultImageURI());
 
-        return null;
+        return map;
     }
 
     public static IProduct unpack(String productID,String brandName, Map<String, Object> map) {
@@ -56,9 +57,10 @@ public class ProductTransformer {
         BigDecimal price = (BigDecimal) map.get("default");
         double numericRating = (double) map.get("numericRaing");
         int numReviews = (int) map.get("numReviews");
+        String defaultImageURI = map.get("defaultImageURI").toString();
 
         Product product = new Product(productID, categoryID, name, brandID, brandName, slogan, details, usage, link,
-                ingredients, form, price, numericRating, numReviews);
+                ingredients, form, price, numericRating, numReviews, defaultImageURI);
         return product;
 
     }
