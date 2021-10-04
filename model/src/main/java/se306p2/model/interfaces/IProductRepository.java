@@ -10,7 +10,7 @@ import se306p2.domain.interfaces.entity.IProductVersion;
 
 public interface IProductRepository {
 
-    IProductRepository getInstance();
+
     List<IProduct> getProducts();
     IProduct getProductByID(String id);
     List<IProduct> getProductsByCategoryID(String id);
