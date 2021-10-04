@@ -21,11 +21,12 @@ public class Product implements IProduct {
     private BigDecimal defaultPrice;
     private Double numericRating;
     private int numReviews;
+    private String defaultImageURI;
 
     public Product(String productID, String categoryID, String name, String brandID,
                    String brandName, String slogan, String details, String usage, String link,
                    List<String> ingredients, Form form, BigDecimal defaultPrice,
-                   Double numericRating,int numReviews) {
+                   Double numericRating,int numReviews, String defaultImageURI) {
 
         this.productID = productID;
         this.categoryID = categoryID;
@@ -41,6 +42,7 @@ public class Product implements IProduct {
         this.defaultPrice = defaultPrice;
         this.numericRating = numericRating;
         this.numReviews = numReviews;
+        this.defaultImageURI = defaultImageURI;
 
     }
 
@@ -75,4 +77,6 @@ public class Product implements IProduct {
     public Form getForm() {
         return this.form;
     }
+
+    public String getDefaultImageURI() {return this.defaultImageURI; }
 }
