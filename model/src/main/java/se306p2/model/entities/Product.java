@@ -19,7 +19,7 @@ public class Product implements IProduct {
     private List<String> ingredients;
     private Form form;
     private BigDecimal price;
-    private double numericRating;
+    private Double numericRating;
     private int numReviews;
     private String defaultImageURI;
 

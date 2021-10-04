@@ -3,9 +3,12 @@ package se306p2.model.transformers;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.model.entities.Product;
@@ -52,11 +55,15 @@ public class ProductTransformer {
         String details = map.get("details").toString();
         String usage = map.get("usage").toString();
         String link = map.get("link").toString();
-        List<String> ingredients = (List<String>) map.get("ingredients");
+
+        List<Object> ingredientsObj = Arrays.asList(map.get("ingredients"));
+        List<String> ingredients = new ArrayList<String>();
+        ingredientsObj.forEach((x) -> ingredients.add(String.valueOf(x)));
+
         IProduct.Form form = (IProduct.Form) map.get("form");
         BigDecimal price = (BigDecimal) map.get("default");
-        double numericRating = (double) map.get("numericRaing");
-        int numReviews = (int) map.get("numReviews");
+        Double numericRating = Double.parseDouble(map.get("numericRaing").toString());
+        int numReviews = Integer.parseInt(map.get("numReviews").toString());
         String defaultImageURI = map.get("defaultImageURI").toString();
 
         Product product = new Product(productID, categoryID, name, brandID, brandName, slogan, details, usage, link,
