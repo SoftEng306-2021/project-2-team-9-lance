@@ -6,7 +6,7 @@ public interface IUserRepository {
 
     IUserRepository getInstance();
     String getCurrentUserID();
-    void signInAnonymously();
+    String signInAnonymously();
     Set<String> favourites();
     Set<String> favourite(String productID);
 

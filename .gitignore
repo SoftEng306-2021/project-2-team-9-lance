@@ -14,3 +14,9 @@
 .cxx
 local.properties
 /model/src/main
+
+# VS Code
+.vscode
+.settings
+.project
+.classpath
