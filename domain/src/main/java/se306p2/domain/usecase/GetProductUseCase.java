@@ -1,4 +1,10 @@
 package se306p2.domain.usecase;
+
+import se306p2.domain.RepositoryRouter;
+import se306p2.domain.interfaces.entity.IProduct;
+
 public class GetProductUseCase {
-    Product getProduct(String productID);
+    public IProduct getProduct(String productID) {
+        return RepositoryRouter.getProductRepository().getProductByID(productID);
+    }
 }

@@ -27,6 +27,10 @@ android {
     }
 }
 
+apply plugin: 'com.android.application'
+
+apply plugin: 'com.google.gms.google-services'
+
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -36,16 +40,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation project(':domain')
-}
 
-apply plugin: 'com.android.application'
-
-// Add this line
-apply plugin: 'com.google.gms.google-services'
-
-
-dependencies {
-    // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:28.4.1')
 
 
@@ -56,4 +51,13 @@ dependencies {
 
     // Add the dependencies for any other desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
+
+    // Declare the dependency for the Cloud Firestore library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-firestore'
+
+    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
 }
+
+
+

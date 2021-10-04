@@ -1,5 +1,12 @@
 package se306p2.domain.usecase;
 
+import java.util.List;
+
+import se306p2.domain.RepositoryRouter;
+import se306p2.domain.interfaces.entity.IProductVersion;
+
 public class GetProductVersionsUseCase {
-    List<ProductVersion> getProductVersions(String productID);
+    public List<IProductVersion> getProductVersions(String productID) {
+        return RepositoryRouter.getProductRepository().getProductVersions(productID);
+    }
 }

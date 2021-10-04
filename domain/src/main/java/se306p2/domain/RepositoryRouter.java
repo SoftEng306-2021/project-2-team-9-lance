@@ -7,11 +7,11 @@ import se306p2.model.interfaces.IRatingRepository;
 import se306p2.model.interfaces.IUserRepository;
 
 public class RepositoryRouter {
-    public IBrandRepository brandRepo;
-    public ICategoryRepository categoryRepo;
-    public IProductRepository productRepo;
-    public IRatingRepository ratingRepo;
-    public IUserRepository userRepo;
+    private IBrandRepository brandRepo;
+    private ICategoryRepository categoryRepo;
+    private IProductRepository productRepo;
+    private IRatingRepository ratingRepo;
+    private IUserRepository userRepo;
 
     public static RepositoryRouter instance;
 
