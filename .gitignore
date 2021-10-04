@@ -13,4 +13,10 @@
 .externalNativeBuild
 .cxx
 local.properties
-/model/src/main
+/model/src/main/google-services.json
+
+# VS Code
+.vscode
+.settings
+.project
+.classpath
