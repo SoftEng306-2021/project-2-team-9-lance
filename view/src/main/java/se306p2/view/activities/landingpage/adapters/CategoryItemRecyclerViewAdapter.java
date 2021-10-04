@@ -15,20 +15,20 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.view.R;
+import se306p2.view.common.placeholders.PlaceholderCategory;
 
 
 public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<CategoryItemRecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "CategoryItemRecyclerViewAdapter";
 
-    private List<String> categoryNames;
-    private List<String> categoryIcons;
+    private List<ICategory> categories;
     private Context context;
 
-    public CategoryItemRecyclerViewAdapter(Context context, List<String> categoryNames, List<String> categoryIcons) {
-        this.categoryNames = categoryNames;
-        this.categoryIcons = categoryIcons;
+    public CategoryItemRecyclerViewAdapter(Context context, List<ICategory> categories) {
+        this.categories = categories;
         this.context = context;
     }
 
@@ -46,10 +46,10 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
 
         Glide.with(context)
                 .asBitmap()
-                .load(categoryIcons.get(position))
+                .load(categories.get(position).getImageURI())
                 .into(holder.categoryImage);
 
-        holder.categoryName.setText(categoryNames.get(position));
+        holder.categoryName.setText(categories.get(position).getCategoryName());
 
         holder.categoryImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +63,7 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
 
     @Override
     public int getItemCount() {
-        return categoryNames.size();
+        return categories.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

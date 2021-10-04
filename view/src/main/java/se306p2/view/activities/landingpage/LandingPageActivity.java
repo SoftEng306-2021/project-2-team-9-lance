@@ -15,19 +15,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.view.R;
 import se306p2.view.activities.landingpage.adapters.CategoryItemRecyclerViewAdapter;
 import se306p2.view.common.adapters.ProductItemRecyclerViewAdapter;
+import se306p2.view.common.placeholders.PlaceholderCategory;
 import se306p2.view.common.placeholders.PlaceholderProduct;
 
 public class LandingPageActivity extends AppCompatActivity {
     private static final String TAG = "LandingPageActivity";
 
 
-    private List<String> categoryNames = new ArrayList<>();
-    private List<String> categoryIcons = new ArrayList<>();
-
+    private List<ICategory> categories = new ArrayList<>();
     private List<IProduct> featuredList = new ArrayList<>();
 
     @Override
@@ -49,18 +49,14 @@ public class LandingPageActivity extends AppCompatActivity {
 
     private void createCategoryPlaceholders() {
         Log.d(TAG, "creating placeholders for LandingPageActivity");
-        categoryIcons.addAll(
-                Arrays.asList("https://user-images.githubusercontent.com/62003343/135788922-64ae3d11-c011-446f-864d-9205fbcff6dc.png",
-                        "https://user-images.githubusercontent.com/62003343/135788922-64ae3d11-c011-446f-864d-9205fbcff6dc.png",
-                        "https://user-images.githubusercontent.com/62003343/135788922-64ae3d11-c011-446f-864d-9205fbcff6dc.png",
-                        "https://user-images.githubusercontent.com/62003343/135788922-64ae3d11-c011-446f-864d-9205fbcff6dc.png",
-                        "https://user-images.githubusercontent.com/62003343/135788922-64ae3d11-c011-446f-864d-9205fbcff6dc.png",
-                        "https://user-images.githubusercontent.com/62003343/135788922-64ae3d11-c011-446f-864d-9205fbcff6dc.png",
-                        "https://user-images.githubusercontent.com/62003343/135788922-64ae3d11-c011-446f-864d-9205fbcff6dc.png",
-                        "https://user-images.githubusercontent.com/62003343/135788922-64ae3d11-c011-446f-864d-9205fbcff6dc.png"
-                ));
-        categoryNames.addAll(Arrays.asList("Category1", "Category2", "Category", "Category", "Category", "Category", "Category", "Category"));
-        initCategoryListRecyclerView();
+
+        for (int i = 0; i < 10; i++) {
+            categories.add(new PlaceholderCategory(
+                    "0",
+                    "Fragrance",
+                    "https://user-images.githubusercontent.com/62003343/135788922-64ae3d11-c011-446f-864d-9205fbcff6dc.png"
+            ));
+        }
     }
 
     private void createFeaturedProductsPlaceholders() {
@@ -133,7 +129,7 @@ public class LandingPageActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(manager);
 
-        CategoryItemRecyclerViewAdapter adapter = new CategoryItemRecyclerViewAdapter(this, categoryNames, categoryIcons);
+        CategoryItemRecyclerViewAdapter adapter = new CategoryItemRecyclerViewAdapter(this, categories);
         recyclerView.setAdapter(adapter);
     }
 
