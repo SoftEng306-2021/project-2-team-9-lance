@@ -1,10 +1,10 @@
 package se306p2.domain;
 
-import se306p2.model.interfaces.IBrandRepository;
-import se306p2.model.interfaces.ICategoryRepository;
-import se306p2.model.interfaces.IProductRepository;
-import se306p2.model.interfaces.IRatingRepository;
-import se306p2.model.interfaces.IUserRepository;
+import se306p2.domain.interfaces.repositories.IBrandRepository;
+import se306p2.domain.interfaces.repositories.ICategoryRepository;
+import se306p2.domain.interfaces.repositories.IProductRepository;
+import se306p2.domain.interfaces.repositories.IRatingRepository;
+import se306p2.domain.interfaces.repositories.IUserRepository;
 
 public class RepositoryRouter {
     private IBrandRepository brandRepo;

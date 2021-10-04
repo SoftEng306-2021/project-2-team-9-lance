@@ -6,7 +6,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "se306p2.lance"
+        applicationId "se306p2.app"
         minSdk 24
         targetSdk 31
         versionCode 1

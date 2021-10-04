@@ -1,4 +1,4 @@
-package se306p2.model.interfaces;
+package se306p2.domain.interfaces.repositories;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,5 +19,8 @@ public interface IProductRepository {
     List<IProduct> getProductsByFilter(String categoryID, String brandID, BigDecimal min,BigDecimal max);
     List<IProductVersion> getProductVersions(String productID);
     List<IBenefit> getBenefits(String productID);
+    List<IProduct> getFeaturedProducts();
+    List<String> searchAutoComplete(String searchTerm);
+
 
 }

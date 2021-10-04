@@ -1,4 +1,4 @@
-package se306p2.model.interfaces;
+package se306p2.domain.interfaces.repositories;
 
 import se306p2.domain.interfaces.entity.IRating;
 

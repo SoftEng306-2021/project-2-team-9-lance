@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import se306p2.domain.interfaces.entity.ICategory;
-import se306p2.model.interfaces.ICategoryRepository;
+import se306p2.domain.interfaces.repositories.ICategoryRepository;
 
 public class CategoryRepository implements ICategoryRepository {
 
