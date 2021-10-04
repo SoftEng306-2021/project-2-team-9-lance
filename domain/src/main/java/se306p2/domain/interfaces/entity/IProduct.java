@@ -24,5 +24,6 @@ public interface IProduct {
     List<String> getIngredients();
     String getLink();
     Form getForm();
+    String getDefaultImageURI();
 
 }
