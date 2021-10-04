@@ -86,4 +86,14 @@ public class ProductRepository implements IProductRepository {
     public List<IBenefit> getBenefits(String productID) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public List<IProduct> getFeaturedProducts() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<String> searchAutoComplete(String searchTerm) {
+        throw new UnsupportedOperationException();
+    }
 }
