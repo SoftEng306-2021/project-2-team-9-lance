@@ -18,13 +18,13 @@ public class Product implements IProduct {
     private String link;
     private List<String> ingredients;
     private Form form;
-    private BigDecimal defaultPrice;
-    private Double numericRating;
+    private BigDecimal price;
+    private double numericRating;
     private int numReviews;
 
     public Product(String productID, String categoryID, String name, String brandID,
                    String brandName, String slogan, String details, String usage, String link,
-                   List<String> ingredients, Form form, BigDecimal defaultPrice,
+                   List<String> ingredients, Form form, BigDecimal price,
                    Double numericRating,int numReviews) {
 
         this.productID = productID;
@@ -38,7 +38,7 @@ public class Product implements IProduct {
         this.link = link;
         this.ingredients = ingredients;
         this.form = form;
-        this.defaultPrice = defaultPrice;
+        this.price = price;
         this.numericRating = numericRating;
         this.numReviews = numReviews;
 
@@ -74,5 +74,35 @@ public class Product implements IProduct {
 
     public Form getForm() {
         return this.form;
+    }
+
+    @Override
+    public String getCategoryID() {
+        return this.categoryID;
+    }
+
+    @Override
+    public String getBrandID() {
+        return this.brandID;
+    }
+
+    @Override
+    public String getBrandName() {
+        return this.brandName
+    }
+
+    @Override
+    public BigDecimal getPrice() {
+        return this.price;
+    }
+
+    @Override
+    public double getNumericRating() {
+        return this.numericRating;
+    }
+
+    @Override
+    public int getnumReviews() {
+        return this.numReviews;
     }
 }

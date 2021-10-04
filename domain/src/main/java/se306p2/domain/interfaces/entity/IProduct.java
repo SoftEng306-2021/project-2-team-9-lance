@@ -1,8 +1,10 @@
 package se306p2.domain.interfaces.entity;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface IProduct {
+
 
     enum Form {
         BALM,
@@ -24,5 +26,11 @@ public interface IProduct {
     List<String> getIngredients();
     String getLink();
     Form getForm();
+    String getCategoryID();
+    String getBrandID();
+    String getBrandName();
+    BigDecimal getPrice();
+    double getNumericRating();
+    int getnumReviews();
 
 }
