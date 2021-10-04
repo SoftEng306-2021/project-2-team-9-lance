@@ -57,6 +57,8 @@ public class LandingPageActivity extends AppCompatActivity {
                     "https://user-images.githubusercontent.com/62003343/135788922-64ae3d11-c011-446f-864d-9205fbcff6dc.png"
             ));
         }
+
+        initCategoryListRecyclerView();
     }
 
     private void createFeaturedProductsPlaceholders() {
@@ -142,5 +144,6 @@ public class LandingPageActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
 
         ProductItemRecyclerViewAdapter adapter = new ProductItemRecyclerViewAdapter(this, featuredList);
+        recyclerView.setAdapter(adapter);
     }
 }
