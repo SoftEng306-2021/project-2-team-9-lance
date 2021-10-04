@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Lance">
 
         <activity
-            android:name=".main.MainActivity"
+            android:name=".activities.main.MainActivity"
             android:label="@string/app_name"
             android:exported="true"
             android:theme="@android:style/Theme.Material.NoActionBar">
@@ -25,7 +25,7 @@
         </activity>
 
         <activity
-            android:name=".landingpage.LandingPageActivity"
+            android:name=".activities.landingpage.LandingPageActivity"
             android:exported="false">
             <intent-filter>
 

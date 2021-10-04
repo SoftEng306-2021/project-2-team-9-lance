@@ -1,4 +1,4 @@
-package se306p2.view.landingpage.adapters;
+package se306p2.view.activities.landingpage.adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -20,13 +20,13 @@ import se306p2.view.R;
 
 public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<CategoryItemRecyclerViewAdapter.ViewHolder> {
 
-    private static final String TAG = "RecyclerViewAdapter";
+    private static final String TAG = "CategoryItemRecyclerViewAdapter";
 
     private List<String> categoryNames;
     private List<String> categoryIcons;
     private Context context;
 
-    public CategoryItemRecyclerViewAdapter(List<String> categoryNames, List<String> categoryIcons, Context context) {
+    public CategoryItemRecyclerViewAdapter(Context context, List<String> categoryNames, List<String> categoryIcons) {
         this.categoryNames = categoryNames;
         this.categoryIcons = categoryIcons;
         this.context = context;

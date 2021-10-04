@@ -1,17 +1,15 @@
-package se306p2.view.main;
+package se306p2.view.activities.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import se306p2.view.R;
-import se306p2.view.landingpage.LandingPageActivity;
+import se306p2.view.activities.landingpage.LandingPageActivity;
 
 public class MainActivity extends AppCompatActivity {
 

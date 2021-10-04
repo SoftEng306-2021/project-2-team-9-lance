@@ -1,4 +1,4 @@
-package se306p2.view.landingpage;
+package se306p2.view.activities.landingpage;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import se306p2.view.R;
-import se306p2.view.landingpage.adapters.CategoryItemRecyclerViewAdapter;
+import se306p2.view.activities.landingpage.adapters.CategoryItemRecyclerViewAdapter;
 
 public class LandingPageActivity extends AppCompatActivity {
     private static final String TAG = "LandingPageActivity";
@@ -65,7 +65,7 @@ public class LandingPageActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(manager);
 
-        CategoryItemRecyclerViewAdapter adapter = new CategoryItemRecyclerViewAdapter(categoryNames, categoryIcons, this);
+        CategoryItemRecyclerViewAdapter adapter = new CategoryItemRecyclerViewAdapter(this, categoryNames, categoryIcons);
         recyclerView.setAdapter(adapter);
     }
 }
