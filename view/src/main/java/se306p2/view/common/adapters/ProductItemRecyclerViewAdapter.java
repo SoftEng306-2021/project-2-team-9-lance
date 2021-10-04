@@ -44,15 +44,22 @@ public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<Product
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBinderViewHolder entered");
 
-//        Glide.with(context)
-//                .asBitmap()
-//                .load(products.get(position))
-//TODO finish this
+        IProduct product = products.get(position);
+
+        Glide.with(context)
+                .asBitmap()
+                .load(product.getDefaultImageURI())
+                .into(holder.productImage);
+
+        holder.productBrand.setText("Waiting for Lance");
+        holder.productName.setText(product.getName());
+        holder.productPriceDollar.setText("00");
+        holder.productPriceCent.setText("00");
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return products.size();
     }
 
 
