@@ -19,7 +19,7 @@
         android:layout_marginTop="203dp"
         android:layout_marginEnd="87dp"
         android:fontFamily="@font/raleway"
-        android:text="splash screen ?"
+        android:text="splash screen ???"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textFontWeight="500"
