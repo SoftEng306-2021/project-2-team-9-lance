@@ -3,7 +3,7 @@ package se306p2.model.repository;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import se306p2.domain.interfaces.entity.IRating;
-import se306p2.model.interfaces.IRatingRepository;
+import se306p2.domain.interfaces.repositories.IRatingRepository;
 
 public class RatingRepository implements IRatingRepository {
 

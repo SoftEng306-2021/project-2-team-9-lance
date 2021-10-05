@@ -5,7 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Set;
 
-import se306p2.model.interfaces.IUserRepository;
+import se306p2.domain.interfaces.repositories.IUserRepository;
 
 public class UserRepository implements IUserRepository {
 

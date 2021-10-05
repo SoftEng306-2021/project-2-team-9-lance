@@ -1,29 +1,15 @@
 package se306p2.model.repository;
 
-import static android.content.ContentValues.TAG;
-
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import se306p2.domain.interfaces.entity.IBenefit;
 import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.entity.IProductVersion;
-import se306p2.model.entities.Product;
-import se306p2.model.interfaces.IProductRepository;
+import se306p2.domain.interfaces.repositories.IProductRepository;
 
 public class ProductRepository implements IProductRepository {
 
@@ -98,6 +84,16 @@ public class ProductRepository implements IProductRepository {
 
     @Override
     public List<IBenefit> getBenefits(String productID) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<IProduct> getFeaturedProducts() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<String> searchAutoComplete(String searchTerm) {
         throw new UnsupportedOperationException();
     }
 }
