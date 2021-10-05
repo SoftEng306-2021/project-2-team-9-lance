@@ -1,6 +1,5 @@
 package se306p2.view.common.placeholders;
 
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +9,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.entity.IProduct;
+import se306p2.view.common.placeholders.placeholderEntities.PlaceholderCategory;
+import se306p2.view.common.placeholders.placeholderEntities.PlaceholderProduct;
 
 public class PlaceholderGenerator {
 
@@ -22,6 +23,15 @@ public class PlaceholderGenerator {
     public static IProduct getProduct() {
         int randomPosition = ThreadLocalRandom.current().nextInt(0, placeholderProducts.size());
         return placeholderProducts.get(randomPosition);
+    }
+
+    /**
+     * @return The entire existing pool of placeholder products, shuffled.
+     */
+    public static  List<IProduct> getProducts() {
+        List<IProduct> placeholderProductsCopy = new ArrayList<>(placeholderProducts);
+        Collections.shuffle(placeholderProductsCopy);
+        return placeholderProductsCopy;
     }
 
     /**
@@ -46,6 +56,12 @@ public class PlaceholderGenerator {
     public static ICategory getCategory() {
         int randomPosition = ThreadLocalRandom.current().nextInt(0, placeholderCategories.size());
         return placeholderCategories.get(randomPosition);
+    }
+
+    public static List<ICategory> getCategories() {
+        List<ICategory> placeholderCategoriesCopy = new ArrayList<>(placeholderCategories);
+        Collections.shuffle(placeholderCategoriesCopy);
+        return placeholderCategoriesCopy;
     }
 
     public static List<ICategory> getCategories(int numberRequired) {
