@@ -15,12 +15,23 @@ public class PlaceholderGenerator {
 
     private PlaceholderGenerator() {};
 
-    public IProduct getProduct() {
+
+    /**
+     * @return One random product from the pool of placeholder products
+     */
+    public static IProduct getProduct() {
         int randomPosition = ThreadLocalRandom.current().nextInt(0, placeholderProducts.size());
         return placeholderProducts.get(randomPosition);
     }
 
-    public List<IProduct> getProducts(int numberRequired) {
+    /**
+     * Retrieves the specified number of placeholder products in shuffled order
+     * If specified number is larger than the pool, the pool is concatenated to itself
+     * multiple times after it's shuffled, until the list is large enough.
+     * @param numberRequired
+     * @return numberRequired number of placeholder products
+     */
+    public static List<IProduct> getProducts(int numberRequired) {
         List<IProduct> placeholderProductsCopy = new ArrayList<>(placeholderProducts);
         Collections.shuffle(placeholderProductsCopy);
 
@@ -32,12 +43,12 @@ public class PlaceholderGenerator {
         return result.subList(0, numberRequired);
     }
 
-    public ICategory getCategory() {
+    public static ICategory getCategory() {
         int randomPosition = ThreadLocalRandom.current().nextInt(0, placeholderCategories.size());
         return placeholderCategories.get(randomPosition);
     }
 
-    public List<ICategory> getCategories(int numberRequired) {
+    public static List<ICategory> getCategories(int numberRequired) {
         List<ICategory> placeholderCategoriesCopy = new ArrayList<>(placeholderCategories);
         Collections.shuffle(placeholderCategoriesCopy);
 
@@ -49,7 +60,7 @@ public class PlaceholderGenerator {
         return result.subList(0, numberRequired);
     }
 
-    private List<IProduct> placeholderProducts = new ArrayList<>(
+    private static List<IProduct> placeholderProducts = new ArrayList<>(
             Arrays.asList(
                     new PlaceholderProduct(
                             "",
@@ -190,7 +201,7 @@ public class PlaceholderGenerator {
             )
     );
 
-    private List<ICategory> placeholderCategories = new ArrayList<>(
+    private static List<ICategory> placeholderCategories = new ArrayList<>(
             Arrays.asList(
                     new PlaceholderCategory(
                             "0",
