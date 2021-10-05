@@ -14,6 +14,41 @@ import se306p2.domain.interfaces.entity.IProduct;
 public class PlaceholderGenerator {
 
     private PlaceholderGenerator() {};
+
+    public IProduct getProduct() {
+        int randomPosition = ThreadLocalRandom.current().nextInt(0, placeholderProducts.size());
+        return placeholderProducts.get(randomPosition);
+    }
+
+    public List<IProduct> getProducts(int numberRequired) {
+        List<IProduct> placeholderProductsCopy = new ArrayList<>(placeholderProducts);
+        Collections.shuffle(placeholderProductsCopy);
+
+        List<IProduct> result = new ArrayList<>(placeholderProductsCopy);
+        while (numberRequired > result.size()) {
+            result.addAll(placeholderProductsCopy);
+        }
+
+        return result.subList(0, numberRequired);
+    }
+
+    public ICategory getCategory() {
+        int randomPosition = ThreadLocalRandom.current().nextInt(0, placeholderCategories.size());
+        return placeholderCategories.get(randomPosition);
+    }
+
+    public List<ICategory> getCategories(int numberRequired) {
+        List<ICategory> placeholderCategoriesCopy = new ArrayList<>(placeholderCategories);
+        Collections.shuffle(placeholderCategoriesCopy);
+
+        List<ICategory> result = new ArrayList<>(placeholderCategoriesCopy);
+        while (numberRequired > result.size()) {
+            result.addAll(placeholderCategoriesCopy);
+        }
+
+        return result.subList(0, numberRequired);
+    }
+
     private List<IProduct> placeholderProducts = new ArrayList<>(
             Arrays.asList(
                     new PlaceholderProduct(
