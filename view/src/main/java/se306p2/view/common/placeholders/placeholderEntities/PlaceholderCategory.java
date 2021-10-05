@@ -1,4 +1,4 @@
-package se306p2.view.common.placeholders;
+package se306p2.view.common.placeholders.placeholderEntities;
 
 import se306p2.domain.interfaces.entity.ICategory;
 

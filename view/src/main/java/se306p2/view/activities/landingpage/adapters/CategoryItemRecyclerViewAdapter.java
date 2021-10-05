@@ -17,7 +17,6 @@ import java.util.List;
 
 import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.view.R;
-import se306p2.view.common.placeholders.PlaceholderCategory;
 
 
 public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<CategoryItemRecyclerViewAdapter.ViewHolder> {
