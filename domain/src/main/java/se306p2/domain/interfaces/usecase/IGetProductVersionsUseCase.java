@@ -5,5 +5,5 @@ import java.util.List;
 import se306p2.domain.interfaces.entity.IProductVersion;
 
 public interface IGetProductVersionsUseCase {
-    List<IProductVersion> getProductVersions(String productID);
+    List<IProductVersion> getProductVersions(String productId);
 }

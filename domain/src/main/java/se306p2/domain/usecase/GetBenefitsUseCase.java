@@ -7,7 +7,7 @@ import se306p2.domain.interfaces.entity.IBenefit;
 import se306p2.domain.interfaces.usecase.IGetBenefitsUseCase;
 
 public class GetBenefitsUseCase implements IGetBenefitsUseCase {
-    public List<IBenefit> getBenefits(String productID) {
-        return RepositoryRouter.getProductRepository().getBenefits(productID);
+    public List<IBenefit> getBenefits(String productId) {
+        return RepositoryRouter.getProductRepository().getBenefits(productId);
     }
 }

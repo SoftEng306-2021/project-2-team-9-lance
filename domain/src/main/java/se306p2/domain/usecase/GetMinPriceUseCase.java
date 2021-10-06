@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import se306p2.domain.RepositoryRouter;
 
 public class GetMinPriceUseCase {
-    public BigDecimal getMinPrice(String categoryID) {
-        return RepositoryRouter.getCategoryRepository().getMinPrice(categoryID);
+    public BigDecimal getMinPrice(String categoryId) {
+        return RepositoryRouter.getCategoryRepository().getMinPrice(categoryId);
     }
 }

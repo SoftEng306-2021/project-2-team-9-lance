@@ -20,7 +20,7 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public String getCurrentUserID() {
+    public String getCurrentUserId() {
         throw new UnsupportedOperationException();
     }
 
@@ -35,7 +35,7 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public Set<String> favourite(String productID) {
+    public Set<String> favourite(String productId) {
         throw new UnsupportedOperationException();
     }
 }

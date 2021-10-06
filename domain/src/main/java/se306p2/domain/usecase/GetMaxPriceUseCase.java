@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import se306p2.domain.RepositoryRouter;
 
 public class GetMaxPriceUseCase {
-    public BigDecimal getMaxPrice(String categoryID) {
-        return RepositoryRouter.getCategoryRepository().getMaxPrice(categoryID);
+    public BigDecimal getMaxPrice(String categoryId) {
+        return RepositoryRouter.getCategoryRepository().getMaxPrice(categoryId);
     }
 }

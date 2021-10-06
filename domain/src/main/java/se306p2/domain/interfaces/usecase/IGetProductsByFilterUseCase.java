@@ -6,5 +6,5 @@ import java.util.List;
 import se306p2.domain.interfaces.entity.IProduct;
 
 public interface IGetProductsByFilterUseCase {
-    List<IProduct> getProductsByFilter(String categoryID, String brandID, BigDecimal min, BigDecimal max);
+    List<IProduct> getProductsByFilter(String categoryId, String brandId, BigDecimal min, BigDecimal max);
 }

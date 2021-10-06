@@ -12,13 +12,13 @@ public interface IProductRepository {
 
 
     List<IProduct> getProducts();
-    IProduct getProductByID(String id);
-    List<IProduct> getProductsByCategoryID(String id);
+    IProduct getProductById(String id);
+    List<IProduct> getProductsByCategoryId(String id);
     List<IProduct> getProductsByCategory(ICategory category);
     List<IProduct> getProductsBySearch(String searchTerm);
-    List<IProduct> getProductsByFilter(String categoryID, String brandID, BigDecimal min,BigDecimal max);
-    List<IProductVersion> getProductVersions(String productID);
-    List<IBenefit> getBenefits(String productID);
+    List<IProduct> getProductsByFilter(String categoryId, String brandId, BigDecimal min,BigDecimal max);
+    List<IProductVersion> getProductVersions(String productId);
+    List<IBenefit> getBenefits(String productId);
     List<IProduct> getFeaturedProducts();
     List<String> searchAutoComplete(String searchTerm);
 

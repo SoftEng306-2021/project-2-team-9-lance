@@ -5,23 +5,22 @@ import java.util.List;
 import se306p2.domain.interfaces.entity.IProductVersion;
 
 public class ProductVersion implements IProductVersion {
-
-    private String productID;
+    private String versionId;
     private String name;
     private String hexColor;
     private List<String> imageURI;
     private int order;
 
-    public ProductVersion(String productID, String name, String hexColor, List<String> imageURI,
+    public ProductVersion(String versionId, String name, String hexColor, List<String> imageURI,
                           int order) {
-
-        this.productID = productID;
+        this.versionId = versionId;
         this.name = name;
         this.hexColor = hexColor;
         this.imageURI = imageURI;
         this.order = order;
-
     }
+
+    public String getId() { return this.versionId; }
 
     public String getName() {
         return this.name;
