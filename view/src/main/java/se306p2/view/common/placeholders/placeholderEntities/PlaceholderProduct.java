@@ -7,10 +7,10 @@ import se306p2.domain.interfaces.entity.IProduct;
 
 public class PlaceholderProduct implements IProduct {
 
-    private String productID;
-    private String categoryID;
+    private String productId;
+    private String categoryId;
     private String name;
-    private String brandID;
+    private String brandId;
     private String brandName;
     private String slogan;
     private String details;
@@ -23,15 +23,15 @@ public class PlaceholderProduct implements IProduct {
     private int numReviews;
     private String defaultImageURI;
 
-    public PlaceholderProduct(String productID, String categoryID, String name, String brandID,
-                   String brandName, String slogan, String details, String usage, String link,
-                   List<String> ingredients, Form form, BigDecimal defaultPrice,
-                   Double numericRating,int numReviews, String defaultImageURI) {
+    public PlaceholderProduct(String productId, String categoryId, String name, String brandId,
+                              String brandName, String slogan, String details, String usage, String link,
+                              List<String> ingredients, Form form, BigDecimal defaultPrice,
+                              Double numericRating, int numReviews, String defaultImageURI) {
 
-        this.productID = productID;
-        this.categoryID = categoryID;
+        this.productId = productId;
+        this.categoryId = categoryId;
         this.name = name;
-        this.brandID = brandID;
+        this.brandId = brandId;
         this.brandName = brandName;
         this.slogan = slogan;
         this.details = details;
@@ -46,8 +46,8 @@ public class PlaceholderProduct implements IProduct {
 
     }
 
-    public String getProductID() {
-        return this.productID;
+    public String getId() {
+        return this.productId;
     }
 
     public String getName() {
@@ -78,9 +78,9 @@ public class PlaceholderProduct implements IProduct {
         return this.form;
     }
 
-    public String getCategoryID() { return this.categoryID; }
+    public String getCategoryId() { return this.categoryId; }
 
-    public String getBrandID() { return this.brandID; }
+    public String getBrandId() { return this.brandId; }
 
     public String getBrandName() { return this.brandName; }
 

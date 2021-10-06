@@ -11,14 +11,14 @@ public interface IProduct {
         CREAM,
         FOAM,
         GEL,
-        LIQUID,
+        LIQUId,
         LOTION,
         MOUSSE,
         OIL,
         SCRUB
     }
 
-    String getProductID();
+    String getId();
     String getName();
     String getSlogan();
     String getDetails();
@@ -26,8 +26,8 @@ public interface IProduct {
     List<String> getIngredients();
     String getLink();
     Form getForm();
-    String getCategoryID();
-    String getBrandID();
+    String getCategoryId();
+    String getBrandId();
     String getBrandName();
     BigDecimal getPrice();
     Double getNumericRating();

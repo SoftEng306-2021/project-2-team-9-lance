@@ -48,7 +48,7 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
                 .load(categories.get(position).getImageURI())
                 .into(holder.categoryImage);
 
-        holder.categoryName.setText(categories.get(position).getCategoryName());
+        holder.categoryName.setText(categories.get(position).getName());
 
         holder.categoryImage.setOnClickListener(new View.OnClickListener() {
             @Override

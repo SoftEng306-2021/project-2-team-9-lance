@@ -5,5 +5,5 @@ import java.util.List;
 import se306p2.domain.interfaces.entity.IBrand;
 
 public interface IGetBrandsUseCase {
-    List<IBrand> getBrands(String categoryID);
+    List<IBrand> getBrands(String categoryId);
 }

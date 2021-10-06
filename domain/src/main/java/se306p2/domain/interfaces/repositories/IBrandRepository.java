@@ -8,5 +8,5 @@ public interface IBrandRepository {
 
     IBrandRepository getInstance();
     List<IBrand> getBrands();
-    List<IBrand> getBrands(String categoryID);
+    List<IBrand> getBrands(String categoryId);
 }

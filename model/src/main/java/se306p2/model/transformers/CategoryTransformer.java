@@ -18,19 +18,19 @@ public class CategoryTransformer {
 
     public static Map<String, Object> pack(ICategory category) {
 
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
 
-        map.put("name", category.getCategoryName());
+        map.put("name", category.getName());
         map.put("imageURI", category.getImageURI());
 
         return map;
     }
 
-    public static ICategory unpack(String categoryID, Map<String, Object> map) {
-        String name = map.get("name").toString();
-        String imageURI = map.get("imageURI").toString();
+    public static ICategory unpack(String categoryId, Map<String, Object> map) {
+        String name = map.containsKey("name") ? map.get("name").toString() : "";
+        String imageURI = map.containsKey("imageURI") ? map.get("imageURI").toString(): "";
 
-        Category category = new Category(categoryID, name, imageURI);
+        Category category = new Category(categoryId, name, imageURI);
         return category;
     }
 }

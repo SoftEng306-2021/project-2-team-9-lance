@@ -7,10 +7,10 @@ import se306p2.domain.interfaces.entity.IProduct;
 
 public class Product implements IProduct {
 
-    private String productID;
-    private String categoryID;
+    private String productId;
+    private String categoryId;
     private String name;
-    private String brandID;
+    private String brandId;
     private String brandName;
     private String slogan;
     private String details;
@@ -26,15 +26,15 @@ public class Product implements IProduct {
 
 
 
-    public Product(String productID, String categoryID, String name, String brandID,
+    public Product(String productId, String categoryId, String name, String brandId,
                    String brandName, String slogan, String details, String usage, String link,
                    List<String> ingredients, Form form, BigDecimal price,
                    Double numericRating,int numReviews, String defaultImageURI) {
 
-        this.productID = productID;
-        this.categoryID = categoryID;
+        this.productId = productId;
+        this.categoryId = categoryId;
         this.name = name;
-        this.brandID = brandID;
+        this.brandId = brandId;
         this.brandName = brandName;
         this.slogan = slogan;
         this.details = details;
@@ -49,8 +49,8 @@ public class Product implements IProduct {
 
     }
 
-    public String getProductID() {
-        return this.productID;
+    public String getId() {
+        return this.productId;
     }
 
     public String getName() {
@@ -83,12 +83,12 @@ public class Product implements IProduct {
 
     public String getDefaultImageURI() {return this.defaultImageURI; }
 
-    public String getCategoryID() {
-        return this.categoryID;
+    public String getCategoryId() {
+        return this.categoryId;
     }
 
-    public String getBrandID() {
-        return this.brandID;
+    public String getBrandId() {
+        return this.brandId;
     }
 
     public String getBrandName() {

@@ -5,9 +5,9 @@ import java.util.Set;
 public interface IUserRepository {
 
     IUserRepository getInstance();
-    String getCurrentUserID();
+    String getCurrentUserId();
     String signInAnonymously();
     Set<String> favourites();
-    Set<String> favourite(String productID);
+    Set<String> favourite(String productId);
 
 }

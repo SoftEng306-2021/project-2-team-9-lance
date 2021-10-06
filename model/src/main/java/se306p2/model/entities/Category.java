@@ -3,17 +3,19 @@ package se306p2.model.entities;
 import se306p2.domain.interfaces.entity.ICategory;
 
 public class Category implements ICategory {
-    private String categoryID;
+    private String categoryId;
     private String categoryName;
     private String imageURI;
 
-    public Category(String categoryID, String categoryName, String imageURI) {
-        this.categoryID = categoryID;
+    public Category(String categoryId, String categoryName, String imageURI) {
+        this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.imageURI = imageURI;
     }
 
-    public String getCategoryName() {
+    public String getId() { return this.categoryId; }
+
+    public String getName() {
         return this.categoryName;
     }
 

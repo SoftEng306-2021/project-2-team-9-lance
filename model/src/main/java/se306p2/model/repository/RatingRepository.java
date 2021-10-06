@@ -16,17 +16,17 @@ public class RatingRepository implements IRatingRepository {
     }
 
     @Override
-    public IRating getRating(String productID) {
+    public IRating getRating(String productId) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public IRating addRating(String productID, String userID) {
+    public IRating addRating(String productId, String userId) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public IRating removeRating(String productID) {
+    public IRating removeRating(String productId) {
         throw new UnsupportedOperationException();
     }
 }

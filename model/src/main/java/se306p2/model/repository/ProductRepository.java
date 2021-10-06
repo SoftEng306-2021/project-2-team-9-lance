@@ -56,11 +56,11 @@ public class ProductRepository implements IProductRepository {
         throw new UnsupportedOperationException();
     }
 
-    public IProduct getProductByID(String id) {
+    public IProduct getProductById(String id) {
         throw new UnsupportedOperationException();
     }
 
-    public List<IProduct> getProductsByCategoryID(String id) {
+    public List<IProduct> getProductsByCategoryId(String id) {
         throw new UnsupportedOperationException();
     }
 
@@ -73,17 +73,17 @@ public class ProductRepository implements IProductRepository {
     }
 
     @Override
-    public List<IProduct> getProductsByFilter(String categoryID, String brandID, BigDecimal min, BigDecimal max) {
+    public List<IProduct> getProductsByFilter(String categoryId, String brandId, BigDecimal min, BigDecimal max) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public List<IProductVersion> getProductVersions(String productID) {
+    public List<IProductVersion> getProductVersions(String productId) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public List<IBenefit> getBenefits(String productID) {
+    public List<IBenefit> getBenefits(String productId) {
         throw new UnsupportedOperationException();
     }
 
