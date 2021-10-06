@@ -78,5 +78,17 @@ public class PlaceholderProduct implements IProduct {
         return this.form;
     }
 
+    public String getCategoryID() { return this.categoryID; }
+
+    public String getBrandID() { return this.brandID; }
+
+    public String getBrandName() { return this.brandName; }
+
+    public BigDecimal getPrice() { return this.defaultPrice; }
+
+    public Double getNumericRating() { return this.numericRating; }
+
+    public Number getNumReviews() { return this.numReviews; }
+
     public String getDefaultImageURI() {return this.defaultImageURI; }
 }

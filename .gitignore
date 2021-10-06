@@ -18,6 +18,7 @@ local.properties
 /model/src/debug/google-services.json
 /model/src/google-services.json
 /model/google-services.json
+*.log
 
 
 # VS Code
