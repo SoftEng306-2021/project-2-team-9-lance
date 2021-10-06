@@ -18,7 +18,7 @@ public class CategoryRepository implements ICategoryRepository {
     private CategoryRepository instance;
 
     @Override
-    public Task<ICategoryRepository getInstance() {
+    public ICategoryRepository getInstance() {
         throw new UnsupportedOperationException();
     }
 
