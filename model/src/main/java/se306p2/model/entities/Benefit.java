@@ -17,9 +17,7 @@ public class Benefit implements IBenefit {
 
     public String getId() { return this.id; }
 
-    public String getName() {
-        return this.name;
-    }
+    public String getName() { return this.name; }
 
     public String getImageURI() { return this.imageURI; }
 }
