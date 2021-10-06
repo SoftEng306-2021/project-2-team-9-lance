@@ -18,7 +18,6 @@ public class ProductVersion implements IProductVersion {
         this.hexColor = hexColor;
         this.imageURI = imageURI;
         this.order = order;
-
     }
 
     public String getId() { return this.versionId; }

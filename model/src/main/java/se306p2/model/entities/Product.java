@@ -23,14 +23,10 @@ public class Product implements IProduct {
     private int numReviews;
     private String defaultImageURI;
 
-
-
-
     public Product(String productId, String categoryId, String name, String brandId,
                    String brandName, String slogan, String details, String usage, String link,
                    List<String> ingredients, Form form, BigDecimal price,
                    Double numericRating,int numReviews, String defaultImageURI) {
-
         this.productId = productId;
         this.categoryId = categoryId;
         this.name = name;
@@ -46,7 +42,6 @@ public class Product implements IProduct {
         this.numReviews = numReviews;
         this.defaultImageURI = defaultImageURI;
         this.price = price;
-
     }
 
     public String getId() {
@@ -102,7 +97,6 @@ public class Product implements IProduct {
     public Double getNumericRating() {
         return this.numericRating;
     }
-
 
     public Number getNumReviews() {
         return this.numReviews;

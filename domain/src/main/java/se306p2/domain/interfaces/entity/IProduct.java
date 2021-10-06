@@ -11,7 +11,7 @@ public interface IProduct {
         CREAM,
         FOAM,
         GEL,
-        LIQUId,
+        LIQUID,
         LOTION,
         MOUSSE,
         OIL,
