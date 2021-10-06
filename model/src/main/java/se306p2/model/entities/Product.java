@@ -18,14 +18,17 @@ public class Product implements IProduct {
     private String link;
     private List<String> ingredients;
     private Form form;
-    private BigDecimal defaultPrice;
+    private BigDecimal price;
     private Double numericRating;
     private int numReviews;
     private String defaultImageURI;
 
+
+
+
     public Product(String productID, String categoryID, String name, String brandID,
                    String brandName, String slogan, String details, String usage, String link,
-                   List<String> ingredients, Form form, BigDecimal defaultPrice,
+                   List<String> ingredients, Form form, BigDecimal price,
                    Double numericRating,int numReviews, String defaultImageURI) {
 
         this.productID = productID;
@@ -39,10 +42,10 @@ public class Product implements IProduct {
         this.link = link;
         this.ingredients = ingredients;
         this.form = form;
-        this.defaultPrice = defaultPrice;
         this.numericRating = numericRating;
         this.numReviews = numReviews;
         this.defaultImageURI = defaultImageURI;
+        this.price = price;
 
     }
 
@@ -79,4 +82,29 @@ public class Product implements IProduct {
     }
 
     public String getDefaultImageURI() {return this.defaultImageURI; }
+
+    public String getCategoryID() {
+        return this.categoryID;
+    }
+
+    public String getBrandID() {
+        return this.brandID;
+    }
+
+    public String getBrandName() {
+        return this.brandName;
+    }
+
+    public BigDecimal getPrice() {
+        return this.price;
+    }
+
+    public Double getNumericRating() {
+        return this.numericRating;
+    }
+
+
+    public Number getNumReviews() {
+        return this.numReviews;
+    }
 }
