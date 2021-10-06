@@ -20,7 +20,7 @@ public class CategoryRepository implements ICategoryRepository {
 
     @Override
     public List<ICategory> getCategories() {
-        throw new UnsupportedOperationException();
+        return db.
     }
 
     @Override

@@ -22,30 +22,49 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import se306p2.domain.interfaces.entity.ICategory;
 
 class CategoryRepositoryTest {
 
-    private CategoryRepository categoryRepository;
+    private static FirebaseFirestore firestore;
+    private static CategoryRepository categoryRepository;
 
     @BeforeAll
     static void setUp()  {
-        // 10.0.2.2 is the special IP address to connect to the 'localhost' of
-        // the host computer from an Android emulator.
-
         try {
-            FirebaseApp.initializeApp(ApplicationProvider);
-            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+            // Setup Firestore
+            FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
+            firestore = FirebaseFirestore.getInstance();
+            // Using local emulator, Read README.md for more info
             firestore.useEmulator("localhost", 8080);
-
             FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                     .setPersistenceEnabled(false)
                     .build();
             firestore.setFirestoreSettings(settings);
 
-            CategoryRepository categoryRepository = new CategoryRepository();
+            // Use Reflection to inject local Firebase instance
+            categoryRepository = new CategoryRepository();
             Field privateFirestore = CategoryRepository.class.getDeclaredField("db");
             privateFirestore.setAccessible(true);
             privateFirestore.set(categoryRepository, firestore);
+
+            // Setup Data
+            Map<String, Object> entry;
+            entry = new HashMap<String, Object>() {{
+                put("categoryName", "Fragrance");
+                put("imageURI", "https://picsum.photos/100?fragrance");
+            }};
+            firestore.collection("category").document("aYTMjcwRhVYqc6t3GuXy").set(entry);
+
+            entry = new HashMap<String, Object>() {{
+                put("categoryName", "Skin Care");
+                put("imageURI", "https://picsum.photos/100?skin");
+            }};
+            firestore.collection("category").document("B66rJmzEFRKzHzDwJBPM").set(entry);
 
         } catch (NoSuchFieldException | IllegalAccessException exception) {
             fail(exception);
@@ -61,9 +80,17 @@ class CategoryRepositoryTest {
     class getCategoriesTests{
 
         @Test
-        void getCategories() {
+        void testGetCategories() {
             categoryRepository.getCategories();
         }
+
+        @Test
+        void testGetCategoiresValues() {
+            List<ICategory> categories = categoryRepository.getCategories();
+            fail(categories.get(0).getCategoryName());
+        }
+
+
     }
 
     @Test
