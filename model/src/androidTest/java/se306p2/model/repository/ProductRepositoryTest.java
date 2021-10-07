@@ -26,8 +26,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.model.entities.Benefit;
+import se306p2.model.entities.Category;
 
 
 public class ProductRepositoryTest {
@@ -55,11 +57,19 @@ public class ProductRepositoryTest {
 
             // Setup Data
             Map<String, Object> entry;
+
+            // Set up Category 1
             entry = new HashMap<String, Object>() {{
                 put("name", "Fragrance");
                 put("imageURI", "https://picsum.photos/100?fragrance");
             }};
             Tasks.await(firestore.collection("category").document("pbsd3cBrG47WZg9Caj6H").set(entry));
+
+            entry = new HashMap<String, Object>() {{
+                put("name", "Skin Care");
+                put("imageURI", "https://picsum.photos/100?skin-care");
+            }};
+            Tasks.await(firestore.collection("category").document("9TYYjC3J5AUzbw4xsyQq").set(entry));
 
             // Set up Brand
             entry = new HashMap<String, Object>() {{
@@ -67,6 +77,15 @@ public class ProductRepositoryTest {
                 put("imageURI", "https://picsum.photos/100?byredo");
             }};
             Tasks.await(firestore.collection("brand").document("bXWJLz3maMk9rtdWFRuN").set(entry));
+
+            // Set up Brand 2
+            entry = new HashMap<String, Object>() {{
+                put("name", "Chantecaille");
+                put("imageURI", "https://picsum.photos/100?chantecaille");
+            }};
+            Tasks.await(firestore.collection("brand").document("zB8vZBerKRPJTSeVbyTm").set(entry));
+
+
 
             // Set up Benefit
             entry = new HashMap<String, Object>() {{
@@ -87,7 +106,7 @@ public class ProductRepositoryTest {
             }};
             Tasks.await(firestore.collection("product").document("BUVdXxq9sEZfPurxGT5c").collection("productVersion").document("7QccHbnF6wLg8wvzpRdA").set(entry));
 
-            // Setup Products
+            // Setup Product 1
             entry = new HashMap<String, Object>() {{
                 put("category", firestore.collection("category").document("pbsd3cBrG47WZg9Caj6H"));
                 put("name", "Mojave Ghost EDP");
@@ -96,11 +115,94 @@ public class ProductRepositoryTest {
                 put("details", "Inspired by the incredibly rare Mojave Ghost flower that blossoms in the arid Mojave Desert, this fragrance is exotic, alluring and delicate just like the flower. It combines woody and floral tones to create a light and graceful yet warm scent that lingers on the skin. Explore a warm floral bouquet but not as you know it, this spiced twist makes for a distinctive signature scent.");
                 put("usage", "Store in a cool, dry place and out of direct sunlight. Use on clean dry skin, gently spray onto pulse points avoiding rubbing wrists together.");
                 put("link", "https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1");
+                put("defaultImageURI", "https://picsum.photos/100?mojave");
                 put("form", IProduct.Form.LIQUID);
-                put("price",361);
+                put("price",361.0);
 
             }};
             Tasks.await(firestore.collection("product").document("BUVdXxq9sEZfPurxGT5c").set(entry));
+
+            // Set up Benefit 2
+            entry = new HashMap<String, Object>() {{
+                put("name", "Floral");
+                put("imageURI", "https://picsum.photos/100?floral");
+            }};
+            Tasks.await(firestore.collection("product").document("QNpwXLxL7SmpQWmfqUtg").collection("benefits").document("7qPjyB2TtYYcf54fhTYB").set(entry));
+
+            List<String> imageURIList2 = new ArrayList<>();
+            imageURIList2.add("https://picsum.photos/100?version1");
+
+            // Set up productVersion 2
+            entry = new HashMap<String, Object>() {{
+                put("name","version 1");
+                put("hexColor","#05527e");
+                put("imageURI", imageURIList2);
+                put("order",1);
+            }};
+            Tasks.await(firestore.collection("product").document("QNpwXLxL7SmpQWmfqUtg").collection("productVersion").document("2zCtLeM4wR7AUcPQh98T").set(entry));
+
+            // Setup Products 2
+            entry = new HashMap<String, Object>() {{
+                put("category", firestore.collection("category").document("pbsd3cBrG47WZg9Caj6H"));
+                put("name", "Blanche EDP");
+                put("brand", firestore.collection("brand").document("bXWJLz3maMk9rtdWFRuN"));
+                put("slogan", "A modern take on a classic floral aldehyde.");
+                put("details", "A fresh laundered scent which has a delicious warmth at its core that sets it apart. The ephemeral sweetness of the violet is anchored with the delectable milky richness of the sandalwood. A clean, modern take on a classic floral aldehyde.");
+                put("usage", "Spray onto pulse points as desired.");
+                put("link", "https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1");
+                put("defaultImageURI", "https://picsum.photos/100?blanche");
+                put("form", IProduct.Form.LIQUID);
+                put("price",361.0);
+                put("numericRating",4.5);
+                put("numReviews",18);
+
+            }};
+            Tasks.await(firestore.collection("product").document("QNpwXLxL7SmpQWmfqUtg").set(entry));
+
+            // Set up Benefit 3
+            entry = new HashMap<String, Object>() {{
+                put("name", "Cruelty-free");
+                put("imageURI", "https://picsum.photos/100?Cruelty-free");
+            }};
+            Tasks.await(firestore.collection("product").document("eX6dyFbyDYMV5ArNS6gx").collection("benefits").document("EPkt2Bx83jb4yd7xX8Zx").set(entry));
+
+            // Set up Benefit 4
+            entry = new HashMap<String, Object>() {{
+                put("name", "Dewy finish");
+                put("imageURI", "https://picsum.photos/100?dewy-finish");
+            }};
+            Tasks.await(firestore.collection("product").document("eX6dyFbyDYMV5ArNS6gx").collection("benefits").document("wJsVCcCfVVKdWWA5dGma").set(entry));
+
+            List<String> imageURIList3 = new ArrayList<>();
+            imageURIList3.add("https://picsum.photos/100?version1");
+            // Set up productVersion 3
+            entry = new HashMap<String, Object>() {{
+                put("name","version 1");
+                put("hexColor","#05527e");
+                put("imageURI", imageURIList3);
+                put("order",1);
+            }};
+            Tasks.await(firestore.collection("product").document("eX6dyFbyDYMV5ArNS6gx").collection("productVersion").document("qt3KMwbQqHdq68SH4T4D").set(entry));
+
+
+            // Setup Products 3
+            entry = new HashMap<String, Object>() {{
+                put("category", firestore.collection("category").document("9TYYjC3J5AUzbw4xsyQq"));
+                put("name", "Liquid Lumiere");
+                put("brand", firestore.collection("brand").document("zB8vZBerKRPJTSeVbyTm"));
+                put("slogan", "A lightweight highlighting fluid.");
+                put("details", "Velvety-smooth and buildable, Liquid Lumière blends effortlessly as it highlights to leave skin feeling moisturised and supple. Micro-sized, light reflecting pigments blur imperfections to instantly illuminate the skin. Packaged for portability.");
+                put("usage", "After foundation application, use fingertips to tap the formula onto cheekbones, or any other area of desired highlight. Mix a pea-sized amount into foundation or skincare for an all over glow.");
+                put("link", "https://www.meccabeauty.co.nz/chantecaille/liquid-lumiere/V-018711.html?cgpath=brands-chante");
+                put("defaultImageURI", "https://picsum.photos/100?liquid-lumiere");
+                put("form", IProduct.Form.LIQUID);
+                put("price",72.0);
+                put("numericRating",3.74);
+                put("numReviews",46);
+
+            }};
+            Tasks.await(firestore.collection("product").document("eX6dyFbyDYMV5ArNS6gx").set(entry));
+
 
 
         } catch (NoSuchFieldException | IllegalAccessException | InterruptedException | ExecutionException e) {
@@ -109,74 +211,284 @@ public class ProductRepositoryTest {
         }
     }
 
-//    @AfterAll
-//    static void tearDown() {
-//        try {
-//            // Delete documents
-//            Tasks.await(firestore.collection("category").document("aYTMjcwRhVYqc6t3GuXy").delete());
-//
-//
-//
-//        } catch (ExecutionException | InterruptedException exception) {
-//            fail(exception);
-//        }
-//    }
+    @AfterAll
+    static void tearDown() {
+        try {
+            // Delete documents
+            Tasks.await(firestore.collection("category").document("pbsd3cBrG47WZg9Caj6H").delete());
+            Tasks.await(firestore.collection("category").document("9TYYjC3J5AUzbw4xsyQq").delete());
+
+            Tasks.await(firestore.collection("brand").document("bXWJLz3maMk9rtdWFRuN").delete());
+            Tasks.await(firestore.collection("brand").document("zB8vZBerKRPJTSeVbyTm").delete());
+
+            Tasks.await(firestore.collection("product").document("BUVdXxq9sEZfPurxGT5c").delete());
+            Tasks.await(firestore.collection("product").document("QNpwXLxL7SmpQWmfqUtg").delete());
+            Tasks.await(firestore.collection("product").document("eX6dyFbyDYMV5ArNS6gx").delete());
+
+        } catch (ExecutionException | InterruptedException exception) {
+            fail(exception);
+        }
+    }
 
     @Nested
     @DisplayName("getProducts Test")
-    class getProductsTests{
+    class getProductsTests {
 
         @Test
         void testGetProducts() {
             productRepository.getProducts();
         }
 
+
         @Test
         void testGetProductsSize() {
             List<IProduct> products = productRepository.getProducts();
-            assertEquals(1, products.size());
+            assertEquals(3, products.size());
         }
 
-//        @Test
-//        void testGetProductsItems() {
-//            List<IProduct> products = productRepository.getProducts();
-//
-//            IProduct product_0 = categories.get(0);
-//            assertEquals("B66rJmzEFRKzHzDwJBPM", product_0.getId());
-//            assertEquals("Skin Care", product_0.getName());
-//            assertEquals("https://picsum.photos/100?skin", product_0.getImageURI());
-//
-//            IProduct product_1 = categories.get(1);
-//            assertEquals("aYTMjcwRhVYqc6t3GuXy", product_1.getId());
-//            assertEquals("Fragrance", product_1.getName());
-//            assertEquals("https://picsum.photos/100?fragrance", product_1.getImageURI());
-//        }
+        @Test
+        void testGetProductsItems() {
+            List<IProduct> products = productRepository.getProducts();
+
+            IProduct product_0 = products.get(0);
+
+            assertEquals("BUVdXxq9sEZfPurxGT5c",product_0.getId());
+            assertEquals("Mojave Ghost EDP",product_0.getName());
+            assertEquals("An elegant, warm floral with a woody twist.",product_0.getSlogan());
+            assertEquals("Inspired by the incredibly rare Mojave Ghost flower that blossoms in the arid Mojave Desert, this fragrance is exotic, alluring and delicate just like the flower. It combines woody and floral tones to create a light and graceful yet warm scent that lingers on the skin. Explore a warm floral bouquet but not as you know it, this spiced twist makes for a distinctive signature scent.",product_0.getDetails());
+            assertEquals("Store in a cool, dry place and out of direct sunlight. Use on clean dry skin, gently spray onto pulse points avoiding rubbing wrists together.",product_0.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1",product_0.getLink());
+            assertEquals("https://picsum.photos/100?mojave",product_0.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID,product_0.getForm());
+            assertEquals(new BigDecimal(361),product_0.getPrice());
+            assertEquals(0.0,product_0.getNumericRating());
+            assertEquals(0,product_0.getNumReviews());
+
+            IProduct product_1 = products.get(1);
+
+            assertEquals("QNpwXLxL7SmpQWmfqUtg", product_1.getId());
+            assertEquals("Blanche EDP", product_1.getName());
+            assertEquals("A modern take on a classic floral aldehyde.", product_1.getSlogan());
+            assertEquals("A fresh laundered scent which has a delicious warmth at its core that sets it apart. The ephemeral sweetness of the violet is anchored with the delectable milky richness of the sandalwood. A clean, modern take on a classic floral aldehyde.",product_1.getDetails());
+            assertEquals("Spray onto pulse points as desired.",product_1.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1", product_1.getLink());
+            assertEquals("https://picsum.photos/100?blanche", product_1.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product_1.getForm());
+            assertEquals(new BigDecimal(361), product_1.getPrice());
+            assertEquals(4.5, product_1.getNumericRating());
+            assertEquals(18, product_1.getNumReviews());
+
+            IProduct product_2 = products.get(2);
+
+            assertEquals("eX6dyFbyDYMV5ArNS6gx", product_2.getId());
+            assertEquals("Liquid Lumiere", product_2.getName());
+            assertEquals("A lightweight highlighting fluid.", product_2.getSlogan());
+            assertEquals("Velvety-smooth and buildable, Liquid Lumière blends effortlessly as it highlights to leave skin feeling moisturised and supple. Micro-sized, light reflecting pigments blur imperfections to instantly illuminate the skin. Packaged for portability.",product_2.getDetails());
+            assertEquals("After foundation application, use fingertips to tap the formula onto cheekbones, or any other area of desired highlight. Mix a pea-sized amount into foundation or skincare for an all over glow.",product_2.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/chantecaille/liquid-lumiere/V-018711.html?cgpath=brands-chante", product_2.getLink());
+            assertEquals("https://picsum.photos/100?liquid-lumiere", product_2.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product_2.getForm());
+            assertEquals(new BigDecimal(72), product_2.getPrice());
+            assertEquals(3.74, product_2.getNumericRating());
+            assertEquals(46, product_2.getNumReviews());
+
+
+        }
+
+
     }
 
-//    @Nested
-//    @DisplayName("getproductById Test")
-//    class getproductByIdTests{
-//
-//        @Test
-//        void testGetproductNotExist() {
-//            IProduct product = productRepository.getproductById("AAAAAAAAAAAAAAAAAAAA");
-//            assertNull(product);
-//        }
-//
-//        @Test
-//        void testGetproductById() {
-//            IProduct product = productRepository.getproductById("B66rJmzEFRKzHzDwJBPM");
-//            assertNotNull(product);
-//        }
-//
-//        @Test
-//        void testGetproductValues() {
-//            IProduct product = productRepository.getproductById("aYTMjcwRhVYqc6t3GuXy");
-//            assertEquals("aYTMjcwRhVYqc6t3GuXy", product.getId());
-//            assertEquals("Fragrance", product.getName());
-//            assertEquals("https://picsum.photos/100?fragrance", product.getImageURI());
-//        }
-//    }
+    @Nested
+    @DisplayName("getProductById Test")
+    class getProductByIdTests {
 
+        @Test
+        void testGetProductNotExist() {
+            IProduct product = productRepository.getProductById("AAAAAAAAAAAAAAAAAAAA");
+            assertNull(product);
+        }
+
+        @Test
+        void testGetProductById() {
+            IProduct product = productRepository.getProductById("BUVdXxq9sEZfPurxGT5c");
+            assertNotNull(product);
+        }
+
+        @Test
+        void testGetProductValues() {
+            IProduct product = productRepository.getProductById("eX6dyFbyDYMV5ArNS6gx");
+            assertEquals("eX6dyFbyDYMV5ArNS6gx", product.getId());
+            assertEquals("Liquid Lumiere", product.getName());
+            assertEquals("A lightweight highlighting fluid.", product.getSlogan());
+            assertEquals("Velvety-smooth and buildable, Liquid Lumière blends effortlessly as it highlights to leave skin feeling moisturised and supple. Micro-sized, light reflecting pigments blur imperfections to instantly illuminate the skin. Packaged for portability.",product.getDetails());
+            assertEquals("After foundation application, use fingertips to tap the formula onto cheekbones, or any other area of desired highlight. Mix a pea-sized amount into foundation or skincare for an all over glow.",product.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/chantecaille/liquid-lumiere/V-018711.html?cgpath=brands-chante", product.getLink());
+            assertEquals("https://picsum.photos/100?liquid-lumiere", product.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product.getForm());
+            assertEquals(new BigDecimal(72), product.getPrice());
+            assertEquals(3.74, product.getNumericRating());
+            assertEquals(46, product.getNumReviews());
+        }
+    }
+
+    @Nested
+    @DisplayName("getProductByCategoryId Test")
+    class getProductByCategoryIdTests {
+
+        @Test
+        void testGetProductByCategoryIdNotExist() {
+            List<IProduct> emptyList = new ArrayList<>();
+            List<IProduct> products = productRepository.getProductsByCategoryId("AAAAAAAAAAAAAAAAAAAA");
+
+            assertNotNull(products);
+            assertEquals(emptyList,products);
+        }
+
+        @Test
+        void testGetProductByCategoryIdOneProduct() {
+
+            List<IProduct> products = productRepository.getProductsByCategoryId("9TYYjC3J5AUzbw4xsyQq");
+
+            assertEquals(1,products.size());
+
+            IProduct product = products.get(0);
+
+            assertEquals("eX6dyFbyDYMV5ArNS6gx", product.getId());
+            assertEquals("Liquid Lumiere", product.getName());
+            assertEquals("A lightweight highlighting fluid.", product.getSlogan());
+            assertEquals("Velvety-smooth and buildable, Liquid Lumière blends effortlessly as it highlights to leave skin feeling moisturised and supple. Micro-sized, light reflecting pigments blur imperfections to instantly illuminate the skin. Packaged for portability.",product.getDetails());
+            assertEquals("After foundation application, use fingertips to tap the formula onto cheekbones, or any other area of desired highlight. Mix a pea-sized amount into foundation or skincare for an all over glow.",product.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/chantecaille/liquid-lumiere/V-018711.html?cgpath=brands-chante", product.getLink());
+            assertEquals("https://picsum.photos/100?liquid-lumiere", product.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product.getForm());
+            assertEquals(new BigDecimal(72), product.getPrice());
+            assertEquals(3.74, product.getNumericRating());
+            assertEquals(46, product.getNumReviews());
+
+
+        }
+
+        @Test
+        void testGetProductByCategoryIdMoreThanOneProduct() {
+
+            List<IProduct> products = productRepository.getProductsByCategoryId("pbsd3cBrG47WZg9Caj6H");
+
+            assertEquals(2,products.size());
+
+            IProduct product_0 = products.get(0);
+
+            assertEquals("BUVdXxq9sEZfPurxGT5c",product_0.getId());
+            assertEquals("Mojave Ghost EDP",product_0.getName());
+            assertEquals("An elegant, warm floral with a woody twist.",product_0.getSlogan());
+            assertEquals("Inspired by the incredibly rare Mojave Ghost flower that blossoms in the arid Mojave Desert, this fragrance is exotic, alluring and delicate just like the flower. It combines woody and floral tones to create a light and graceful yet warm scent that lingers on the skin. Explore a warm floral bouquet but not as you know it, this spiced twist makes for a distinctive signature scent.",product_0.getDetails());
+            assertEquals("Store in a cool, dry place and out of direct sunlight. Use on clean dry skin, gently spray onto pulse points avoiding rubbing wrists together.",product_0.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1",product_0.getLink());
+            assertEquals("https://picsum.photos/100?mojave",product_0.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID,product_0.getForm());
+            assertEquals(new BigDecimal(361),product_0.getPrice());
+            assertEquals(0.0,product_0.getNumericRating());
+            assertEquals(0,product_0.getNumReviews());
+
+
+            IProduct product_1 = products.get(1);
+
+            assertEquals("QNpwXLxL7SmpQWmfqUtg", product_1.getId());
+            assertEquals("Blanche EDP", product_1.getName());
+            assertEquals("A modern take on a classic floral aldehyde.", product_1.getSlogan());
+            assertEquals("A fresh laundered scent which has a delicious warmth at its core that sets it apart. The ephemeral sweetness of the violet is anchored with the delectable milky richness of the sandalwood. A clean, modern take on a classic floral aldehyde.",product_1.getDetails());
+            assertEquals("Spray onto pulse points as desired.",product_1.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1", product_1.getLink());
+            assertEquals("https://picsum.photos/100?blanche", product_1.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product_1.getForm());
+            assertEquals(new BigDecimal(361), product_1.getPrice());
+            assertEquals(4.5, product_1.getNumericRating());
+            assertEquals(18, product_1.getNumReviews());
+
+        }
+
+    }
+
+    @Nested
+    @DisplayName("getProductByCategory Test")
+    class getProductByCategoryTests {
+
+        @Test
+        void testGetProductByCategoryNotExist() {
+
+
+            ICategory category = new Category("AAAAAAAAAAAAAAAAAAA","Fake Category","https://picsum.photos/100?fake-category");
+
+            List<IProduct> emptyList = new ArrayList<>();
+            List<IProduct> products = productRepository.getProductsByCategory(category);
+
+            assertNotNull(products);
+            assertEquals(emptyList,products);
+        }
+
+        @Test
+        void testGetProductByCategoryOneProduct() {
+
+            ICategory category = new Category("9TYYjC3J5AUzbw4xsyQq","Skin Care","https://picsum.photos/100?skin-care");
+
+            List<IProduct> products = productRepository.getProductsByCategory(category);
+
+            assertEquals(1,products.size());
+
+            IProduct product = products.get(0);
+
+            assertEquals("eX6dyFbyDYMV5ArNS6gx", product.getId());
+            assertEquals("Liquid Lumiere", product.getName());
+            assertEquals("A lightweight highlighting fluid.", product.getSlogan());
+            assertEquals("Velvety-smooth and buildable, Liquid Lumière blends effortlessly as it highlights to leave skin feeling moisturised and supple. Micro-sized, light reflecting pigments blur imperfections to instantly illuminate the skin. Packaged for portability.",product.getDetails());
+            assertEquals("After foundation application, use fingertips to tap the formula onto cheekbones, or any other area of desired highlight. Mix a pea-sized amount into foundation or skincare for an all over glow.",product.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/chantecaille/liquid-lumiere/V-018711.html?cgpath=brands-chante", product.getLink());
+            assertEquals("https://picsum.photos/100?liquid-lumiere", product.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product.getForm());
+            assertEquals(new BigDecimal(72), product.getPrice());
+            assertEquals(3.74, product.getNumericRating());
+            assertEquals(46, product.getNumReviews());
+
+
+        }
+
+        @Test
+        void testGetProductByCategoryMoreThanOneProduct() {
+            ICategory category = new Category("pbsd3cBrG47WZg9Caj6H","Fragrance","https://picsum.photos/100?fragrance");
+            List<IProduct> products = productRepository.getProductsByCategory(category);
+
+            assertEquals(2,products.size());
+
+            IProduct product_0 = products.get(0);
+
+            assertEquals("BUVdXxq9sEZfPurxGT5c",product_0.getId());
+            assertEquals("Mojave Ghost EDP",product_0.getName());
+            assertEquals("An elegant, warm floral with a woody twist.",product_0.getSlogan());
+            assertEquals("Inspired by the incredibly rare Mojave Ghost flower that blossoms in the arid Mojave Desert, this fragrance is exotic, alluring and delicate just like the flower. It combines woody and floral tones to create a light and graceful yet warm scent that lingers on the skin. Explore a warm floral bouquet but not as you know it, this spiced twist makes for a distinctive signature scent.",product_0.getDetails());
+            assertEquals("Store in a cool, dry place and out of direct sunlight. Use on clean dry skin, gently spray onto pulse points avoiding rubbing wrists together.",product_0.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1",product_0.getLink());
+            assertEquals("https://picsum.photos/100?mojave",product_0.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID,product_0.getForm());
+            assertEquals(new BigDecimal(361),product_0.getPrice());
+            assertEquals(0.0,product_0.getNumericRating());
+            assertEquals(0,product_0.getNumReviews());
+
+
+            IProduct product_1 = products.get(1);
+
+            assertEquals("QNpwXLxL7SmpQWmfqUtg", product_1.getId());
+            assertEquals("Blanche EDP", product_1.getName());
+            assertEquals("A modern take on a classic floral aldehyde.", product_1.getSlogan());
+            assertEquals("A fresh laundered scent which has a delicious warmth at its core that sets it apart. The ephemeral sweetness of the violet is anchored with the delectable milky richness of the sandalwood. A clean, modern take on a classic floral aldehyde.",product_1.getDetails());
+            assertEquals("Spray onto pulse points as desired.",product_1.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1", product_1.getLink());
+            assertEquals("https://picsum.photos/100?blanche", product_1.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product_1.getForm());
+            assertEquals(new BigDecimal(361), product_1.getPrice());
+            assertEquals(4.5, product_1.getNumericRating());
+            assertEquals(18, product_1.getNumReviews());
+
+        }
+
+    }
 
 }

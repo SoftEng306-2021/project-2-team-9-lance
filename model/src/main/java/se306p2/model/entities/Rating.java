@@ -22,4 +22,5 @@ public class Rating implements IRating {
     public int getNum() {
         return this.num;
     }
+
 }

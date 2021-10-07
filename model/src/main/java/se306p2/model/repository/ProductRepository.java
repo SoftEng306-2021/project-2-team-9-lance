@@ -37,7 +37,8 @@ public class ProductRepository implements IProductRepository {
             QuerySnapshot snapshot = Tasks.await(db.collection("product").get());
 
             for (DocumentSnapshot ds : snapshot.getDocuments()) {
-                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brandName").toString(),ds.getData()));
+
+                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brand").toString(),ds.getData()));
             }
             return products;
         } catch (ExecutionException | InterruptedException ex) {
@@ -86,7 +87,7 @@ public class ProductRepository implements IProductRepository {
                 return null;
             }
 
-            return ProductTransformer.unpack(snapshot.getId(), snapshot.getData().get("brandName").toString(),snapshot.getData());
+            return ProductTransformer.unpack(snapshot.getId(), snapshot.getData().get("brand").toString(),snapshot.getData());
         } catch (ExecutionException | InterruptedException ex) {
             ex.printStackTrace();
             return null;
@@ -97,10 +98,11 @@ public class ProductRepository implements IProductRepository {
         List<IProduct> products = new ArrayList<>();
         try {
 
-            QuerySnapshot snapshot = Tasks.await(db.collection("product").whereEqualTo("categoryId", id).get());
+            DocumentReference docRef = db.collection("category").document(id);
+            QuerySnapshot snapshot = Tasks.await(db.collection("product").whereEqualTo("category", docRef).get());
 
             for (DocumentSnapshot ds : snapshot.getDocuments()) {
-                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brandName").toString(),ds.getData()));
+                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brand").toString(),ds.getData()));
             }
             return products;
 
@@ -114,11 +116,11 @@ public class ProductRepository implements IProductRepository {
         List<IProduct> products = new ArrayList<>();
         try {
 
-
-            QuerySnapshot snapshot = Tasks.await(db.collection("product").whereEqualTo("categoryId", category.getId()).get());
+            DocumentReference docRef = db.collection("category").document(category.getId());
+            QuerySnapshot snapshot = Tasks.await(db.collection("product").whereEqualTo("category", docRef).get());
 
             for (DocumentSnapshot ds : snapshot.getDocuments()) {
-                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brandName").toString(),ds.getData()));
+                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brand").toString(),ds.getData()));
             }
             return products;
 

@@ -64,10 +64,10 @@ public class ProductTransformer {
         List<String> ingredients = new ArrayList<String>();
         ingredientsObj.forEach((x) -> ingredients.add(String.valueOf(x)));
 
-        IProduct.Form form = (IProduct.Form) map.get("form");
-        BigDecimal price = new BigDecimal(map.containsKey("default") ? (double) map.get("default") : 0.0);
-        Double numericRating = map.containsKey("numericRaing") ? (double) map.get("numericRaing") : 0.0;
-        int numReviews = map.containsKey("numReviews") ? (int) map.get("numReviews") : 0;
+        IProduct.Form form = IProduct.Form.valueOf(map.get("form").toString());
+        BigDecimal price = new BigDecimal(map.containsKey("price") ? (double) map.get("price") : 0.0);
+        Double numericRating = map.containsKey("numericRating") ? (double) map.get("numericRating") : 0.0;
+        int numReviews = map.containsKey("numReviews") ? ((Long) map.get("numReviews")).intValue()  : 0;
         String defaultImageURI = map.containsKey("defaultImageURI") ? map.get("defaultImageURI").toString() : "";
 
         return new Product(productId, categoryId, name, brandId, brandName, slogan, details, usage, link,
