@@ -13,8 +13,9 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="430dp"
-            android:layout_weight="0">
+            android:layout_height="360dp"
+            android:layout_weight="0"
+            android:background="@color/white_off">
 
         </View>
 
@@ -23,42 +24,184 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/white"
-            app:cardElevation="4dp"
-            app:cardMaxElevation="6dp">
+            app:cardElevation="8dp"
+            app:cardMaxElevation="8dp"
+
+            >
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingHorizontal="30dp">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="30dp"
-                    android:background="@color/grey_medium">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/raleway"
-                        android:text="Brand Name"
-                        android:textColor="@color/black"
-                        android:textFontWeight="700"
-                        android:textSize="26sp"
-                        android:background="@color/white"/>
+                    android:paddingTop="15dp">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="400"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:fontFamily="@font/raleway"
-                        android:text="123"
-                        android:textSize="15sp" />
+                        android:gravity="center_vertical"
+                        android:text="Brand Name"
+                        android:textColor="@color/black"
+
+                        android:textFontWeight="700"
+                        android:textSize="26sp" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:fontFamily="@font/raleway"
+                            android:text="$"
+                            android:textColor="@color/black"
+                            android:textFontWeight="700"
+                            android:textSize="31sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:fontFamily="@font/raleway"
+                            android:text="88"
+                            android:textColor="@color/black"
+                            android:textFontWeight="700"
+                            android:textSize="31sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0"
+                            android:fontFamily="@font/raleway"
+                            android:text="69"
+                            android:textColor="@color/black"
+                            android:textFontWeight="700"
+                            android:textSize="16sp" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/raleway"
+                    android:lineHeight="18dp"
+                    android:text="Some Long Ass Product Name That Probably Isn’t  Actually That Descriptive"
+                    android:textFontWeight="400"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="10dp">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="#B80000"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:paddingRight="3dp"
+                        android:scaleX="1.5"
+                        android:scaleY="1.5"
+                        android:text="@null" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="#FF4D6D"
+                        android:checked="true"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:paddingRight="3dp"
+                        android:scaleX="1.5"
+                        android:scaleY="1.5"
+                        android:text="@null" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="#FF9635"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:paddingRight="3dp"
+                        android:scaleX="1.5"
+                        android:scaleY="1.5"
+                        android:text="@null" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="#FF7777"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:paddingRight="3dp"
+                        android:scaleX="1.5"
+                        android:scaleY="1.5"
+                        android:text="@null" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="#B36D6D"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:paddingRight="3dp"
+                        android:scaleX="1.5"
+                        android:scaleY="1.5"
+                        android:text="@null" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/raleway"
+                    android:text="Details"
+                    android:textColor="@color/black"
+                    android:textFontWeight="400"
+                    android:textSize="20dp" />
+
+                <View
+                    android:layout_width="30dp"
+                    android:layout_height="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/red" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="10dp"
+                    android:text="This is some wack slogan that the product comes with"
+                    android:textSize="20dp"
+                    android:fontFamily="@font/radley"
+                    android:textColor="@color/grey_medium_light"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:fontFamily="@font/raleway"
+                    android:textFontWeight="500"
+                    android:textColor="@color/black"
+                    android:text="Bacon ipsum dolor amet turducken shoulder turkey short ribs venison jowl. Ham short ribs cupim prosciutto, jerky corned beef ball tip kevin jowl. Ground round bacon biltong sausage rump prosciutto bresaola landjaeger. Buffalo hamburger strip steak chuck ribeye pork loin. Ham hock spare ribs swine tenderloin, capicola shank burgdoggen chislic pig turducken."
+                    />
+
             </LinearLayout>
+
 
         </androidx.cardview.widget.CardView>
 
