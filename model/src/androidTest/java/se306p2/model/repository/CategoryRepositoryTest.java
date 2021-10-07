@@ -1,6 +1,7 @@
 package se306p2.model.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -149,7 +150,8 @@ class CategoryRepositoryTest {
 
         @Test
         void testGetCategoryById() {
-            categoryRepository.getCategoryById("B66rJmzEFRKzHzDwJBPM");
+            ICategory category = categoryRepository.getCategoryById("B66rJmzEFRKzHzDwJBPM");
+            assertNotNull(category);
         }
 
         @Test
@@ -164,6 +166,13 @@ class CategoryRepositoryTest {
     @Nested
     @DisplayName("getMaxMinPrice Test")
     class getMaxMinPricesTests{
+
+        @Test
+        void testGetPriceCategoryNotExist() {
+            assertNull(categoryRepository.getMinPrice("AAAAAAAAAAAAAAAAAAAA"));
+            assertNull(categoryRepository.getMaxPrice("AAAAAAAAAAAAAAAAAAAA"));
+        }
+
 
         @Test
         void testGetMinPrice() {
