@@ -13,9 +13,13 @@
         android:paddingHorizontal="35dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/filtersBar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            >
             <androidx.appcompat.widget.LinearLayoutCompat
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="wrap_content"
@@ -75,5 +79,11 @@
                 android:paddingLeft="5dp"
                 android:src="@drawable/ic_close" />
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/browse_products_list"
+            />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>
