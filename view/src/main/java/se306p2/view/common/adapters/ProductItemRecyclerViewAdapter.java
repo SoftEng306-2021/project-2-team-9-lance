@@ -2,11 +2,13 @@ package se306p2.view.common.adapters;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,7 +20,10 @@ import java.util.List;
 
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.view.R;
+import se306p2.view.activities.landingpage.LandingPageActivity;
 import se306p2.view.activities.landingpage.adapters.CategoryItemRecyclerViewAdapter;
+import se306p2.view.activities.main.MainActivity;
+import se306p2.view.activities.productdetail.ProductDetailActivity;
 
 public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<ProductItemRecyclerViewAdapter.ViewHolder> {
 
@@ -51,10 +56,25 @@ public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<Product
                 .load(product.getDefaultImageURI())
                 .into(holder.productImage);
 
-        holder.productBrand.setText("Waiting for Lance");
+        holder.productBrand.setText(product.getBrandName());
         holder.productName.setText(product.getName());
-        holder.productPriceDollar.setText("00");
-        holder.productPriceCent.setText("00");
+
+        int priceInCents = product.getPrice().movePointRight(2).intValue();
+
+        String dollar = Integer.toString(priceInCents/100);
+        String cent = Integer.toString(priceInCents%100);
+
+        holder.productPriceDollar.setText(dollar);
+        holder.productPriceCent.setText(cent);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onBinderViewHolder, " + product.getBrandName() + " " + product.getName() + "clicked");
+                Intent intent = new Intent(context, ProductDetailActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
