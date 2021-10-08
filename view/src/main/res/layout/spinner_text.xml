@@ -12,5 +12,6 @@
         android:textSize="17sp"
         android:text="$$$..."
     android:paddingRight="30dp"
+    android:textAlignment="textStart"
         />
 
