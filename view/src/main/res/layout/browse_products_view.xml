@@ -16,18 +16,19 @@
             android:id="@+id/filtersBar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:orientation="horizontal"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            >
-            <androidx.appcompat.widget.LinearLayoutCompat
-                xmlns:android="http://schemas.android.com/apk/res/android"
+
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/border_bottom"
                 android:orientation="horizontal">
+
                 <Spinner
                     android:id="@+id/priceFilter"
                     android:layout_width="match_parent"
@@ -36,6 +37,7 @@
                     android:background="@android:color/transparent"
                     android:gravity="center"
                     android:spinnerMode="dropdown" />
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -43,15 +45,15 @@
                     android:paddingHorizontal="3dp"
                     android:src="@drawable/ic_dropdown_arrow" />
             </androidx.appcompat.widget.LinearLayoutCompat>
-            <androidx.appcompat.widget.LinearLayoutCompat
-                xmlns:android="http://schemas.android.com/apk/res/android"
+
+            <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/border_bottom"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
+
                 <Spinner
                     android:id="@+id/brandFilter"
                     android:layout_width="match_parent"
@@ -60,19 +62,21 @@
                     android:background="@android:color/transparent"
                     android:gravity="left"
                     android:spinnerMode="dropdown" />
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="-30dp"
                     android:paddingHorizontal="3dp"
-                    android:src="@drawable/ic_dropdown_arrow"
-                    />
+                    android:src="@drawable/ic_dropdown_arrow" />
             </androidx.appcompat.widget.LinearLayoutCompat>
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingHorizontal="5dp"
                 android:src="@drawable/ic_filter" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -81,9 +85,8 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:id="@+id/browse_products_list"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

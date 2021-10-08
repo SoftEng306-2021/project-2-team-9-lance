@@ -184,21 +184,20 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/radley"
                     android:paddingVertical="10dp"
                     android:text="This is some wack slogan that the product comes with"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/radley"
                     android:textColor="@color/grey_medium_light"
-                    />
+                    android:textSize="20dp" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="15dp"
                     android:fontFamily="@font/raleway"
-                    android:textFontWeight="500"
-                    android:textColor="@color/black"
                     android:text="Bacon ipsum dolor amet turducken shoulder turkey short ribs venison jowl. Ham short ribs cupim prosciutto, jerky corned beef ball tip kevin jowl. Ground round bacon biltong sausage rump prosciutto bresaola landjaeger. Buffalo hamburger strip steak chuck ribeye pork loin. Ham hock spare ribs swine tenderloin, capicola shank burgdoggen chislic pig turducken."
-                    />
+                    android:textColor="@color/black"
+                    android:textFontWeight="500"
+                    android:textSize="15dp" />
 
             </LinearLayout>
 
