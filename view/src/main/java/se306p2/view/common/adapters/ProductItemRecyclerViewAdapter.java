@@ -63,6 +63,9 @@ public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<Product
 
         String dollar = Integer.toString(priceInCents/100);
         String cent = Integer.toString(priceInCents%100);
+        if (cent.length() < 2) {
+            cent += "0";
+        }
 
         holder.productPriceDollar.setText(dollar);
         holder.productPriceCent.setText(cent);
