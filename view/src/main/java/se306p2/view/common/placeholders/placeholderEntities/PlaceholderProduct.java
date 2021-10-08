@@ -90,5 +90,5 @@ public class PlaceholderProduct implements IProduct {
 
     public Number getNumReviews() { return this.numReviews; }
 
-    public String getDefaultImageURI() {return this.defaultImageURI; }
+    public String getDefaultImageURI() { return this.defaultImageURI; }
 }

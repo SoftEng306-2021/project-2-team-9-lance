@@ -1,6 +1,7 @@
 package se306p2.view.activities.landingpage.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ import java.util.List;
 
 import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.view.R;
+import se306p2.view.activities.browseproduct.BrowseProductActivity;
+import se306p2.view.activities.productdetail.ProductDetailActivity;
 
 
 public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<CategoryItemRecyclerViewAdapter.ViewHolder> {
@@ -53,7 +56,11 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
         holder.categoryImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Log.d(TAG, "onBinderViewHolder, image clicked");
+
+                Intent intent = new Intent(context, BrowseProductActivity.class);
+                context.startActivity(intent);
             }
         });
 
