@@ -21,13 +21,16 @@ import org.junit.jupiter.api.Test;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import se306p2.domain.interfaces.entity.IBenefit;
 import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.entity.IProduct;
+import se306p2.domain.interfaces.entity.IProductVersion;
 import se306p2.model.entities.Benefit;
 import se306p2.model.entities.Category;
 
@@ -97,6 +100,7 @@ public class ProductRepositoryTest {
             List<String> imageURIList = new ArrayList<>();
             imageURIList.add("https://picsum.photos/100?version1");
             imageURIList.add("https://picsum.photos/100?version2");
+
             // Set up productVersion
             entry = new HashMap<String, Object>() {{
                 put("name","version 1");
@@ -141,6 +145,18 @@ public class ProductRepositoryTest {
             }};
             Tasks.await(firestore.collection("product").document("QNpwXLxL7SmpQWmfqUtg").collection("productVersion").document("2zCtLeM4wR7AUcPQh98T").set(entry));
 
+            List<String> imageURIList3 = new ArrayList<>();
+            imageURIList3.add("https://picsum.photos/100?version2");
+
+            // Set up productVersion 3
+            entry = new HashMap<String, Object>() {{
+                put("name","version 2");
+                put("hexColor","#d55487");
+                put("imageURI", imageURIList3);
+                put("order",2);
+            }};
+            Tasks.await(firestore.collection("product").document("QNpwXLxL7SmpQWmfqUtg").collection("productVersion").document("KVdN8a4xAvCxTB8CUp3x").set(entry));
+
             // Setup Products 2
             entry = new HashMap<String, Object>() {{
                 put("category", firestore.collection("category").document("pbsd3cBrG47WZg9Caj6H"));
@@ -173,13 +189,13 @@ public class ProductRepositoryTest {
             }};
             Tasks.await(firestore.collection("product").document("eX6dyFbyDYMV5ArNS6gx").collection("benefits").document("wJsVCcCfVVKdWWA5dGma").set(entry));
 
-            List<String> imageURIList3 = new ArrayList<>();
-            imageURIList3.add("https://picsum.photos/100?version1");
-            // Set up productVersion 3
+            List<String> imageURIList4 = new ArrayList<>();
+            imageURIList4.add("https://picsum.photos/100?version1");
+            // Set up productVersion 4
             entry = new HashMap<String, Object>() {{
                 put("name","version 1");
                 put("hexColor","#05527e");
-                put("imageURI", imageURIList3);
+                put("imageURI", imageURIList4);
                 put("order",1);
             }};
             Tasks.await(firestore.collection("product").document("eX6dyFbyDYMV5ArNS6gx").collection("productVersion").document("qt3KMwbQqHdq68SH4T4D").set(entry));
@@ -486,6 +502,123 @@ public class ProductRepositoryTest {
             assertEquals(new BigDecimal(361), product_1.getPrice());
             assertEquals(4.5, product_1.getNumericRating());
             assertEquals(18, product_1.getNumReviews());
+
+        }
+
+    }
+
+    @Nested
+    @DisplayName("getProductVersion Test")
+    class getProductVersionTests {
+
+        @Test
+        void testGetProductVersionsNotExist() {
+
+            List<IProductVersion> emptyList = new ArrayList<>();
+            List<IProductVersion> productVersions = productRepository.getProductVersions("fakeproductid");
+
+            assertNotNull(productVersions);
+            assertEquals(emptyList,productVersions);
+
+        }
+
+        @Test
+        void testGetProductVersionsOneVersionAndTwoImageURI() {
+
+            List<IProductVersion> productVersions = productRepository.getProductVersions("BUVdXxq9sEZfPurxGT5c");
+
+            assertEquals(1,productVersions.size());
+
+            IProductVersion productVersion = productVersions.get(0);
+
+            assertEquals("7QccHbnF6wLg8wvzpRdA",productVersion.getId());
+            assertEquals("version 1", productVersion.getName());
+            assertEquals("#023d8a",productVersion.getHexColor());
+            assertEquals("https://picsum.photos/100?version1",productVersion.getImageURI().get(0));
+            assertEquals("https://picsum.photos/100?version2",productVersion.getImageURI().get(1));
+            assertEquals(1,productVersion.getOrder());
+
+
+
+        }
+
+        @Test
+        void testGetProductVersionsTwoVersionsAndOneImageURI() {
+            List<IProductVersion> productVersions = productRepository.getProductVersions("QNpwXLxL7SmpQWmfqUtg");
+
+            assertEquals(2,productVersions.size());
+
+            IProductVersion productVersion = productVersions.get(0);
+
+            assertEquals("2zCtLeM4wR7AUcPQh98T",productVersion.getId());
+            assertEquals("version 1", productVersion.getName());
+            assertEquals("#05527e",productVersion.getHexColor());
+            assertEquals("https://picsum.photos/100?version1",productVersion.getImageURI().get(0));
+            assertEquals(1,productVersion.getOrder());
+
+            IProductVersion productVersion_1 = productVersions.get(1);
+
+            assertEquals("KVdN8a4xAvCxTB8CUp3x",productVersion_1.getId());
+            assertEquals("version 2", productVersion_1.getName());
+            assertEquals("#d55487",productVersion_1.getHexColor());
+            assertEquals("https://picsum.photos/100?version2",productVersion_1.getImageURI().get(0));
+            assertEquals(2,productVersion_1.getOrder());
+
+
+        }
+
+    }
+
+    @Nested
+    @DisplayName("getBenefits Test")
+    class getBenefitsTests {
+
+        @Test
+        void testGetBenefitsNotExist() {
+
+            List<IBenefit> emptyList = new ArrayList<>();
+            List<IBenefit> benefits = productRepository.getBenefits("fakeproductid");
+
+            assertNotNull(benefits);
+            assertEquals(emptyList,benefits);
+
+        }
+
+        @Test
+        void testGetBenefitsOneBenefit() {
+
+            List<IBenefit> benefits = productRepository.getBenefits("BUVdXxq9sEZfPurxGT5c");
+
+            assertEquals(1,benefits.size());
+
+            IBenefit benefit = benefits.get(0);
+
+            assertEquals("E9RW7WJh7w8GVWbPTyGs",benefit.getId());
+            assertEquals("Floral", benefit.getName());
+            assertEquals("https://picsum.photos/100?floral",benefit.getImageURI());
+
+
+
+        }
+
+        @Test
+        void testGetBenefitsTwoBenefits() {
+
+            List<IBenefit> benefits = productRepository.getBenefits("eX6dyFbyDYMV5ArNS6gx");
+
+            assertEquals(2,benefits.size());
+
+            IBenefit benefit_0 = benefits.get(0);
+
+            assertEquals("EPkt2Bx83jb4yd7xX8Zx",benefit_0.getId());
+            assertEquals("Cruelty-free", benefit_0.getName());
+            assertEquals("https://picsum.photos/100?Cruelty-free",benefit_0.getImageURI());
+
+            IBenefit benefit_1 = benefits.get(1);
+
+            assertEquals("wJsVCcCfVVKdWWA5dGma",benefit_1.getId());
+            assertEquals("Dewy finish", benefit_1.getName());
+            assertEquals("https://picsum.photos/100?dewy-finish",benefit_1.getImageURI());
 
         }
 

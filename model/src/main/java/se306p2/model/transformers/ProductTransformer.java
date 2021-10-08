@@ -62,7 +62,7 @@ public class ProductTransformer {
 
         List<Object> ingredientsObj = Arrays.asList(map.get("ingredients"));
         List<String> ingredients = new ArrayList<String>();
-        ingredientsObj.forEach((x) -> ingredients.add(String.valueOf(x)));
+        ingredientsObj.forEach((i) -> ingredients.add(String.valueOf(i)));
 
         IProduct.Form form = IProduct.Form.valueOf(map.get("form").toString());
         BigDecimal price = new BigDecimal(map.containsKey("price") ? (double) map.get("price") : 0.0);

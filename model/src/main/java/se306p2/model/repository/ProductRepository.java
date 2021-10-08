@@ -9,7 +9,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 
@@ -18,7 +22,11 @@ import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.entity.IProductVersion;
 import se306p2.domain.interfaces.repositories.IProductRepository;
+import se306p2.model.entities.Benefit;
+import se306p2.model.entities.ProductVersion;
+import se306p2.model.transformers.BenefitTransformer;
 import se306p2.model.transformers.ProductTransformer;
+import se306p2.model.transformers.ProductVersionTransformer;
 
 public class ProductRepository implements IProductRepository {
 
@@ -173,11 +181,44 @@ public class ProductRepository implements IProductRepository {
     }
 
     public List<IProductVersion> getProductVersions(String productId) {
-        throw new UnsupportedOperationException();
+        List<IProductVersion> productVersions = new ArrayList<>();
+
+        try {
+
+            QuerySnapshot snapshot = Tasks.await(db.collection("product").document(productId).collection("productVersion").get());
+
+            for (DocumentSnapshot ds : snapshot.getDocuments()) {
+
+                productVersions.add(ProductVersionTransformer.unpack(ds.getId(),ds.getData()) );
+            }
+            return productVersions;
+
+
+        } catch (ExecutionException | InterruptedException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
     }
 
     public List<IBenefit> getBenefits(String productId) {
-        throw new UnsupportedOperationException();
+        List<IBenefit> benefits = new ArrayList<>();
+
+        try {
+
+            QuerySnapshot snapshot = Tasks.await(db.collection("product").document(productId).collection("benefits").get());
+
+            for (DocumentSnapshot ds : snapshot.getDocuments()) {
+
+                benefits.add(BenefitTransformer.unpack(ds.getId(),ds.getData()));
+            }
+            return benefits;
+
+
+        } catch (ExecutionException | InterruptedException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     public List<IProduct> getFeaturedProducts() {
