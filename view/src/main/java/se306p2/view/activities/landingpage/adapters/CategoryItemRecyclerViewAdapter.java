@@ -53,7 +53,7 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
 
         holder.categoryName.setText(categories.get(position).getName());
 
-        holder.categoryImage.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -63,8 +63,6 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
                 context.startActivity(intent);
             }
         });
-
-
     }
 
     @Override

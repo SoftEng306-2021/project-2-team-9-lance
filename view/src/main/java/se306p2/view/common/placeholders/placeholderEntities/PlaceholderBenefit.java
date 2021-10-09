@@ -1,13 +1,14 @@
-package se306p2.model.entities;
+package se306p2.view.common.placeholders.placeholderEntities;
 
 import se306p2.domain.interfaces.entity.IBenefit;
 
-public class Benefit implements IBenefit {
+public class PlaceholderBenefit implements IBenefit {
+
     private String id;
     private String name;
     private String imageURI;
 
-    public Benefit(String id, String benefitId,String name, String imageURI) {
+    public PlaceholderBenefit(String id, String benefitId,String name, String imageURI) {
         this.id = id;
         this.name = name;
         this.imageURI = imageURI;

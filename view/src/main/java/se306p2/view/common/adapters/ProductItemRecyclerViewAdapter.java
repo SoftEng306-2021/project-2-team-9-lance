@@ -24,6 +24,8 @@ import se306p2.view.activities.landingpage.LandingPageActivity;
 import se306p2.view.activities.landingpage.adapters.CategoryItemRecyclerViewAdapter;
 import se306p2.view.activities.main.MainActivity;
 import se306p2.view.activities.productdetail.ProductDetailActivity;
+import se306p2.view.common.helper.DisplayDataFormatter;
+
 
 public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<ProductItemRecyclerViewAdapter.ViewHolder> {
 
@@ -59,13 +61,11 @@ public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<Product
         holder.productBrand.setText(product.getBrandName());
         holder.productName.setText(product.getName());
 
-        int priceInCents = product.getPrice().movePointRight(2).intValue();
+        String[] formattedPrice = DisplayDataFormatter.formatPriceData(product.getPrice());
 
-        String dollar = Integer.toString(priceInCents/100);
-        String cent = Integer.toString(priceInCents%100);
-        if (cent.length() < 2) {
-            cent += "0";
-        }
+        String dollar = formattedPrice[0];
+        String cent = formattedPrice[1];
+
 
         holder.productPriceDollar.setText(dollar);
         holder.productPriceCent.setText(cent);

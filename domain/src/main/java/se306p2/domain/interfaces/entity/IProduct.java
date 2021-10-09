@@ -23,7 +23,7 @@ public interface IProduct {
     String getSlogan();
     String getDetails();
     String getUsage();
-    List<String> getIngredients();
+    String getIngredients();
     String getLink();
     Form getForm();
     String getCategoryId();
