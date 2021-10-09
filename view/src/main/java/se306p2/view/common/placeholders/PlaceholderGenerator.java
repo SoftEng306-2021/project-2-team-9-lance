@@ -7,8 +7,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import se306p2.domain.interfaces.entity.IBenefit;
 import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.entity.IProduct;
+import se306p2.view.common.placeholders.placeholderEntities.PlaceholderBenefit;
 import se306p2.view.common.placeholders.placeholderEntities.PlaceholderCategory;
 import se306p2.view.common.placeholders.placeholderEntities.PlaceholderProduct;
 
@@ -76,6 +78,12 @@ public class PlaceholderGenerator {
         return result.subList(0, numberRequired);
     }
 
+    public static List<IBenefit> getBenefits() {
+        List<IBenefit> placeholderBenefitsCopy = new ArrayList<>(placeholderBenefits);
+        Collections.shuffle(placeholderBenefitsCopy);
+        return placeholderBenefitsCopy;
+    }
+    
     private static List<IProduct> placeholderProducts = new ArrayList<>(
             Arrays.asList(
                     new PlaceholderProduct(
@@ -364,6 +372,16 @@ public class PlaceholderGenerator {
                             "https://user-images.githubusercontent.com/62003343/135979276-4441ed61-0299-4e38-9c49-335036ed9d45.png"
                     )
             )
+    );
+
+    private static List<IBenefit> placeholderBenefits = new ArrayList<>(
+            Arrays.asList(
+                    new PlaceholderBenefit("0", "0","Cruelty-free", "https://res.cloudinary.com/mecca/image/upload/v1584937486/pdp/facets/CRUELTY-FREE_iewjcx.svg"),
+                    new PlaceholderBenefit("0", "0","Vegan", "https://res.cloudinary.com/mecca/image/upload/v1584937487/pdp/facets/VEGAN_odiypj.svg"),
+                    new PlaceholderBenefit("0", "0","Matte finish", "https://res.cloudinary.com/mecca/image/upload/v1584937497/pdp/facets/MATTE_FINISH_tt9bg9.svg"),
+                    new PlaceholderBenefit("0", "0","Natural finish", "https://res.cloudinary.com/mecca/image/upload/v1584937477/pdp/facets/NATURAL_FINISH_mhz5sd.svg"),
+                    new PlaceholderBenefit("0", "0","Sheer coverage", "\thttps://res.cloudinary.com/mecca/image/upload/v1593997623/pdp/facets/SHEER_COVERAGE_new_zkhnca.svg")
+                    )
     );
 
 
