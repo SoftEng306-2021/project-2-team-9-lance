@@ -49,7 +49,8 @@ class UserRepositoryTest {
                     .build();
             firestore.setFirestoreSettings(settings);
 
-            FirebaseAuth.getInstance().useEmulator("10.0.2.2", 9099);
+            auth = FirebaseAuth.getInstance();
+            auth.useEmulator("10.0.2.2", 9099);
 
             userRepository = UserRepository.getInstance();
 

@@ -1,1 +1,6 @@
-<manifest package="se306p2.model" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="se306p2.model" >
+    <application
+        android:usesCleartextTraffic="true">
+    </application>
+</manifest>
