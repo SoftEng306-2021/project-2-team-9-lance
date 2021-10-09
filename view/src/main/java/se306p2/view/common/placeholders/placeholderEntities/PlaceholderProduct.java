@@ -16,7 +16,7 @@ public class PlaceholderProduct implements IProduct {
     private String details;
     private String usage;
     private String link;
-    private List<String> ingredients;
+    private String ingredients;
     private Form form;
     private BigDecimal defaultPrice;
     private Double numericRating;
@@ -25,7 +25,7 @@ public class PlaceholderProduct implements IProduct {
 
     public PlaceholderProduct(String productId, String categoryId, String name, String brandId,
                               String brandName, String slogan, String details, String usage, String link,
-                              List<String> ingredients, Form form, BigDecimal defaultPrice,
+                              String ingredients, Form form, BigDecimal defaultPrice,
                               Double numericRating, int numReviews, String defaultImageURI) {
 
         this.productId = productId;
@@ -66,7 +66,7 @@ public class PlaceholderProduct implements IProduct {
         return this.usage;
     }
 
-    public List<String> getIngredients() {
+    public String getIngredients() {
         return this.ingredients;
     }
 
