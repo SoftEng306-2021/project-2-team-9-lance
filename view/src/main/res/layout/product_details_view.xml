@@ -15,7 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="360dp"
             android:layout_weight="0"
-            android:background="@color/white_off">
+            android:background="@color/white_off"
+            >
 
         </View>
 
@@ -30,11 +31,14 @@
             >
 
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+
                 android:orientation="vertical"
-                android:paddingHorizontal="30dp">
+                android:paddingHorizontal="30dp"
+                android:id="@+id/product_details_container">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
@@ -58,7 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:paddingBottom="20dp">
+                        android:paddingBottom="10dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -171,45 +175,87 @@
                         android:text="@null" />
                 </RadioGroup>
 
-                <TextView
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
+                    android:orientation="vertical"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/raleway"
-                    android:text="Details"
-                    android:textColor="@color/black"
-                    android:textFontWeight="400"
-                    android:textSize="20dp" />
+                    android:animateLayoutChanges="true"
 
-                <View
-                    android:layout_width="30dp"
-                    android:layout_height="2dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/red" />
+                    >
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:id="@+id/product_details_details_title"
 
-                <TextView
-                    android:id="@+id/product_details_slogan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/radley"
-                    android:paddingVertical="10dp"
-                    android:text="This is some wack slogan that the product comes with"
+                        >
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
 
-                    android:textColor="@color/grey_medium_light"
-                    android:textSize="20dp" />
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:fontFamily="@font/raleway"
+                                android:text="Details"
+                                android:textColor="@color/black"
+                                android:textFontWeight="400"
+                                android:textSize="20dp" />
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:scaleX="1.5"
+                                android:scaleY="1.5"
+                                android:layout_gravity="bottom"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <TextView
-                    android:id="@+id/product_details_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/raleway"
-                    android:text="Bacon ipsum dolor amet turducken shoulder turkey short ribs venison jowl. Ham short ribs cupim prosciutto, jerky corned beef ball tip kevin jowl. Ground round bacon biltong sausage rump prosciutto bresaola landjaeger. Buffalo hamburger strip steak chuck ribeye pork loin. Ham hock spare ribs swine tenderloin, capicola shank burgdoggen chislic pig turducken."
-                    android:textColor="@color/black"
-                    android:textFontWeight="500"
-                    android:textSize="15dp" />
 
-            </LinearLayout>
+                        <View
+                            android:layout_width="30dp"
+                            android:layout_height="2dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@color/red" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:id="@+id/product_details_details_content"
+
+                        >
+                        <TextView
+                            android:id="@+id/product_details_slogan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/radley"
+                            android:paddingVertical="10dp"
+                            android:text="This is some wack slogan that the product comes with"
+
+                            android:textColor="@color/grey_medium_light"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/product_details_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/raleway"
+                            android:text="Bacon ipsum dolor amet turducken shoulder turkey short ribs venison jowl. Ham short ribs cupim prosciutto, jerky corned beef ball tip kevin jowl. Ground round bacon biltong sausage rump prosciutto bresaola landjaeger. Buffalo hamburger strip steak chuck ribeye pork loin. Ham hock spare ribs swine tenderloin, capicola shank burgdoggen chislic pig turducken."
+                            android:textColor="@color/black"
+                            android:textFontWeight="500"
+                            android:textSize="15dp" />
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
 
         </androidx.cardview.widget.CardView>
