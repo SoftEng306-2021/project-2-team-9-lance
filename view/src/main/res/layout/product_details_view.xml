@@ -15,8 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="360dp"
             android:layout_weight="0"
-            android:background="@color/white_off"
-            >
+            android:background="@color/white_off">
 
         </View>
 
@@ -32,13 +31,13 @@
 
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/product_details_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:animateLayoutChanges="true"
 
+                android:animateLayoutChanges="true"
                 android:orientation="vertical"
-                android:paddingHorizontal="30dp"
-                android:id="@+id/product_details_container">
+                android:paddingHorizontal="30dp">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
@@ -75,6 +74,7 @@
                             android:textSize="31sp" />
 
                         <TextView
+                            android:id="@+id/product_details_dollars"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0"
@@ -82,11 +82,10 @@
                             android:text="88"
                             android:textColor="@color/black"
                             android:textFontWeight="700"
-                            android:textSize="31sp"
-                            android:id="@+id/product_details_dollars"
-                            />
+                            android:textSize="31sp" />
 
                         <TextView
+                            android:id="@+id/product_details_cents"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="0"
@@ -94,7 +93,6 @@
                             android:text="69"
                             android:textColor="@color/red"
                             android:textFontWeight="700"
-                            android:id="@+id/product_details_cents"
 
                             android:textSize="16sp" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -177,46 +175,44 @@
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
-                    android:orientation="vertical"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
                     android:animateLayoutChanges="true"
+                    android:orientation="vertical">
 
-                    >
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/product_details_details_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/product_details_details_title"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:orientation="vertical">
 
-                        >
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
+                            android:orientation="horizontal">
 
-                            >
                             <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_weight="1"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/raleway"
                                 android:text="Details"
                                 android:textColor="@color/black"
                                 android:textFontWeight="400"
                                 android:textSize="20dp" />
+
                             <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/product_details_details_chevron"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:layout_marginRight="10dp"
                                 android:scaleX="1.5"
                                 android:scaleY="1.5"
-                                android:layout_gravity="bottom"
-                                android:src="@drawable/ic_dropdown_arrow"
-                                android:layout_marginRight="10dp"
-                                android:id="@+id/product_details_details_chevron"
-                                />
+                                android:src="@drawable/ic_dropdown_arrow" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
-
 
                         <View
                             android:layout_width="30dp"
@@ -225,19 +221,19 @@
                             android:layout_marginTop="5dp"
                             android:background="@color/red" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
+
                     <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/product_details_details_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/product_details_details_content"
+                        android:orientation="vertical">
 
-                        >
                         <TextView
                             android:id="@+id/product_details_slogan"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/radley"
-                            android:paddingVertical="10dp"
+                            android:paddingTop="10dp"
                             android:text="This is some wack slogan that the product comes with"
 
                             android:textColor="@color/grey_medium_light"
@@ -247,19 +243,144 @@
                             android:id="@+id/product_details_description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/raleway"
+                            android:text="Bacon ipsum dolor amet turducken shoulder turkey short ribs venison jowl. Ham short ribs cupim prosciutto, jerky corned beef ball tip kevin jowl. Ground round bacon biltong sausage rump prosciutto bresaola landjaeger. Buffalo hamburger strip steak chuck ribeye pork loin. Ham hock spare ribs swine tenderloin, capicola shank burgdoggen chislic pig turducken."
+                            android:textColor="@color/black"
+                            android:textFontWeight="500"
+                            android:textSize="15dp" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/product_details_benefits_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/raleway"
+                                android:text="Benefits"
+                                android:textColor="@color/black"
+                                android:textFontWeight="400"
+                                android:textSize="20dp" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/product_details_benefits_chevron"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:layout_marginRight="10dp"
+                                android:scaleX="1.5"
+                                android:scaleY="1.5"
+                                android:src="@drawable/ic_dropdown_arrow" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <View
+                            android:layout_width="30dp"
+                            android:layout_height="2dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@color/red" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/product_details_benefits_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/product_details_ingredients_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/raleway"
+                                android:text="Ingredients"
+                                android:textColor="@color/black"
+                                android:textFontWeight="400"
+                                android:textSize="20dp" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/product_details_ingredients_chevron"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:layout_marginRight="10dp"
+                                android:scaleX="1.5"
+                                android:scaleY="1.5"
+                                android:src="@drawable/ic_dropdown_arrow" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <View
+                            android:layout_width="30dp"
+                            android:layout_height="2dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@color/red" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/product_details_ingredients_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/product_details_ingredients"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
                             android:fontFamily="@font/raleway"
                             android:text="Bacon ipsum dolor amet turducken shoulder turkey short ribs venison jowl. Ham short ribs cupim prosciutto, jerky corned beef ball tip kevin jowl. Ground round bacon biltong sausage rump prosciutto bresaola landjaeger. Buffalo hamburger strip steak chuck ribeye pork loin. Ham hock spare ribs swine tenderloin, capicola shank burgdoggen chislic pig turducken."
                             android:textColor="@color/black"
                             android:textFontWeight="500"
                             android:textSize="15dp" />
 
-
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-
         </androidx.cardview.widget.CardView>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
