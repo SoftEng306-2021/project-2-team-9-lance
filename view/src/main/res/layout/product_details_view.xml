@@ -26,7 +26,6 @@
             android:background="@color/white"
             app:cardElevation="8dp"
             app:cardMaxElevation="8dp"
-
             >
 
 
@@ -34,7 +33,6 @@
                 android:id="@+id/product_details_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 android:animateLayoutChanges="true"
                 android:orientation="vertical"
                 android:paddingHorizontal="30dp">
@@ -381,7 +379,7 @@
                             android:textColor="@color/black"
                             android:textFontWeight="500"
                             android:textSize="15dp" />
-
+                      
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

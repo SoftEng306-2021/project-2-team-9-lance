@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:background="@color/white_off"
         android:orientation="vertical"
-
         android:paddingHorizontal="35dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat

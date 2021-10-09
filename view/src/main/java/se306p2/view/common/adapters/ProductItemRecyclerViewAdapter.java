@@ -26,6 +26,7 @@ import se306p2.view.activities.main.MainActivity;
 import se306p2.view.activities.productdetail.ProductDetailActivity;
 import se306p2.view.common.helper.DisplayDataFormatter;
 
+
 public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<ProductItemRecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "ProductItemRecyclerViewAdapter";
@@ -64,6 +65,7 @@ public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<Product
 
         String dollar = formattedPrice[0];
         String cent = formattedPrice[1];
+
 
         holder.productPriceDollar.setText(dollar);
         holder.productPriceCent.setText(cent);

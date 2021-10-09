@@ -29,6 +29,10 @@ import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.view.R;
 import se306p2.view.activities.productdetail.adapters.BenefitItemRecyclerViewAdapter;
 import se306p2.view.common.helper.DisplayDataFormatter;
+
+import android.os.Bundle;
+
+
 import se306p2.view.common.placeholders.PlaceholderGenerator;
 
 public class ProductDetailActivity extends AppCompatActivity {
@@ -40,6 +44,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_details_view);
+
 
         getData();
 
@@ -171,4 +176,5 @@ public class ProductDetailActivity extends AppCompatActivity {
         r.setFillAfter(true);
         chevron.startAnimation(r);
     }
+
 }
