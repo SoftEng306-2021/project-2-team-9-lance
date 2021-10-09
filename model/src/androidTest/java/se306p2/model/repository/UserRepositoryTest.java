@@ -118,10 +118,7 @@ class UserRepositoryTest {
 
             Map<String, Object> entry;
             entry = new HashMap<String, Object>() {{
-                put("favourites", new ArrayList<DocumentReference>() {{
-                    add(firestore.collection("product").document("vwyuy5Ft4UAU67WBNfjv"));
-                    add(firestore.collection("product").document("JTSj6g2d2hLWDqKPXYTC"));
-                }});
+                put("favourites", new ArrayList<DocumentReference>());
             }};
             Tasks.await(firestore.collection("user").document(userId).set(entry));
 
@@ -136,7 +133,10 @@ class UserRepositoryTest {
 
             Map<String, Object> entry;
             entry = new HashMap<String, Object>() {{
-                put("favourites", new ArrayList<DocumentReference>());
+                put("favourites", new ArrayList<DocumentReference>() {{
+                    add(firestore.collection("product").document("vwyuy5Ft4UAU67WBNfjv"));
+                    add(firestore.collection("product").document("JTSj6g2d2hLWDqKPXYTC"));
+                }});
             }};
             Tasks.await(firestore.collection("user").document(userId).set(entry));
 
