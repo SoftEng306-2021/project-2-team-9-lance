@@ -1,9 +1,6 @@
 package se306p2.model.repository;
 
-import android.widget.ExpandableListAdapter;
-
 import com.google.android.gms.tasks.Tasks;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,7 +28,7 @@ public class CategoryRepository implements ICategoryRepository {
     public static ICategoryRepository getInstance() {
         if (instance == null) {
             FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-            instance = new UserRepository(firestore);
+            instance = new CategoryRepository(firestore);
         }
         return instance;
     }
