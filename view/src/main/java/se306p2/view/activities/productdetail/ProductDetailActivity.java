@@ -75,26 +75,27 @@ public class ProductDetailActivity extends AppCompatActivity {
         detailsTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (detailsContent.isShown()) {
-                    detailsContent.setVisibility(view.GONE);
-                    RotateAnimation r = new RotateAnimation(0.0f, 90.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                    r.setDuration(300);
-                    r.setRepeatCount(0);
-                    r.setFillAfter(true);
-                    chevronIcon.startAnimation(r);
-                } else {
-                    detailsContent.setVisibility(View.VISIBLE);
-                    RotateAnimation r = new RotateAnimation(90.0f, 0.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                    r.setDuration(300);
-                    r.setRepeatCount(0);
-                    r.setFillAfter(true);
-                    chevronIcon.startAnimation(r);
-                }
+                toggleShowSection(detailsContent, chevronIcon);
             }
         });
+    }
 
-
+    private void toggleShowSection(View toggleView, ImageView chevron) {
+        if (toggleView.isShown()) {
+            toggleView.setVisibility(View.GONE);
+            RotateAnimation r = new RotateAnimation(0.0f, 90.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            r.setDuration(300);
+            r.setRepeatCount(0);
+            r.setFillAfter(true);
+            chevron.startAnimation(r);
+        } else {
+            toggleView.setVisibility(View.VISIBLE);
+            RotateAnimation r = new RotateAnimation(90.0f, 0.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            r.setDuration(300);
+            r.setRepeatCount(0);
+            r.setFillAfter(true);
+            chevron.startAnimation(r);
+        }
     }
 
 }
