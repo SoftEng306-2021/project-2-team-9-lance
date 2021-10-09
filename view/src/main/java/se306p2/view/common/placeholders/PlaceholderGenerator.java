@@ -83,7 +83,7 @@ public class PlaceholderGenerator {
         Collections.shuffle(placeholderBenefitsCopy);
         return placeholderBenefitsCopy;
     }
-    
+
     private static List<IProduct> placeholderProducts = new ArrayList<>(
             Arrays.asList(
                     new PlaceholderProduct(
@@ -376,14 +376,12 @@ public class PlaceholderGenerator {
 
     private static List<IBenefit> placeholderBenefits = new ArrayList<>(
             Arrays.asList(
-                    new PlaceholderBenefit("0", "0","Cruelty-free", "https://res.cloudinary.com/mecca/image/upload/v1584937486/pdp/facets/CRUELTY-FREE_iewjcx.svg"),
-                    new PlaceholderBenefit("0", "0","Vegan", "https://res.cloudinary.com/mecca/image/upload/v1584937487/pdp/facets/VEGAN_odiypj.svg"),
-                    new PlaceholderBenefit("0", "0","Matte finish", "https://res.cloudinary.com/mecca/image/upload/v1584937497/pdp/facets/MATTE_FINISH_tt9bg9.svg"),
-                    new PlaceholderBenefit("0", "0","Natural finish", "https://res.cloudinary.com/mecca/image/upload/v1584937477/pdp/facets/NATURAL_FINISH_mhz5sd.svg"),
-                    new PlaceholderBenefit("0", "0","Sheer coverage", "\thttps://res.cloudinary.com/mecca/image/upload/v1593997623/pdp/facets/SHEER_COVERAGE_new_zkhnca.svg")
+                    new PlaceholderBenefit("0", "0","Cruelty-free", "https://user-images.githubusercontent.com/62003343/136661714-5bf6a4df-1acf-40b3-9955-eccfc48a903f.png"),
+                    new PlaceholderBenefit("0", "0","Vegan", "https://user-images.githubusercontent.com/62003343/136661712-bba4ba5b-74cf-4c17-9a36-22c2428835d4.png"),
+                    new PlaceholderBenefit("0", "0","Matte finish", "https://user-images.githubusercontent.com/62003343/136661711-cf5f7a01-ffa4-4708-84ca-252aaea35e48.png"),
+                    new PlaceholderBenefit("0", "0","Natural finish", "https://user-images.githubusercontent.com/62003343/136661710-2b223362-c3fa-4b41-b4ea-4e82e144d0ac.png"),
+                    new PlaceholderBenefit("0", "0","Sheer coverage", "https://user-images.githubusercontent.com/62003343/136661739-5237f5dc-36c5-421b-b11b-727c67d234e6.png")
                     )
     );
-
-
 
 }

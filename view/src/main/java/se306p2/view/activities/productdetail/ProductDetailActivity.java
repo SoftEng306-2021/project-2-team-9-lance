@@ -47,10 +47,13 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         initProductInfo();
         initDetails();
+        initBenefits();
+        initIngredients();
     }
 
     private void getData() {
         product = PlaceholderGenerator.getProduct();
+        benefits = PlaceholderGenerator.getBenefits();
     }
 
     private void setUpAnimationEnvironment() {
@@ -118,6 +121,20 @@ public class ProductDetailActivity extends AppCompatActivity {
         BenefitItemRecyclerViewAdapter adapter = new BenefitItemRecyclerViewAdapter(this, benefits);
         recyclerView.setAdapter(adapter);
 
+    }
+
+    private void initIngredients() {
+        LinearLayoutCompat ingredientsTitle = (LinearLayoutCompat) findViewById(R.id.product_details_ingredients_title);
+        LinearLayoutCompat ingredientsContent = (LinearLayoutCompat) findViewById(R.id.product_details_ingredients_content);
+
+        ImageView chevronIcon = (ImageView)findViewById(R.id.product_details_ingredients_chevron);
+
+        ingredientsTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleShowSection(ingredientsContent, chevronIcon);
+            }
+        });
     }
 
     private void toggleShowSection(View toggleView, ImageView chevron) {
