@@ -47,10 +47,7 @@ class CategoryRepositoryTest {
             firestore.setFirestoreSettings(settings);
 
             // Use Reflection to inject local Firebase instance
-            categoryRepository = new CategoryRepository();
-            Field privateFirestore = CategoryRepository.class.getDeclaredField("db");
-            privateFirestore.setAccessible(true);
-            privateFirestore.set(categoryRepository, firestore);
+            categoryRepository = CategoryRepository.getInstance();
 
             // Setup Data
             Map<String, Object> entry;
