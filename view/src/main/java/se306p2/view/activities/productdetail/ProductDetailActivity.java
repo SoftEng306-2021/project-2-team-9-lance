@@ -5,6 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.LayoutTransition;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -29,11 +32,19 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         getData();
 
+        setUpAnimationEnvironment();
+
         initProductInfo();
     }
 
     private void getData() {
         product = PlaceholderGenerator.getProduct();
+    }
+
+    private void setUpAnimationEnvironment() {
+        LinearLayoutCompat rootLinearLayout = (LinearLayoutCompat)findViewById(R.id.product_details_container);
+        LayoutTransition layoutTransition = rootLinearLayout.getLayoutTransition();
+        layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
     }
 
     private void initProductInfo() {
@@ -59,38 +70,26 @@ public class ProductDetailActivity extends AppCompatActivity {
         LinearLayoutCompat detailsTitle = (LinearLayoutCompat) findViewById(R.id.product_details_details_title);
         LinearLayoutCompat detailsContent = (LinearLayoutCompat) findViewById(R.id.product_details_details_content);
 
-        LinearLayoutCompat rootLinearLayout = (LinearLayoutCompat)findViewById(R.id.product_details_container);
+        ImageView chevronIcon = (ImageView)findViewById(R.id.product_details_details_chevron);
 
         detailsTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LayoutTransition layoutTransition = rootLinearLayout.getLayoutTransition();
-                layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
-                if (detailsContent.isShown()) {
-//                    detailsContent.setAlpha(1.0f);
-//
-//// Start the animation
-//                    detailsContent.animate()
-//                            .translationY(-detailsContent.getHeight())
-//                            .alpha(0.0f)
-//                            .setListener(new AnimatorListenerAdapter() {
-//                                @Override
-//                                public void onAnimationEnd(Animator animation) {
-//                                    super.onAnimationEnd(animation);
-//                                    detailsContent.setVisibility(View.GONE);
-//                                }
-//                            });
 
+                if (detailsContent.isShown()) {
                     detailsContent.setVisibility(view.GONE);
+                    RotateAnimation r = new RotateAnimation(0.0f, 90.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                    r.setDuration(300);
+                    r.setRepeatCount(0);
+                    r.setFillAfter(true);
+                    chevronIcon.startAnimation(r);
                 } else {
                     detailsContent.setVisibility(View.VISIBLE);
-//                    detailsContent.setAlpha(0.0f);
-//
-//// Start the animation
-//                    detailsContent.animate()
-//                            .translationY(0)
-//                            .alpha(1.0f)
-//                            .setListener(null);
+                    RotateAnimation r = new RotateAnimation(90.0f, 0.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                    r.setDuration(300);
+                    r.setRepeatCount(0);
+                    r.setFillAfter(true);
+                    chevronIcon.startAnimation(r);
                 }
             }
         });

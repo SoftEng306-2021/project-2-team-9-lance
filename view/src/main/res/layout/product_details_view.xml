@@ -212,6 +212,8 @@
                                 android:scaleY="1.5"
                                 android:layout_gravity="bottom"
                                 android:src="@drawable/ic_dropdown_arrow"
+                                android:layout_marginRight="10dp"
+                                android:id="@+id/product_details_details_chevron"
                                 />
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
