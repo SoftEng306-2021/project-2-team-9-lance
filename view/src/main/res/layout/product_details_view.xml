@@ -306,8 +306,11 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/product_details_benefits"
+/>
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -13,9 +13,19 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
+
+import java.util.List;
+
+import se306p2.domain.interfaces.entity.IBenefit;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.view.R;
+import se306p2.view.activities.productdetail.adapters.BenefitItemRecyclerViewAdapter;
 import se306p2.view.common.helper.DisplayDataFormatter;
 import se306p2.view.common.placeholders.PlaceholderGenerator;
 
@@ -23,6 +33,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     //to be moved to ViewModel
     private IProduct product;
+    private List<IBenefit> benefits;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +46,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         setUpAnimationEnvironment();
 
         initProductInfo();
+        initDetails();
     }
 
     private void getData() {
@@ -66,7 +78,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         priceDollars.setText(formattedPrice[0]);
         priceCents.setText(formattedPrice[1]);
+    }
 
+    private void initDetails() {
         LinearLayoutCompat detailsTitle = (LinearLayoutCompat) findViewById(R.id.product_details_details_title);
         LinearLayoutCompat detailsContent = (LinearLayoutCompat) findViewById(R.id.product_details_details_content);
 
@@ -78,6 +92,32 @@ public class ProductDetailActivity extends AppCompatActivity {
                 toggleShowSection(detailsContent, chevronIcon);
             }
         });
+    }
+
+    private void initBenefits() {
+        LinearLayoutCompat benefitsTitle = (LinearLayoutCompat) findViewById(R.id.product_details_benefits_title);
+        LinearLayoutCompat benefitsContent = (LinearLayoutCompat) findViewById(R.id.product_details_benefits_content);
+
+        ImageView chevronIcon = (ImageView)findViewById(R.id.product_details_benefits_chevron);
+
+        benefitsTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleShowSection(benefitsContent, chevronIcon);
+            }
+        });
+
+        RecyclerView recyclerView = findViewById(R.id.product_details_benefits);
+
+        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
+        layoutManager.setFlexDirection(FlexDirection.ROW);
+        layoutManager.setJustifyContent(JustifyContent.SPACE_BETWEEN);
+        layoutManager.setFlexWrap(FlexWrap.WRAP);
+        recyclerView.setLayoutManager(layoutManager);
+
+        BenefitItemRecyclerViewAdapter adapter = new BenefitItemRecyclerViewAdapter(this, benefits);
+        recyclerView.setAdapter(adapter);
+
     }
 
     private void toggleShowSection(View toggleView, ImageView chevron) {

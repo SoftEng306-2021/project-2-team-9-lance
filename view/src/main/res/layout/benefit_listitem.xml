@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="90dp"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:paddingVertical="5px"
+    android:orientation="vertical"
+    android:gravity="center"
+    >
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:src="@drawable/ic_placeholder"
+        android:id="@+id/benefit_image"
+        />
+    <TextView
+        android:id="@+id/benefit_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:fontFamily="@font/raleway"
+        android:textFontWeight="300"
+        android:paddingVertical="5dp"
+        />
+</androidx.appcompat.widget.LinearLayoutCompat>
