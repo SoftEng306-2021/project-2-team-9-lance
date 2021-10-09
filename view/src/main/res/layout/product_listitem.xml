@@ -2,15 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:paddingVertical="5px"
-
-    >
+    android:paddingVertical="5px">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="85dp"
-        android:background="@android:color/transparent">
+        android:background="?android:attr/selectableItemBackground">
 
         <RelativeLayout
             android:layout_width="wrap_content"

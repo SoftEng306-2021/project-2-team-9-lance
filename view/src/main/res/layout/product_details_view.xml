@@ -263,6 +263,7 @@
                         android:id="@+id/product_details_benefits_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackground"
                         android:orientation="vertical">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -306,11 +307,11 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/product_details_benefits"
-/>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/product_details_benefits"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -326,6 +327,7 @@
                         android:id="@+id/product_details_ingredients_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackground"
                         android:orientation="vertical">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
