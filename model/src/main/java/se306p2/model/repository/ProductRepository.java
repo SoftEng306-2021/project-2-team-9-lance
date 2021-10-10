@@ -1,15 +1,33 @@
 package se306p2.model.repository;
 
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+
 
 import se306p2.domain.interfaces.entity.IBenefit;
 import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.entity.IProductVersion;
 import se306p2.domain.interfaces.repositories.IProductRepository;
+import se306p2.model.entities.Benefit;
+import se306p2.model.entities.ProductVersion;
+import se306p2.model.transformers.BenefitTransformer;
+import se306p2.model.transformers.ProductTransformer;
+import se306p2.model.transformers.ProductVersionTransformer;
 
 public class ProductRepository implements IProductRepository {
 
@@ -23,76 +41,195 @@ public class ProductRepository implements IProductRepository {
 
     public List<IProduct> getProducts() {
 
-//        List<Product> products = new ArrayList<Product>();
-//        try {
-//            QuerySnapshot snapshots = Tasks.await(db.collection("product").get());
-//            for (QueryDocumentSnapshot document: snapshots ) {
-//
-//                //Product product = new Product(document.getId(),)
-//                document.getData();
-//            }
-//
-//        } catch (ExecutionException | InterruptedException ex) {
-//            //return products;
-//        }
-//
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//
-//            List<IProduct> products;
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                        Log.d(TAG, document.getId() + " => " + document.getData());
-//                        products.add(document.getData().get(document.getId()));
-//
-//                    }
-//                } else {
-//                    Log.d(TAG, "Error getting documents: ", task.getException());
-//                }
-//            }
-//        });
+        List<IProduct> products = new ArrayList<>();
+        try {
+            QuerySnapshot snapshot = Tasks.await(db.collection("product").get());
 
-        throw new UnsupportedOperationException();
+            for (DocumentSnapshot ds : snapshot.getDocuments()) {
+
+                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brand").toString(),ds.getData()));
+            }
+            return products;
+        } catch (ExecutionException | InterruptedException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
     }
 
     public IProduct getProductById(String id) {
-        throw new UnsupportedOperationException();
+        try {
+            DocumentSnapshot snapshot = Tasks.await(db.collection("product").document(id).get());
+
+            if (!snapshot.exists()) {
+                return null;
+            }
+
+            return ProductTransformer.unpack(snapshot.getId(), snapshot.getData().get("brand").toString(),snapshot.getData());
+        } catch (ExecutionException | InterruptedException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     public List<IProduct> getProductsByCategoryId(String id) {
-        throw new UnsupportedOperationException();
+        List<IProduct> products = new ArrayList<>();
+        try {
+
+            DocumentReference docRef = db.collection("category").document(id);
+            QuerySnapshot snapshot = Tasks.await(db.collection("product").whereEqualTo("category", docRef).get());
+
+            for (DocumentSnapshot ds : snapshot.getDocuments()) {
+                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brand").toString(),ds.getData()));
+            }
+            return products;
+
+        } catch (ExecutionException | InterruptedException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     public List<IProduct> getProductsByCategory(ICategory category) {
-        throw new UnsupportedOperationException();
+        List<IProduct> products = new ArrayList<>();
+        try {
+
+            DocumentReference docRef = db.collection("category").document(category.getId());
+            QuerySnapshot snapshot = Tasks.await(db.collection("product").whereEqualTo("category", docRef).get());
+
+            for (DocumentSnapshot ds : snapshot.getDocuments()) {
+                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brand").toString(),ds.getData()));
+            }
+            return products;
+
+        } catch (ExecutionException | InterruptedException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     public List<IProduct> getProductsBySearch(String searchTerm) {
-        throw new UnsupportedOperationException();
+        List<IProduct> products = new ArrayList<>();
+        try {
+
+            QuerySnapshot snapshot = Tasks.await(db.collection("product").orderBy("name").whereGreaterThan("name" ,searchTerm).whereLessThanOrEqualTo("name",searchTerm + '\uf8ff').get());
+
+            for (DocumentSnapshot ds : snapshot.getDocuments()) {
+                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brand").toString(),ds.getData()));
+            }
+            return products;
+
+        } catch (ExecutionException | InterruptedException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
-    @Override
     public List<IProduct> getProductsByFilter(String categoryId, String brandId, BigDecimal min, BigDecimal max) {
-        throw new UnsupportedOperationException();
+        List<IProduct> products = new ArrayList<>();
+        try {
+
+            QuerySnapshot snapshot = null;
+            Query idQuery = null;
+            Query finalQuery = null;
+
+
+            if (categoryId == null && brandId == null) {
+
+                throw new UnsupportedOperationException("category and brand cannot be both null");
+
+            } else if (categoryId != null && brandId != null) {
+
+                DocumentReference docRefCategory =  db.collection("category").document(categoryId);
+                DocumentReference docRefBrand =  db.collection("brand").document(brandId);
+
+                Query initialQuery = db.collection("product").whereEqualTo("category", docRefCategory);
+                idQuery = initialQuery.whereEqualTo("brand", docRefBrand);
+
+            } else if (brandId != null) {
+
+                DocumentReference docRefBrand =  db.collection("brand").document(brandId);
+                idQuery = db.collection("product").whereEqualTo("brand", docRefBrand);
+
+
+            } else {
+
+                DocumentReference docRefCategory =  db.collection("category").document(categoryId);
+                idQuery = db.collection("product").whereEqualTo("category", docRefCategory);
+
+            }
+
+            if (min != null && max != null) {
+                Query priceQuery = idQuery.whereGreaterThanOrEqualTo("price", min.floatValue()).whereLessThanOrEqualTo("price", max.floatValue()).orderBy("price", Query.Direction.DESCENDING);
+                snapshot = Tasks.await(priceQuery.get());
+
+            } else if (max != null) {
+                Query priceQuery = idQuery.whereGreaterThanOrEqualTo("price", max.floatValue()).orderBy("price", Query.Direction.DESCENDING);
+                snapshot = Tasks.await(priceQuery.get());
+            } else if (min != null) {
+                Query priceQuery = idQuery.whereGreaterThanOrEqualTo("price", min.floatValue()).orderBy("price", Query.Direction.ASCENDING);
+                snapshot = Tasks.await(priceQuery.get());
+            } else {
+                snapshot = Tasks.await(idQuery.get());
+
+            }
+
+            for (DocumentSnapshot ds : snapshot.getDocuments()) {
+                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brand").toString(),ds.getData()));
+            }
+            return products;
+
+        } catch (ExecutionException | InterruptedException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
-    @Override
     public List<IProductVersion> getProductVersions(String productId) {
-        throw new UnsupportedOperationException();
+        List<IProductVersion> productVersions = new ArrayList<>();
+
+        try {
+
+            QuerySnapshot snapshot = Tasks.await(db.collection("product").document(productId).collection("productVersion").get());
+
+            for (DocumentSnapshot ds : snapshot.getDocuments()) {
+
+                productVersions.add(ProductVersionTransformer.unpack(ds.getId(),ds.getData()) );
+            }
+            return productVersions;
+
+
+        } catch (ExecutionException | InterruptedException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
     }
 
-    @Override
     public List<IBenefit> getBenefits(String productId) {
-        throw new UnsupportedOperationException();
+        List<IBenefit> benefits = new ArrayList<>();
+
+        try {
+
+            QuerySnapshot snapshot = Tasks.await(db.collection("product").document(productId).collection("benefits").get());
+
+            for (DocumentSnapshot ds : snapshot.getDocuments()) {
+
+                benefits.add(BenefitTransformer.unpack(ds.getId(),ds.getData()));
+            }
+            return benefits;
+
+
+        } catch (ExecutionException | InterruptedException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
-    @Override
     public List<IProduct> getFeaturedProducts() {
         throw new UnsupportedOperationException();
     }
 
-    @Override
     public List<String> searchAutoComplete(String searchTerm) {
         throw new UnsupportedOperationException();
     }

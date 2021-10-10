@@ -7,7 +7,7 @@ public class Benefit implements IBenefit {
     private String name;
     private String imageURI;
 
-    public Benefit(String id, String benefitId,String name, String imageURI) {
+    public Benefit(String id,String name, String imageURI) {
         this.id = id;
         this.name = name;
         this.imageURI = imageURI;

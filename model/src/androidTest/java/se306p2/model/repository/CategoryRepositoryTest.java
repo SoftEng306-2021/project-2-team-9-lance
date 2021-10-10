@@ -153,7 +153,8 @@ class CategoryRepositoryTest {
 
         @Test
         void testGetCategoryById() {
-            categoryRepository.getCategoryById("B66rJmzEFRKzHzDwJBPM");
+            ICategory category = categoryRepository.getCategoryById("B66rJmzEFRKzHzDwJBPM");
+            assertNotNull(category);
         }
 
         @Test
@@ -168,6 +169,13 @@ class CategoryRepositoryTest {
     @Nested
     @DisplayName("getMaxMinPrice Test")
     class getMaxMinPricesTests {
+
+        @Test
+        void testGetPriceCategoryNotExist() {
+            assertNull(categoryRepository.getMinPrice("AAAAAAAAAAAAAAAAAAAA"));
+            assertNull(categoryRepository.getMaxPrice("AAAAAAAAAAAAAAAAAAAA"));
+        }
+
 
         @Test
         void testGetMinPrice() {
