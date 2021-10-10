@@ -43,8 +43,8 @@ class UserRepositoryTest {
             // Setup Firestore
             FirebaseApp.clearInstancesForTest();
             FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext(), new FirebaseOptions.Builder().
-                    setApiKey("fakeApiKey").
-                    setApplicationId("fakeApplicationId").
+                    setApiKey("apiKey").
+                    setApplicationId("applicationId").
                     setProjectId("se306-project-2-team-9").
                     build());
             firestore = FirebaseFirestore.getInstance();
