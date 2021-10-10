@@ -9,6 +9,7 @@ import androidx.test.core.app.ApplicationProvider;
 
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
@@ -44,7 +45,12 @@ public class ProductRepositoryTest {
     static void setUp()  {
         try {
             // Setup Firestore
-            FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
+            FirebaseApp.clearInstancesForTest();
+            FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext(), new FirebaseOptions.Builder().
+                    setApiKey("apiKey").
+                    setApplicationId("applicationId").
+                    setProjectId("se306-project-2-team-9").
+                    build());
             firestore = FirebaseFirestore.getInstance();
             // Using local emulator, Read README.md for more info
             firestore.useEmulator("10.0.2.2", 8080);
@@ -262,6 +268,7 @@ public class ProductRepositoryTest {
             Tasks.await(firestore.collection("product").document("QNpwXLxL7SmpQWmfqUtg").delete());
             Tasks.await(firestore.collection("product").document("eX6dyFbyDYMV5ArNS6gx").delete());
 
+            FirebaseApp.clearInstancesForTest();
         } catch (ExecutionException | InterruptedException exception) {
             fail(exception);
         }
