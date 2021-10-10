@@ -39,7 +39,7 @@ class CategoryRepositoryTest {
             // Setup Firestore
             FirebaseApp.clearInstancesForTest();
             FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext(), new FirebaseOptions.Builder().
-                    setApiKey("fakeApiKey").
+                    setApiKey("apiKey").
                     setApplicationId("fakeApplicationId").
                     setProjectId("se306-project-2-team-9").
                     build());
