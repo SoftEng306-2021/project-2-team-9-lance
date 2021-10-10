@@ -33,8 +33,7 @@ public class LandingPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.landing_page_view);
 
-        categories.addAll(PlaceholderGenerator.getCategories());
-        featuredList.addAll(PlaceholderGenerator.getProducts());
+        getData();
 
         initCategoryListRecyclerView();
         initFeaturedListRecyclerView();
@@ -45,6 +44,12 @@ public class LandingPageActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.nav_menu, menu);
         return true;
+    }
+
+    private void getData() {
+        //TODO replace with getting real data later
+        categories.addAll(PlaceholderGenerator.getCategories());
+        featuredList.addAll(PlaceholderGenerator.getProducts());
     }
 
     private void initCategoryListRecyclerView() {

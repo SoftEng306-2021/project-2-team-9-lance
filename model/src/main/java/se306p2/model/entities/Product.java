@@ -16,7 +16,7 @@ public class Product implements IProduct {
     private String details;
     private String usage;
     private String link;
-    private List<String> ingredients;
+    private String ingredients;
     private Form form;
     private BigDecimal price;
     private Double numericRating;
@@ -25,7 +25,7 @@ public class Product implements IProduct {
 
     public Product(String productId, String categoryId, String name, String brandId,
                    String brandName, String slogan, String details, String usage, String link,
-                   List<String> ingredients, Form form, BigDecimal price,
+                   String ingredients, Form form, BigDecimal price,
                    Double numericRating,int numReviews, String defaultImageURI) {
         this.productId = productId;
         this.categoryId = categoryId;
@@ -64,7 +64,7 @@ public class Product implements IProduct {
         return this.usage;
     }
 
-    public List<String> getIngredients() {
+    public String getIngredients() {
         return this.ingredients;
     }
 

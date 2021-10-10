@@ -2,24 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingVertical="5px"
+    android:paddingVertical="5px">
 
-    >
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="85dp">
-
+        android:layout_height="85dp"
+        android:background="?android:attr/selectableItemBackground">
+      
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.utils.widget.ImageFilterView
+                android:id="@+id/product_listitem_image"
                 android:layout_width="85dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_placeholder"
-                android:id="@+id/product_listitem_image"
-                />
+                android:src="@drawable/ic_placeholder" />
 
         </RelativeLayout>
 
@@ -27,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="85dp"
+            android:background="@android:color/transparent"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -53,15 +53,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/raleway"
-                    android:text="Product name product name product name name name name product name name "
-                    />
+                    android:text="Product name product name product name name name name product name name " />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingHorizontal="10dp"
-                >
+                android:paddingHorizontal="10dp">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
