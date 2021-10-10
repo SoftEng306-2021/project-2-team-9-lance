@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
@@ -53,37 +54,6 @@ public class ProductRepository implements IProductRepository {
             ex.printStackTrace();
             return null;
         }
-
-//        List<Product> products = new ArrayList<Product>();
-//        try {
-//            QuerySnapshot snapshots = Tasks.await(db.collection("product").get());
-//            for (QueryDocumentSnapshot document: snapshots ) {
-//
-//                //Product product = new Product(document.getId(),)
-//                document.getData();
-//            }
-//
-//        } catch (ExecutionException | InterruptedException ex) {
-//            //return products;
-//        }
-//
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//
-//            List<IProduct> products;
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                        Log.d(TAG, document.getId() + " => " + document.getData());
-//                        products.add(document.getData().get(document.getId()));
-//
-//                    }
-//                } else {
-//                    Log.d(TAG, "Error getting documents: ", task.getException());
-//                }
-//            }
-//        });
-
 
     }
 
@@ -142,11 +112,10 @@ public class ProductRepository implements IProductRepository {
         List<IProduct> products = new ArrayList<>();
         try {
 
-
-            QuerySnapshot snapshot = Tasks.await(db.collection("product").orderBy("name").startAt(searchTerm).endAt(searchTerm + '\uf8ff').get());
+            QuerySnapshot snapshot = Tasks.await(db.collection("product").orderBy("name").whereGreaterThan("name" ,searchTerm).whereLessThanOrEqualTo("name",searchTerm + '\uf8ff').get());
 
             for (DocumentSnapshot ds : snapshot.getDocuments()) {
-                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brandName").toString(),ds.getData()));
+                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brand").toString(),ds.getData()));
             }
             return products;
 
@@ -160,17 +129,46 @@ public class ProductRepository implements IProductRepository {
         List<IProduct> products = new ArrayList<>();
         try {
 
-            QuerySnapshot snapshot;
-            if (min == null && max == null) {
-                snapshot = Tasks.await(db.collection("product").whereEqualTo("categoryId", categoryId).whereEqualTo("brandId", categoryId).get());
-            } else if (min != null) {
-                snapshot = Tasks.await(db.collection("product").whereEqualTo("categoryId", categoryId).whereEqualTo("brandId", categoryId).orderBy("price", Query.Direction.ASCENDING).get());
+            Query finalQuery = null;
+
+            if (categoryId == null && brandId == null) {
+
+                throw new UnsupportedOperationException("category and brand cannot be both null");
+
+            } else if (categoryId != null && brandId != null) {
+
+                DocumentReference docRefCategory =  db.collection("category").document(categoryId);
+                DocumentReference docRefBrand =  db.collection("brand").document(brandId);
+
+                Query initialQuery = db.collection("product").whereEqualTo("category", docRefCategory);
+                finalQuery = initialQuery.whereEqualTo("brand", docRefBrand);
+
+            } else if (brandId != null) {
+
+                DocumentReference docRefBrand =  db.collection("brand").document(brandId);
+                finalQuery = db.collection("product").whereEqualTo("brand", docRefBrand);
+
+
             } else {
-                snapshot = Tasks.await(db.collection("product").whereEqualTo("categoryId", categoryId).whereEqualTo("brandId", categoryId).orderBy("price", Query.Direction.DESCENDING).get());
+
+                DocumentReference docRefCategory =  db.collection("category").document(categoryId);
+                finalQuery = db.collection("product").whereEqualTo("category", docRefCategory);
+
             }
 
+            if (min != null && max != null) {
+                throw new UnsupportedOperationException("only one of min or max can be not null");
+            } else if (min != null) {
+                finalQuery = finalQuery.orderBy("price", Query.Direction.ASCENDING);
+
+            } else if (max != null) {
+                finalQuery = finalQuery.orderBy("price", Query.Direction.DESCENDING);
+            }
+
+            QuerySnapshot snapshot = Tasks.await(finalQuery.get());
+
             for (DocumentSnapshot ds : snapshot.getDocuments()) {
-                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brandName").toString(),ds.getData()));
+                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brand").toString(),ds.getData()));
             }
             return products;
 

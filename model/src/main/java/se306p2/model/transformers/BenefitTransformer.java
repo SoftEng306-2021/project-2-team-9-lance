@@ -28,9 +28,8 @@ public class BenefitTransformer {
 
         String name = map.containsKey("name") ? map.get("name").toString() : "";
         String imageURI = map.containsKey("imageURI") ? map.get("imageURI").toString(): "";
-        String benefitId = map.containsKey("benefitId") ? map.get("benefitId").toString() : "";
 
-        Benefit benefit = new Benefit(Id,benefitId,name,imageURI );
+        Benefit benefit = new Benefit(Id,name,imageURI );
         return benefit;
     }
 }

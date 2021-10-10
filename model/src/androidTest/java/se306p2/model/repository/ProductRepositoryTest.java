@@ -33,6 +33,7 @@ import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.entity.IProductVersion;
 import se306p2.model.entities.Benefit;
 import se306p2.model.entities.Category;
+import se306p2.model.entities.Product;
 
 
 public class ProductRepositoryTest {
@@ -619,6 +620,264 @@ public class ProductRepositoryTest {
             assertEquals("wJsVCcCfVVKdWWA5dGma",benefit_1.getId());
             assertEquals("Dewy finish", benefit_1.getName());
             assertEquals("https://picsum.photos/100?dewy-finish",benefit_1.getImageURI());
+
+        }
+
+    }
+
+    @Nested
+    @DisplayName("getProductsByFilter Test")
+    class getProductsByFilterTests {
+
+        @Test
+        void testGetProductsByFilterBothIdsNull() {
+            try {
+                productRepository.getProductsByFilter(null, null, new BigDecimal(5.00), null);
+                fail();
+            } catch (Exception e) {
+
+            }
+
+        }
+
+        @Test
+        void testGetProductsByFilterBothMinMaxNotNull() {
+            try {
+                productRepository.getProductsByFilter(null, "", new BigDecimal(5.00), new BigDecimal(5.00));
+                fail();
+            } catch (Exception e) {
+
+            }
+
+        }
+
+        @Test
+        void testGetProductsByFilterCategoryOnly() {
+
+            List<IProduct> products = productRepository.getProductsByFilter("pbsd3cBrG47WZg9Caj6H", null, null, null);
+
+            assertEquals(2,products.size());
+
+            IProduct product_0 = products.get(0);
+
+            assertEquals("BUVdXxq9sEZfPurxGT5c",product_0.getId());
+            assertEquals("Mojave Ghost EDP",product_0.getName());
+            assertEquals("An elegant, warm floral with a woody twist.",product_0.getSlogan());
+            assertEquals("Inspired by the incredibly rare Mojave Ghost flower that blossoms in the arid Mojave Desert, this fragrance is exotic, alluring and delicate just like the flower. It combines woody and floral tones to create a light and graceful yet warm scent that lingers on the skin. Explore a warm floral bouquet but not as you know it, this spiced twist makes for a distinctive signature scent.",product_0.getDetails());
+            assertEquals("Store in a cool, dry place and out of direct sunlight. Use on clean dry skin, gently spray onto pulse points avoiding rubbing wrists together.",product_0.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1",product_0.getLink());
+            assertEquals("https://picsum.photos/100?mojave",product_0.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID,product_0.getForm());
+            assertEquals(new BigDecimal(361),product_0.getPrice());
+            assertEquals(0.0,product_0.getNumericRating());
+            assertEquals(0,product_0.getNumReviews());
+
+
+            IProduct product_1 = products.get(1);
+
+            assertEquals("QNpwXLxL7SmpQWmfqUtg", product_1.getId());
+            assertEquals("Blanche EDP", product_1.getName());
+            assertEquals("A modern take on a classic floral aldehyde.", product_1.getSlogan());
+            assertEquals("A fresh laundered scent which has a delicious warmth at its core that sets it apart. The ephemeral sweetness of the violet is anchored with the delectable milky richness of the sandalwood. A clean, modern take on a classic floral aldehyde.",product_1.getDetails());
+            assertEquals("Spray onto pulse points as desired.",product_1.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1", product_1.getLink());
+            assertEquals("https://picsum.photos/100?blanche", product_1.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product_1.getForm());
+            assertEquals(new BigDecimal(361), product_1.getPrice());
+            assertEquals(4.5, product_1.getNumericRating());
+            assertEquals(18, product_1.getNumReviews());
+
+        }
+
+        @Test
+        void testGetProductsByFilterBrandOnly() {
+
+            List<IProduct> products = productRepository.getProductsByFilter(null, "bXWJLz3maMk9rtdWFRuN", null, null);
+
+            assertEquals(2,products.size());
+
+            IProduct product_0 = products.get(0);
+
+            assertEquals("BUVdXxq9sEZfPurxGT5c",product_0.getId());
+            assertEquals("Mojave Ghost EDP",product_0.getName());
+            assertEquals("An elegant, warm floral with a woody twist.",product_0.getSlogan());
+            assertEquals("Inspired by the incredibly rare Mojave Ghost flower that blossoms in the arid Mojave Desert, this fragrance is exotic, alluring and delicate just like the flower. It combines woody and floral tones to create a light and graceful yet warm scent that lingers on the skin. Explore a warm floral bouquet but not as you know it, this spiced twist makes for a distinctive signature scent.",product_0.getDetails());
+            assertEquals("Store in a cool, dry place and out of direct sunlight. Use on clean dry skin, gently spray onto pulse points avoiding rubbing wrists together.",product_0.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1",product_0.getLink());
+            assertEquals("https://picsum.photos/100?mojave",product_0.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID,product_0.getForm());
+            assertEquals(new BigDecimal(361),product_0.getPrice());
+            assertEquals(0.0,product_0.getNumericRating());
+            assertEquals(0,product_0.getNumReviews());
+
+
+            IProduct product_1 = products.get(1);
+
+            assertEquals("QNpwXLxL7SmpQWmfqUtg", product_1.getId());
+            assertEquals("Blanche EDP", product_1.getName());
+            assertEquals("A modern take on a classic floral aldehyde.", product_1.getSlogan());
+            assertEquals("A fresh laundered scent which has a delicious warmth at its core that sets it apart. The ephemeral sweetness of the violet is anchored with the delectable milky richness of the sandalwood. A clean, modern take on a classic floral aldehyde.",product_1.getDetails());
+            assertEquals("Spray onto pulse points as desired.",product_1.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1", product_1.getLink());
+            assertEquals("https://picsum.photos/100?blanche", product_1.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product_1.getForm());
+            assertEquals(new BigDecimal(361), product_1.getPrice());
+            assertEquals(4.5, product_1.getNumericRating());
+            assertEquals(18, product_1.getNumReviews());
+
+        }
+
+        @Test
+        void testGetProductsByFilterCategoryAndBrand() {
+
+            List<IProduct> products = productRepository.getProductsByFilter("pbsd3cBrG47WZg9Caj6H", "bXWJLz3maMk9rtdWFRuN", null, null);
+
+            assertEquals(2,products.size());
+
+            IProduct product_0 = products.get(0);
+
+            assertEquals("BUVdXxq9sEZfPurxGT5c",product_0.getId());
+            assertEquals("Mojave Ghost EDP",product_0.getName());
+            assertEquals("An elegant, warm floral with a woody twist.",product_0.getSlogan());
+            assertEquals("Inspired by the incredibly rare Mojave Ghost flower that blossoms in the arid Mojave Desert, this fragrance is exotic, alluring and delicate just like the flower. It combines woody and floral tones to create a light and graceful yet warm scent that lingers on the skin. Explore a warm floral bouquet but not as you know it, this spiced twist makes for a distinctive signature scent.",product_0.getDetails());
+            assertEquals("Store in a cool, dry place and out of direct sunlight. Use on clean dry skin, gently spray onto pulse points avoiding rubbing wrists together.",product_0.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1",product_0.getLink());
+            assertEquals("https://picsum.photos/100?mojave",product_0.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID,product_0.getForm());
+            assertEquals(new BigDecimal(361),product_0.getPrice());
+            assertEquals(0.0,product_0.getNumericRating());
+            assertEquals(0,product_0.getNumReviews());
+
+
+            IProduct product_1 = products.get(1);
+
+            assertEquals("QNpwXLxL7SmpQWmfqUtg", product_1.getId());
+            assertEquals("Blanche EDP", product_1.getName());
+            assertEquals("A modern take on a classic floral aldehyde.", product_1.getSlogan());
+            assertEquals("A fresh laundered scent which has a delicious warmth at its core that sets it apart. The ephemeral sweetness of the violet is anchored with the delectable milky richness of the sandalwood. A clean, modern take on a classic floral aldehyde.",product_1.getDetails());
+            assertEquals("Spray onto pulse points as desired.",product_1.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1", product_1.getLink());
+            assertEquals("https://picsum.photos/100?blanche", product_1.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product_1.getForm());
+            assertEquals(new BigDecimal(361), product_1.getPrice());
+            assertEquals(4.5, product_1.getNumericRating());
+            assertEquals(18, product_1.getNumReviews());
+
+        }
+
+        @Test
+        void testGetProductsByFilterCategoryAndBrandWithMax() {
+
+            List<IProduct> products = productRepository.getProductsByFilter("pbsd3cBrG47WZg9Caj6H", "bXWJLz3maMk9rtdWFRuN", new BigDecimal(5.0), null);
+
+            assertEquals(2,products.size());
+
+            IProduct product_0 = products.get(0);
+
+            assertEquals("BUVdXxq9sEZfPurxGT5c",product_0.getId());
+            assertEquals("Mojave Ghost EDP",product_0.getName());
+            assertEquals("An elegant, warm floral with a woody twist.",product_0.getSlogan());
+            assertEquals("Inspired by the incredibly rare Mojave Ghost flower that blossoms in the arid Mojave Desert, this fragrance is exotic, alluring and delicate just like the flower. It combines woody and floral tones to create a light and graceful yet warm scent that lingers on the skin. Explore a warm floral bouquet but not as you know it, this spiced twist makes for a distinctive signature scent.",product_0.getDetails());
+            assertEquals("Store in a cool, dry place and out of direct sunlight. Use on clean dry skin, gently spray onto pulse points avoiding rubbing wrists together.",product_0.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1",product_0.getLink());
+            assertEquals("https://picsum.photos/100?mojave",product_0.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID,product_0.getForm());
+            assertEquals(new BigDecimal(361),product_0.getPrice());
+            assertEquals(0.0,product_0.getNumericRating());
+            assertEquals(0,product_0.getNumReviews());
+
+
+            IProduct product_1 = products.get(1);
+
+            assertEquals("QNpwXLxL7SmpQWmfqUtg", product_1.getId());
+            assertEquals("Blanche EDP", product_1.getName());
+            assertEquals("A modern take on a classic floral aldehyde.", product_1.getSlogan());
+            assertEquals("A fresh laundered scent which has a delicious warmth at its core that sets it apart. The ephemeral sweetness of the violet is anchored with the delectable milky richness of the sandalwood. A clean, modern take on a classic floral aldehyde.",product_1.getDetails());
+            assertEquals("Spray onto pulse points as desired.",product_1.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1", product_1.getLink());
+            assertEquals("https://picsum.photos/100?blanche", product_1.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product_1.getForm());
+            assertEquals(new BigDecimal(361), product_1.getPrice());
+            assertEquals(4.5, product_1.getNumericRating());
+            assertEquals(18, product_1.getNumReviews());
+
+        }
+
+        @Test
+        void testGetProductsByFilterCategoryAndBrandWithMin() {
+
+            List<IProduct> products = productRepository.getProductsByFilter("pbsd3cBrG47WZg9Caj6H", "bXWJLz3maMk9rtdWFRuN", null, new BigDecimal(5.0));
+
+            assertEquals(2,products.size());
+
+            IProduct product_1 = products.get(1);
+
+            assertEquals("BUVdXxq9sEZfPurxGT5c",product_1.getId());
+            assertEquals("Mojave Ghost EDP",product_1.getName());
+            assertEquals("An elegant, warm floral with a woody twist.",product_1.getSlogan());
+            assertEquals("Inspired by the incredibly rare Mojave Ghost flower that blossoms in the arid Mojave Desert, this fragrance is exotic, alluring and delicate just like the flower. It combines woody and floral tones to create a light and graceful yet warm scent that lingers on the skin. Explore a warm floral bouquet but not as you know it, this spiced twist makes for a distinctive signature scent.",product_1.getDetails());
+            assertEquals("Store in a cool, dry place and out of direct sunlight. Use on clean dry skin, gently spray onto pulse points avoiding rubbing wrists together.",product_1.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1",product_1.getLink());
+            assertEquals("https://picsum.photos/100?mojave",product_1.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID,product_1.getForm());
+            assertEquals(new BigDecimal(361),product_1.getPrice());
+            assertEquals(0.0,product_1.getNumericRating());
+            assertEquals(0,product_1.getNumReviews());
+
+
+            IProduct product_0 = products.get(0);
+
+            assertEquals("QNpwXLxL7SmpQWmfqUtg", product_0.getId());
+            assertEquals("Blanche EDP", product_0.getName());
+            assertEquals("A modern take on a classic floral aldehyde.", product_0.getSlogan());
+            assertEquals("A fresh laundered scent which has a delicious warmth at its core that sets it apart. The ephemeral sweetness of the violet is anchored with the delectable milky richness of the sandalwood. A clean, modern take on a classic floral aldehyde.",product_0.getDetails());
+            assertEquals("Spray onto pulse points as desired.",product_0.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1", product_0.getLink());
+            assertEquals("https://picsum.photos/100?blanche", product_0.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product_0.getForm());
+            assertEquals(new BigDecimal(361), product_0.getPrice());
+            assertEquals(4.5, product_0.getNumericRating());
+            assertEquals(18, product_0.getNumReviews());
+
+        }
+
+    }
+
+    @Nested
+    @DisplayName("getProductsBySearch Test")
+    class getProductsBySearchTerm {
+
+        @Test
+        void testGetProductsBySearch() {
+
+            productRepository.getProductsBySearch("");
+
+        }
+
+        @Test
+        void testGetProductsBySearchBlankString() {
+
+            List<IProduct> products = productRepository.getProductsBySearch("");
+            assertEquals(3,products.size());
+
+        }
+
+        @Test
+        void testGetProductsBySearchNoMatchingString() {
+
+            List<IProduct> products = productRepository.getProductsBySearch("nomatchingterm");
+            assertEquals(0,products.size());
+
+        }
+
+        @Test
+        void testGetProductsBySearchOneMatchingString() {
+
+            List<IProduct> products = productRepository.getProductsBySearch("Liq");
+            assertEquals(1,products.size());
+
+            IProduct product_0 = products.get(0);
+            assertEquals("Liquid Lumiere", product_0.getName());
 
         }
 
