@@ -12,14 +12,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -27,14 +24,15 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import se306p2.domain.interfaces.entity.ICategory;
+import se306p2.domain.interfaces.repositories.ICategoryRepository;
 
 class CategoryRepositoryTest {
 
     private static FirebaseFirestore firestore;
-    private static CategoryRepository categoryRepository;
+    private static ICategoryRepository categoryRepository;
 
     @BeforeAll
-    static void setUp()  {
+    static void setUp() {
         try {
             // Setup Firestore
             FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
@@ -47,10 +45,7 @@ class CategoryRepositoryTest {
             firestore.setFirestoreSettings(settings);
 
             // Use Reflection to inject local Firebase instance
-            categoryRepository = new CategoryRepository();
-            Field privateFirestore = CategoryRepository.class.getDeclaredField("db");
-            privateFirestore.setAccessible(true);
-            privateFirestore.set(categoryRepository, firestore);
+            categoryRepository = CategoryRepository.getInstance();
 
             // Setup Data
             Map<String, Object> entry;
@@ -85,7 +80,7 @@ class CategoryRepositoryTest {
             }};
             Tasks.await(firestore.collection("product").document("gLkPfp93scBtM3FbGz7z").set(entry));
 
-        } catch (NoSuchFieldException | IllegalAccessException | InterruptedException | ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             fail(e);
         }
@@ -108,7 +103,7 @@ class CategoryRepositoryTest {
 
     @Nested
     @DisplayName("getCategories Test")
-    class getCategoriesTests{
+    class getCategoriesTests {
 
         @Test
         void testGetCategories() {
@@ -139,7 +134,7 @@ class CategoryRepositoryTest {
 
     @Nested
     @DisplayName("getCategoryById Test")
-    class getCategoryByIdTests{
+    class getCategoryByIdTests {
 
         @Test
         void testGetCategoryNotExist() {
@@ -163,7 +158,7 @@ class CategoryRepositoryTest {
 
     @Nested
     @DisplayName("getMaxMinPrice Test")
-    class getMaxMinPricesTests{
+    class getMaxMinPricesTests {
 
         @Test
         void testGetMinPrice() {

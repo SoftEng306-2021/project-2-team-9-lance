@@ -1,7 +1,5 @@
 package se306p2.model.repository;
 
-import android.widget.ExpandableListAdapter;
-
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -21,10 +19,18 @@ import se306p2.model.transformers.CategoryTransformer;
 public class CategoryRepository implements ICategoryRepository {
 
     private FirebaseFirestore db;
-    private CategoryRepository instance;
+    private static CategoryRepository instance;
 
-    public ICategoryRepository getInstance() {
-        throw new UnsupportedOperationException();
+    private CategoryRepository(FirebaseFirestore firestore) {
+        this.db = firestore;
+    }
+
+    public static ICategoryRepository getInstance() {
+        if (instance == null) {
+            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+            instance = new CategoryRepository(firestore);
+        }
+        return instance;
     }
 
     public List<ICategory> getCategories() {

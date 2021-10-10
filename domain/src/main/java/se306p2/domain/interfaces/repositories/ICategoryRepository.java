@@ -8,9 +8,9 @@ import se306p2.domain.interfaces.entity.ICategory;
 
 public interface ICategoryRepository {
 
-    ICategoryRepository getInstance();
     List<ICategory> getCategories();
     ICategory getCategoryById(String id);
     BigDecimal getMaxPrice(String categoryId);
     BigDecimal getMinPrice(String categoryId);
+
 }
