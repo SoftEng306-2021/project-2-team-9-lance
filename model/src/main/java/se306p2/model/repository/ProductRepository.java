@@ -129,7 +129,10 @@ public class ProductRepository implements IProductRepository {
         List<IProduct> products = new ArrayList<>();
         try {
 
+            QuerySnapshot snapshot = null;
+            Query idQuery = null;
             Query finalQuery = null;
+
 
             if (categoryId == null && brandId == null) {
 
@@ -141,31 +144,35 @@ public class ProductRepository implements IProductRepository {
                 DocumentReference docRefBrand =  db.collection("brand").document(brandId);
 
                 Query initialQuery = db.collection("product").whereEqualTo("category", docRefCategory);
-                finalQuery = initialQuery.whereEqualTo("brand", docRefBrand);
+                idQuery = initialQuery.whereEqualTo("brand", docRefBrand);
 
             } else if (brandId != null) {
 
                 DocumentReference docRefBrand =  db.collection("brand").document(brandId);
-                finalQuery = db.collection("product").whereEqualTo("brand", docRefBrand);
+                idQuery = db.collection("product").whereEqualTo("brand", docRefBrand);
 
 
             } else {
 
                 DocumentReference docRefCategory =  db.collection("category").document(categoryId);
-                finalQuery = db.collection("product").whereEqualTo("category", docRefCategory);
+                idQuery = db.collection("product").whereEqualTo("category", docRefCategory);
 
             }
 
             if (min != null && max != null) {
-                throw new UnsupportedOperationException("only one of min or max can be not null");
-            } else if (min != null) {
-                finalQuery = finalQuery.orderBy("price", Query.Direction.ASCENDING);
+                Query priceQuery = idQuery.whereGreaterThanOrEqualTo("price", min.floatValue()).whereLessThanOrEqualTo("price", max.floatValue()).orderBy("price", Query.Direction.DESCENDING);
+                snapshot = Tasks.await(priceQuery.get());
 
             } else if (max != null) {
-                finalQuery = finalQuery.orderBy("price", Query.Direction.DESCENDING);
-            }
+                Query priceQuery = idQuery.whereGreaterThanOrEqualTo("price", max.floatValue()).orderBy("price", Query.Direction.DESCENDING);
+                snapshot = Tasks.await(priceQuery.get());
+            } else if (min != null) {
+                Query priceQuery = idQuery.whereGreaterThanOrEqualTo("price", min.floatValue()).orderBy("price", Query.Direction.ASCENDING);
+                snapshot = Tasks.await(priceQuery.get());
+            } else {
+                snapshot = Tasks.await(idQuery.get());
 
-            QuerySnapshot snapshot = Tasks.await(finalQuery.get());
+            }
 
             for (DocumentSnapshot ds : snapshot.getDocuments()) {
                 products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brand").toString(),ds.getData()));
