@@ -10,6 +10,7 @@ import androidx.test.core.app.ApplicationProvider;
 
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,7 +41,12 @@ class UserRepositoryTest {
     static void setUp() {
         try {
             // Setup Firestore
-            FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext());
+            FirebaseApp.clearInstancesForTest();
+            FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext(), new FirebaseOptions.Builder().
+                    setApiKey("fakeApiKey").
+                    setApplicationId("fakeApplicationId").
+                    setProjectId("se306-project-2-team-9").
+                    build());
             firestore = FirebaseFirestore.getInstance();
             // Using local emulator, Read README.md for more info
             firestore.useEmulator("10.0.2.2", 8080);
@@ -78,6 +84,8 @@ class UserRepositoryTest {
             // Delete documents
             Tasks.await(firestore.collection("product").document("vwyuy5Ft4UAU67WBNfjv").delete());
             Tasks.await(firestore.collection("product").document("JTSj6g2d2hLWDqKPXYTC").delete());
+
+            FirebaseApp.clearInstancesForTest();
         } catch (ExecutionException | InterruptedException exception) {
             fail(exception);
         }
@@ -115,6 +123,7 @@ class UserRepositoryTest {
         @Test
         void testFavouritesEmpty() throws ExecutionException, InterruptedException {
             String userId = userRepository.signInAnonymously();
+            assertNotNull(userId);
 
             Map<String, Object> entry;
             entry = new HashMap<String, Object>() {{
@@ -130,6 +139,7 @@ class UserRepositoryTest {
         @Test
         void testAddFavourite() throws ExecutionException, InterruptedException {
             String userId = userRepository.signInAnonymously();
+            assertNotNull(userId);
 
             Map<String, Object> entry;
             entry = new HashMap<String, Object>() {{
