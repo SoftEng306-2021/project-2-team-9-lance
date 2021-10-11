@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import se306p2.view.R;
 import se306p2.view.activities.landingpage.LandingPageActivity;
@@ -22,14 +23,12 @@ public class MainActivity extends AppCompatActivity {
 
         splashLayout = (RelativeLayout) findViewById(R.id.splash_layout);
 
-        splashLayout.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, LandingPageActivity.class);
-                startActivity(intent);
-            }
+        MainViewModel model = new ViewModelProvider(this).get(MainViewModel.class);
+        model.getUser().observe(this, user -> {
+            Intent intent = new Intent(MainActivity.this, LandingPageActivity.class);
+            startActivity(intent);
+
         });
     }
-
 
 }
