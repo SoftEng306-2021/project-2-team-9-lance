@@ -27,7 +27,7 @@ public class MainViewModel extends ViewModel {
 
     public LiveData<String> getUser() {
         if (this.userId == null) {
-            this.userId = new MutableLiveData<String>();
+            this.userId = new MutableLiveData<>();
             signInAnonymously();
         }
         return this.userId;
