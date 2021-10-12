@@ -41,6 +41,7 @@ public class ProductTransformer {
         return map;
     }
 
+
     public static IProduct unpack(String productId, String brandName, Map<String, Object> map) {
 
         String categoryId, brandId = categoryId = "";
