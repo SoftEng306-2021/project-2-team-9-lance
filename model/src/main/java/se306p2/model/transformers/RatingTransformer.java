@@ -2,10 +2,7 @@ package se306p2.model.transformers;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import se306p2.domain.interfaces.entity.IBenefit;
 import se306p2.domain.interfaces.entity.IRating;
-import se306p2.model.entities.Benefit;
 import se306p2.model.entities.Rating;
 
 public class RatingTransformer {
