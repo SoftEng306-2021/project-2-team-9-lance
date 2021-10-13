@@ -20,7 +20,7 @@ jobs:
     - name: Decode google-services.json
       env: 
         FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
-      run: echo $FIREBASE_SECRET > /home/runner/work/project-2-team-9-lance/project-2-team-9-lance/model/google-services.json
+      run: echo $FIREBASE_SECRET > ./model/google-services.json
 
     - name: Set up Node.js 14
       uses: actions/setup-node@v2
