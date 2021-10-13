@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
         DefaultRepository.init(this);
         RepositoryRouter.init(null, CategoryRepository.getInstance(), ProductRepository.getInstance(), null, UserRepository.getInstance());
+
+
         String testGetUserId = new GetCurrentUserIdUseCase().getCurrentUserId();
         String testSignIn = new SignInAnonymouslyUseCase().signInAnonymously();
         System.out.println(testGetUserId);

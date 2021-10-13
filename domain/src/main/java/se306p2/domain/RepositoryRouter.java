@@ -16,7 +16,7 @@ public class RepositoryRouter {
     public static RepositoryRouter instance;
 
     private RepositoryRouter(IBrandRepository brandRepo, ICategoryRepository categoryRepo,
-            IProductRepository productRepo, IRatingRepository ratingRepo, IUserRepository userRepo) {
+                             IProductRepository productRepo, IRatingRepository ratingRepo, IUserRepository userRepo) {
         this.brandRepo = brandRepo;
         this.categoryRepo = categoryRepo;
         this.productRepo = productRepo;
@@ -25,8 +25,9 @@ public class RepositoryRouter {
     }
 
     public static RepositoryRouter init(IBrandRepository brandRepo, ICategoryRepository categoryRepo,
-            IProductRepository productRepo, IRatingRepository ratingRepo, IUserRepository userRepo) {
-        return new RepositoryRouter(brandRepo, categoryRepo, productRepo, ratingRepo, userRepo);
+                                        IProductRepository productRepo, IRatingRepository ratingRepo, IUserRepository userRepo) {
+        instance = new RepositoryRouter(brandRepo, categoryRepo, productRepo, ratingRepo, userRepo);
+        return instance;
     }
 
     private static void checkInstance() throws IllegalStateException {
