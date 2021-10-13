@@ -2,7 +2,6 @@ package se306p2.view.activities.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
@@ -14,21 +13,24 @@ import se306p2.view.activities.landingpage.LandingPageActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RelativeLayout splashLayout;
+    MainViewModel viewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
 
-        splashLayout = (RelativeLayout) findViewById(R.id.splash_layout);
+        RelativeLayout splashLayout = (RelativeLayout) findViewById(R.id.splash_layout);
 
-        MainViewModel model = new ViewModelProvider(this).get(MainViewModel.class);
-        model.getUser().observe(this, user -> {
+
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        viewModel.initData();
+
+        viewModel.getUser().observe(this, user -> {
             Intent intent = new Intent(MainActivity.this, LandingPageActivity.class);
             startActivity(intent);
-
         });
+
     }
 
 }
