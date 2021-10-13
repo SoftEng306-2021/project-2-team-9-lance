@@ -14,5 +14,10 @@ jobs:
         java-version: 11
         cache: 'gradle'
 
+    - name: Decode google-services.json
+      env: 
+        FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
+      run: echo $FIREBASE_SECRET > /home/runner/work/project-2-team-9-lance/project-2-team-9-lance/model/google-services.json
+
     - name: Build Lance Android
       run: ./gradlew build --no-daemon
