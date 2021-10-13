@@ -6,7 +6,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        api-level: [24, 26, 30]
+        api-level: [24, 31]
       fail-fast: false
     steps:
     - uses: actions/checkout@v2
@@ -59,4 +59,4 @@ jobs:
         api-level: ${{ matrix.api-level }}
         target: google_apis
         arch: x86_64
-        script: ./gradlew connectedCheck
+        script: ./gradlew connectedAndroidTest
