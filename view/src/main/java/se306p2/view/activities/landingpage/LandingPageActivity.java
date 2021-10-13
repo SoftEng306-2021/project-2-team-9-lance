@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,16 +25,16 @@ import se306p2.view.common.placeholders.placeholderEntities.PlaceholderCategory;
 public class LandingPageActivity extends AppCompatActivity {
     private static final String TAG = "LandingPageActivity";
 
-
-    private List<ICategory> categories = new ArrayList<>();
-    private List<IProduct> featuredList = new ArrayList<>();
+    LandingPageViewModel viewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.landing_page_view);
 
-        getData();
+        viewModel = new ViewModelProvider(this).get(LandingPageViewModel.class);
+
+        viewModel.loadPageData();
 
         initCategoryListRecyclerView();
         initFeaturedListRecyclerView();
@@ -46,34 +47,35 @@ public class LandingPageActivity extends AppCompatActivity {
         return true;
     }
 
-    private void getData() {
-        //TODO replace with getting real data later
-        categories.addAll(PlaceholderGenerator.getCategories());
-        featuredList.addAll(PlaceholderGenerator.getProducts());
-    }
-
     private void initCategoryListRecyclerView() {
         Log.d(TAG, "initCategoryListRecyclerView entered");
 
+        RecyclerView categoryRecyclerView = findViewById(R.id.category_list);
 
-        RecyclerView recyclerView = findViewById(R.id.category_list);
+        viewModel.getCategories().observe(this, categories -> {
+            CategoryItemRecyclerViewAdapter adapter = new CategoryItemRecyclerViewAdapter(this, categories);
 
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(manager);
+            LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            categoryRecyclerView.setLayoutManager(manager);
 
-        CategoryItemRecyclerViewAdapter adapter = new CategoryItemRecyclerViewAdapter(this, categories);
-        recyclerView.setAdapter(adapter);
+            categoryRecyclerView.setAdapter(adapter);
+        });
     }
 
     private void initFeaturedListRecyclerView() {
         Log.d(TAG, "initFeaturedListRecyclerView entered");
 
-        RecyclerView recyclerView = findViewById(R.id.featured_list);
+        RecyclerView featuredRecyclerView = findViewById(R.id.featured_list);
 
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(manager);
+        viewModel.getFeaturedProducts().observe(this, featuredProducts -> {
+            ProductItemRecyclerViewAdapter adapter = new ProductItemRecyclerViewAdapter(this, featuredProducts);
 
-        ProductItemRecyclerViewAdapter adapter = new ProductItemRecyclerViewAdapter(this, featuredList);
-        recyclerView.setAdapter(adapter);
+            LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            featuredRecyclerView.setLayoutManager(manager);
+
+            featuredRecyclerView.setAdapter(adapter);
+        });
     }
+
+
 }
