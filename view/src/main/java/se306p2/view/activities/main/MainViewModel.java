@@ -10,8 +10,8 @@ import se306p2.domain.usecase.GetCurrentUserIdUseCase;
 import se306p2.domain.usecase.SignInAnonymouslyUseCase;
 
 public class MainViewModel extends ViewModel {
-    IGetCurrentUserIdUseCase getCurrentUserIdUseCase = new GetCurrentUserIdUseCase();
-    ISignInAnonymouslyUseCase signInAnonymouslyUseCase = new SignInAnonymouslyUseCase();
+    IGetCurrentUserIdUseCase getCurrentUserIdUseCase;
+    ISignInAnonymouslyUseCase signInAnonymouslyUseCase;
 
     private MutableLiveData<String> userId; //this gets observed by MainActivityView
 
