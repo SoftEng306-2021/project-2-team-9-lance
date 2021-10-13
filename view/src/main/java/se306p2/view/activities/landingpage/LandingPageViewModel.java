@@ -3,7 +3,7 @@ package se306p2.view.activities.landingpage;
 import android.content.Intent;
 import android.util.Log;
 
-import androidx.databinding.Bindable;
+//import androidx.databinding.Bindable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -41,7 +41,7 @@ public class LandingPageViewModel extends ViewModel {
     /**
      * Two way binding with text field in the search bar
      */
-    @Bindable
+//    @Bindable
     private MutableLiveData<String> searchTerm;
 
     public LandingPageViewModel() {

@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -29,7 +30,10 @@ import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.view.R;
 import se306p2.view.activities.landingpage.LandingPageViewModel;
 import se306p2.view.common.adapters.ProductItemRecyclerViewAdapter;
+import se306p2.view.common.helper.FormatConverter;
 import se306p2.view.common.placeholders.PlaceholderGenerator;
+import se306p2.view.databinding.BrowseProductsViewBinding;
+
 
 public class BrowseProductActivity extends AppCompatActivity {
     private static final String TAG = "BrowseProductActivity";
@@ -41,6 +45,8 @@ public class BrowseProductActivity extends AppCompatActivity {
     private List<IProduct> productList = new ArrayList<>();
 
     private float startY;
+
+    private BrowseProductsViewBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,19 +79,25 @@ public class BrowseProductActivity extends AppCompatActivity {
 
     private void createPriceSpinner() {
         Spinner priceSpinner = (Spinner) findViewById(R.id.priceFilter);
-        String[] prices = {"$0 - $49", "$50 - $149", "$150 - $299", "$299+"};
-        ArrayAdapter<CharSequence> priceAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, prices);
+        String[] priceBrackets = viewModel.getPriceBrackets();
+
+        ArrayAdapter<CharSequence> priceAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, priceBrackets);
         priceAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         priceSpinner.setAdapter(priceAdapter);
+
+        priceSpinner.setOnItemSelectedListener(new PriceSpinnerClass());
     }
 
     private void createBrandSpinner() {
+        String[] spinnerBrands = FormatConverter.ConvertBrandsToStringArr(viewModel.getBrands());
 
         Spinner brandSpinner = (Spinner) findViewById(R.id.brandFilter);
-        String[] years = {"Apple", "Pear", "Watermelon"};
-        ArrayAdapter<CharSequence> brandAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, years);
+
+        ArrayAdapter<CharSequence> brandAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, spinnerBrands);
         brandAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         brandSpinner.setAdapter(brandAdapter);
+
+        brandSpinner.setOnItemSelectedListener(new BrandSpinnerClass());
     }
 
     private void initProductsRecyclerView() {
@@ -132,5 +144,27 @@ public class BrowseProductActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    class PriceSpinnerClass implements AdapterView.OnItemSelectedListener {
+        public void onItemSelected(AdapterView<?> parent, View v, int position, long id ) {
+            viewModel.setPriceRangeSelected(position);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+            viewModel.setPriceRangeSelected(0);
+        }
+    }
+
+    class BrandSpinnerClass implements AdapterView.OnItemSelectedListener {
+        public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+            viewModel.setBrandSelected(position);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+            viewModel.setBrandSelected(0);
+        }
     }
 }
