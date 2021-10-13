@@ -41,7 +41,7 @@ public class LandingPageViewModel extends ViewModel {
     /**
      * Two way binding with text field in the search bar
      */
-    @Bindable
+    //@Bindable
     private MutableLiveData<String> searchTerm;
 
     public LandingPageViewModel() {

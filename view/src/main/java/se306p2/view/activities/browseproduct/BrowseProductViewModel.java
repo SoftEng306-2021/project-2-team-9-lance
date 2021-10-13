@@ -35,7 +35,7 @@ public class BrowseProductViewModel extends ViewModel {
         //load products
     }
 
-    public void loadProducts(String categoryId, ) {
+    public void loadProducts(String categoryId) {
         //load produx
 
     }
