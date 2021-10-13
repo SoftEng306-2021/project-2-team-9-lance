@@ -1,5 +1,6 @@
 package se306p2.view.activities.landingpage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import java.util.List;
 import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.view.R;
+import se306p2.view.activities.browseproduct.BrowseProductActivity;
 import se306p2.view.activities.landingpage.adapters.CategoryItemRecyclerViewAdapter;
 import se306p2.view.common.adapters.ProductItemRecyclerViewAdapter;
 import se306p2.view.common.placeholders.PlaceholderGenerator;
@@ -76,6 +78,5 @@ public class LandingPageActivity extends AppCompatActivity {
             featuredRecyclerView.setAdapter(adapter);
         });
     }
-
 
 }

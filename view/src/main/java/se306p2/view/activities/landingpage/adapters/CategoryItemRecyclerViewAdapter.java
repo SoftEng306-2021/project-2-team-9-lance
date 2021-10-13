@@ -19,11 +19,11 @@ import java.util.List;
 import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.view.R;
 import se306p2.view.activities.browseproduct.BrowseProductActivity;
+import se306p2.view.activities.landingpage.LandingPageViewModel;
 import se306p2.view.activities.productdetail.ProductDetailActivity;
 
 
 public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<CategoryItemRecyclerViewAdapter.ViewHolder> {
-
     private static final String TAG = "CategoryItemRecyclerViewAdapter";
 
     private List<ICategory> categories;
@@ -46,12 +46,14 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBinderViewHolder entered");
 
+        ICategory currentCategory = categories.get(position);
+
         Glide.with(context)
                 .asBitmap()
-                .load(categories.get(position).getImageURI())
+                .load(currentCategory.getImageURI())
                 .into(holder.categoryImage);
 
-        holder.categoryName.setText(categories.get(position).getName());
+        holder.categoryName.setText(currentCategory.getName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +62,8 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
                 Log.d(TAG, "onBinderViewHolder, image clicked");
 
                 Intent intent = new Intent(context, BrowseProductActivity.class);
+                intent.putExtra("categoryName", currentCategory.getName());
+                intent.putExtra("categoryId", currentCategory.getId());
                 context.startActivity(intent);
             }
         });
@@ -79,6 +83,7 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
             categoryImage = itemView.findViewById(R.id.category_icon);
             categoryName = itemView.findViewById(R.id.category_icon_name);
         }
-
     }
+
+
 }

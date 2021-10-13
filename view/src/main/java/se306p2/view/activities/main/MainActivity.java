@@ -27,10 +27,15 @@ public class MainActivity extends AppCompatActivity {
         viewModel.initData();
 
         viewModel.getUser().observe(this, user -> {
-            Intent intent = new Intent(MainActivity.this, LandingPageActivity.class);
-            startActivity(intent);
+            toLandingPage();
         });
 
+    }
+
+    private void toLandingPage() {
+        //
+        Intent intent = new Intent(this, LandingPageActivity.class);
+        startActivity(intent);
     }
 
 }
