@@ -47,8 +47,8 @@ public class ProductRepositoryTest {
             // Setup Firestore
             FirebaseApp.clearInstancesForTest();
             FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext(), new FirebaseOptions.Builder().
-                    setApiKey("apiKey").
-                    setApplicationId("applicationId").
+                    setApiKey("fakeApiKey").
+                    setApplicationId("fakeApplicationId").
                     setProjectId("se306-project-2-team-9").
                     build());
             firestore = FirebaseFirestore.getInstance();
@@ -265,8 +265,19 @@ public class ProductRepositoryTest {
             Tasks.await(firestore.collection("brand").document("zB8vZBerKRPJTSeVbyTm").delete());
 
             Tasks.await(firestore.collection("product").document("BUVdXxq9sEZfPurxGT5c").delete());
+            Tasks.await(firestore.collection("product").document("BUVdXxq9sEZfPurxGT5c").collection("benefits").document("E9RW7WJh7w8GVWbPTyGs").delete());
+            Tasks.await(firestore.collection("product").document("BUVdXxq9sEZfPurxGT5c").collection("productVersion").document("7QccHbnF6wLg8wvzpRdA").delete());
+
             Tasks.await(firestore.collection("product").document("QNpwXLxL7SmpQWmfqUtg").delete());
+            Tasks.await(firestore.collection("product").document("QNpwXLxL7SmpQWmfqUtg").collection("benefits").document("7qPjyB2TtYYcf54fhTYB").delete());
+            Tasks.await(firestore.collection("product").document("QNpwXLxL7SmpQWmfqUtg").collection("productVersion").document("2zCtLeM4wR7AUcPQh98T").delete());
+            Tasks.await(firestore.collection("product").document("QNpwXLxL7SmpQWmfqUtg").collection("productVersion").document("KVdN8a4xAvCxTB8CUp3x").delete());
+
             Tasks.await(firestore.collection("product").document("eX6dyFbyDYMV5ArNS6gx").delete());
+            Tasks.await(firestore.collection("product").document("eX6dyFbyDYMV5ArNS6gx").collection("benefits").document("EPkt2Bx83jb4yd7xX8Zx").delete());
+            Tasks.await(firestore.collection("product").document("eX6dyFbyDYMV5ArNS6gx").collection("benefits").document("wJsVCcCfVVKdWWA5dGma").delete());
+            Tasks.await(firestore.collection("product").document("eX6dyFbyDYMV5ArNS6gx").collection("productVersion").document("qt3KMwbQqHdq68SH4T4D").delete());
+
 
             FirebaseApp.clearInstancesForTest();
         } catch (ExecutionException | InterruptedException exception) {
