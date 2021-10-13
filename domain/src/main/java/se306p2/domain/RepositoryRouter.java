@@ -5,11 +5,6 @@ import se306p2.domain.interfaces.repositories.ICategoryRepository;
 import se306p2.domain.interfaces.repositories.IProductRepository;
 import se306p2.domain.interfaces.repositories.IRatingRepository;
 import se306p2.domain.interfaces.repositories.IUserRepository;
-import se306p2.model.entities.Category;
-import se306p2.model.repository.CategoryRepository;
-import se306p2.model.repository.ProductRepository;
-import se306p2.model.repository.RatingRepository;
-import se306p2.model.repository.UserRepository;
 
 public class RepositoryRouter {
     private IBrandRepository brandRepo;
@@ -29,13 +24,9 @@ public class RepositoryRouter {
         this.userRepo = userRepo;
     }
 
-    public static RepositoryRouter init() {
-        return new RepositoryRouter(
-                null,
-                CategoryRepository.getInstance(),
-                ProductRepository.getInstance(),
-                RatingRepository.getInstance(),
-                UserRepository.getInstance());
+    public static RepositoryRouter init(IBrandRepository brandRepo, ICategoryRepository categoryRepo,
+            IProductRepository productRepo, IRatingRepository ratingRepo, IUserRepository userRepo) {
+        return new RepositoryRouter(brandRepo, categoryRepo, productRepo, ratingRepo, userRepo);
     }
 
     private static void checkInstance() throws IllegalStateException {
