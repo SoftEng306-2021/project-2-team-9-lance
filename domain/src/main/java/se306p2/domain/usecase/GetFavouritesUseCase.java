@@ -9,11 +9,19 @@ import se306p2.domain.interfaces.usecase.IGetFavouritesUseCase;
 public class GetFavouritesUseCase implements IGetFavouritesUseCase {
     public Single<Set<String>> getFavourites() {
         return Single.create(emitter -> {
-            try {
-                emitter.onSuccess(RepositoryRouter.getUserRepository().favourites());
-            } catch (Exception e) {
-                emitter.onError(e);
-            }
+            Thread thread = new Thread(() -> {
+                try {
+                    Set<String> favourites = RepositoryRouter.getUserRepository().favourites();
+                    if (favourites == null) {
+                        emitter.onError(new NullPointerException());
+                        return;
+                    }
+                    emitter.onSuccess(favourites);
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            });
+            thread.start();
         });
     }
 }

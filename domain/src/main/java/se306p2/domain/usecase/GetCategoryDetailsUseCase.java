@@ -10,11 +10,19 @@ import se306p2.domain.interfaces.usecase.IGetCategoryDetailsUseCase;
 public class GetCategoryDetailsUseCase implements IGetCategoryDetailsUseCase {
     public Single<List<ICategory>> getCategoryDetails() {
         return Single.create(emitter -> {
-            try {
-                emitter.onSuccess(RepositoryRouter.getCategoryRepository().getCategories());
-            } catch (Exception e) {
-                emitter.onError(e);
-            }
+            Thread thread = new Thread(() -> {
+                try {
+                    List<ICategory> categories = RepositoryRouter.getCategoryRepository().getCategories();
+                    if (categories == null) {
+                        emitter.onError(new NullPointerException());
+                        return;
+                    }
+                    emitter.onSuccess(categories);
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            });
+            thread.start();
         });
     }
 }

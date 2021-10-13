@@ -10,11 +10,19 @@ import se306p2.domain.interfaces.usecase.IGetFeaturedProductsUseCase;
 public class GetFeaturedProductsUseCase implements IGetFeaturedProductsUseCase {
     public Single<List<IProduct>> getFeaturedProducts() {
         return Single.create(emitter -> {
-            try {
-                emitter.onSuccess(RepositoryRouter.getProductRepository().getFeaturedProducts());
-            } catch (Exception e) {
-                emitter.onError(e);
-            }
+            Thread thread = new Thread(() -> {
+                try {
+                    List<IProduct> products = RepositoryRouter.getProductRepository().getFeaturedProducts();
+                    if (products == null) {
+                        emitter.onError(new NullPointerException());
+                        return;
+                    }
+                    emitter.onSuccess(products);
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            });
+            thread.start();
         });
     }
 }

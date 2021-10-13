@@ -10,11 +10,19 @@ import se306p2.domain.interfaces.usecase.IGetBenefitsUseCase;
 public class GetBenefitsUseCase implements IGetBenefitsUseCase {
     public Single<List<IBenefit>> getBenefits(String productId) {
         return Single.create(emitter -> {
-            try {
-                emitter.onSuccess(RepositoryRouter.getProductRepository().getBenefits(productId));
-            } catch (Exception e) {
-                emitter.onError(e);
-            }
+            Thread thread = new Thread(() -> {
+                try {
+                    List<IBenefit> benefits = RepositoryRouter.getProductRepository().getBenefits(productId);
+                    if (benefits == null) {
+                        emitter.onError(new NullPointerException());
+                        return;
+                    }
+                    emitter.onSuccess(benefits);
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            });
+            thread.start();
         });
     }
 }

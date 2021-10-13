@@ -8,11 +8,19 @@ import se306p2.domain.interfaces.usecase.IGetProductUseCase;
 public class GetProductUseCase implements IGetProductUseCase {
     public Single<IProduct> getProduct(String productId) {
         return Single.create(emitter -> {
-            try {
-                emitter.onSuccess(RepositoryRouter.getProductRepository().getProductById(productId));
-            } catch (Exception e) {
-                emitter.onError(e);
-            }
+            Thread thread = new Thread(() -> {
+                try {
+                    IProduct product = RepositoryRouter.getProductRepository().getProductById(productId);
+                    if (product == null) {
+                        emitter.onError(new NullPointerException());
+                        return;
+                    }
+                    emitter.onSuccess(product);
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            });
+            thread.start();
         });
     }
 }

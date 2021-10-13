@@ -8,6 +8,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.List;
+
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.observers.DisposableSingleObserver;
 import se306p2.domain.RepositoryRouter;
 import se306p2.domain.interfaces.repositories.IBrandRepository;
 import se306p2.domain.interfaces.usecase.IGetCurrentUserIdUseCase;
@@ -23,10 +28,12 @@ import se306p2.model.repository.UserRepository;
 public class MainViewModel extends ViewModel {
     private static final String TAG = "MainViewModel";
 
-    IGetCurrentUserIdUseCase getCurrentUserIdUseCase;
-    ISignInAnonymouslyUseCase signInAnonymouslyUseCase;
+    private IGetCurrentUserIdUseCase getCurrentUserIdUseCase;
+    private ISignInAnonymouslyUseCase signInAnonymouslyUseCase;
 
     private MutableLiveData<String> userId; //this gets observed by MainActivityView
+
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     public MainViewModel() {
         this.getCurrentUserIdUseCase = new GetCurrentUserIdUseCase();
@@ -51,6 +58,10 @@ public class MainViewModel extends ViewModel {
         );
     }
 
+    public void dispose() {
+        this.disposables.dispose();
+    }
+
     public LiveData<String> getUser() {
         if (this.userId == null) {
             this.userId = new MutableLiveData<>();
@@ -60,12 +71,19 @@ public class MainViewModel extends ViewModel {
     }
 
     private void signInAnonymously() {
-        String currentUserId = getCurrentUserIdUseCase.getCurrentUserId();
+        Single<String> currentUserId = getCurrentUserIdUseCase.getCurrentUserId();
+        this.disposables.add(currentUserId.subscribeWith(new DisposableSingleObserver<String>() {
+            @Override
+            public void onSuccess(String id) {
+                userId.postValue(id);
+            }
 
-        if (currentUserId == null) {
-            currentUserId = signInAnonymouslyUseCase.signInAnonymously();
-        }
-
-        this.userId.postValue(currentUserId);
+            @Override
+            public void onError(Throwable e) {
+                signInAnonymouslyUseCase.signInAnonymously().doOnSuccess(id -> {
+                    userId.postValue(id);
+                });
+            }
+        }));
     }
 }

@@ -9,11 +9,19 @@ import se306p2.domain.interfaces.usecase.IGetMinPriceUseCase;
 public class GetMinPriceUseCase implements IGetMinPriceUseCase {
     public Single<BigDecimal> getMinPrice(String categoryId) {
         return Single.create(emitter -> {
-            try {
-                emitter.onSuccess(RepositoryRouter.getCategoryRepository().getMinPrice(categoryId));
-            } catch (Exception e) {
-                emitter.onError(e);
-            }
+            Thread thread = new Thread(() -> {
+                try {
+                    BigDecimal price = RepositoryRouter.getCategoryRepository().getMinPrice(categoryId);
+                    if (price == null) {
+                        emitter.onError(new NullPointerException());
+                        return;
+                    }
+                    emitter.onSuccess(price);
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            });
+            thread.start();
         });
     }
 }

@@ -9,11 +9,19 @@ import se306p2.domain.interfaces.usecase.IGetMaxPriceUseCase;
 public class GetMaxPriceUseCase implements IGetMaxPriceUseCase {
     public Single<BigDecimal> getMaxPrice(String categoryId) {
         return Single.create(emitter -> {
-            try {
-                emitter.onSuccess(RepositoryRouter.getCategoryRepository().getMaxPrice(categoryId));
-            } catch (Exception e) {
-                emitter.onError(e);
-            }
+            Thread thread = new Thread(() -> {
+                try {
+                    BigDecimal price = RepositoryRouter.getCategoryRepository().getMaxPrice(categoryId);
+                    if (price == null) {
+                        emitter.onError(new NullPointerException());
+                        return;
+                    }
+                    emitter.onSuccess(price);
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            });
+            thread.start();
         });
     }
 }

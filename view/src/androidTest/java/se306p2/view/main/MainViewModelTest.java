@@ -31,6 +31,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import io.reactivex.rxjava3.core.Single;
 import se306p2.domain.interfaces.usecase.IGetCurrentUserIdUseCase;
 import se306p2.domain.interfaces.usecase.ISignInAnonymouslyUseCase;
 import se306p2.domain.usecase.GetCurrentUserIdUseCase;
@@ -81,10 +82,10 @@ class MainViewModelTest {
 
     @Test
     public void testUserNotExist() {
-        when(getCurrentUserIdUseCase.getCurrentUserId()).thenReturn(null);
+        when(getCurrentUserIdUseCase.getCurrentUserId()).thenReturn(Single.error(new NullPointerException()));
 
         String expectedId = "expectedId";
-        when(signInAnonymouslyUseCase.signInAnonymously()).thenReturn(expectedId);
+        when(signInAnonymouslyUseCase.signInAnonymously()).thenReturn(Single.just(expectedId));
 
         assertNotNull(viewModel.getUser());
         viewModel.getUser().observeForever(observer);
@@ -95,7 +96,7 @@ class MainViewModelTest {
     @Test
     public void testUserExisting() {
         String expectedId = "expectedId";
-        when(getCurrentUserIdUseCase.getCurrentUserId()).thenReturn(expectedId);
+        when(getCurrentUserIdUseCase.getCurrentUserId()).thenReturn(Single.just(expectedId));
 
         assertNotNull(viewModel.getUser());
         viewModel.getUser().observeForever(observer);

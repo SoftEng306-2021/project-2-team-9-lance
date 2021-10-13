@@ -7,11 +7,19 @@ import se306p2.domain.interfaces.usecase.IGetCurrentUserIdUseCase;
 public class GetCurrentUserIdUseCase implements IGetCurrentUserIdUseCase {
     public Single<String> getCurrentUserId() {
         return Single.create(emitter -> {
-            try {
-                emitter.onSuccess(RepositoryRouter.getUserRepository().getCurrentUserId());
-            } catch (Exception e) {
-                emitter.onError(e);
-            }
+            Thread thread = new Thread(() -> {
+                try {
+                    String currentUserId = RepositoryRouter.getUserRepository().getCurrentUserId();
+                    if (currentUserId == null) {
+                        emitter.onError(new NullPointerException());
+                        return;
+                    }
+                    emitter.onSuccess(currentUserId);
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            });
+            thread.start();
         });
     }
 }

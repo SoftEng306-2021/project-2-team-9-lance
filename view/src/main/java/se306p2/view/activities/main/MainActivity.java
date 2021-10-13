@@ -29,7 +29,12 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getUser().observe(this, user -> {
             toLandingPage();
         });
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        viewModel.dispose();
     }
 
     private void toLandingPage() {

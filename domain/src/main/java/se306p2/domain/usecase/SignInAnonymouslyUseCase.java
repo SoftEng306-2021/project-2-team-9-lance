@@ -7,11 +7,19 @@ import se306p2.domain.interfaces.usecase.ISignInAnonymouslyUseCase;
 public class SignInAnonymouslyUseCase implements ISignInAnonymouslyUseCase {
     public Single<String> signInAnonymously() {
         return Single.create(emitter -> {
-            try {
-                emitter.onSuccess(RepositoryRouter.getUserRepository().signInAnonymously());
-            } catch (Exception e) {
-                emitter.onError(e);
-            }
+            Thread thread = new Thread(() -> {
+                try {
+                    String id = RepositoryRouter.getUserRepository().signInAnonymously();
+                    if (id == null) {
+                        emitter.onError(new NullPointerException());
+                        return;
+                    }
+                    emitter.onSuccess(id);
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            });
+            thread.start();
         });
     }
 }

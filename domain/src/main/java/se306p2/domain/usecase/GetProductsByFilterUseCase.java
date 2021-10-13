@@ -11,11 +11,19 @@ import se306p2.domain.interfaces.usecase.IGetProductsByFilterUseCase;
 public class GetProductsByFilterUseCase implements IGetProductsByFilterUseCase {
     public Single<List<IProduct>> getProductsByFilter(String categoryId, String brandId, BigDecimal min, BigDecimal max) {
         return Single.create(emitter -> {
-            try {
-                emitter.onSuccess(RepositoryRouter.getProductRepository().getProductsByFilter(categoryId, brandId, min, max));
-            } catch (Exception e) {
-                emitter.onError(e);
-            }
+            Thread thread = new Thread(() -> {
+                try {
+                    List<IProduct> products = RepositoryRouter.getProductRepository().getProductsByFilter(categoryId, brandId, min, max);
+                    if (products == null) {
+                        emitter.onError(new NullPointerException());
+                        return;
+                    }
+                    emitter.onSuccess(products);
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            });
+            thread.start();
         });
     }
 }

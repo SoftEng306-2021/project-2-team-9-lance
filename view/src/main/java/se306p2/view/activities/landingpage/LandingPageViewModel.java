@@ -11,6 +11,9 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.observers.DisposableSingleObserver;
 import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.usecase.IGetCategoryDetailsUseCase;
@@ -28,16 +31,18 @@ import se306p2.view.activities.browseproduct.BrowseProductActivity;
 public class LandingPageViewModel extends ViewModel {
     private static final String TAG = "LandingPageActivity";
 
-    IGetFeaturedProductsUseCase getFeaturedProductsUseCase;
-    IGetCategoryDetailsUseCase getCategoryDetailsUseCase;
-    ISearchAutoCompleteUseCase searchAutoCompleteUseCase;
-    ISearchProductsUseCase searchProductsUseCase;
-    IGetFavouritesUseCase getFavouritesUseCase;
+    private IGetFeaturedProductsUseCase getFeaturedProductsUseCase;
+    private IGetCategoryDetailsUseCase getCategoryDetailsUseCase;
+    private ISearchAutoCompleteUseCase searchAutoCompleteUseCase;
+    private ISearchProductsUseCase searchProductsUseCase;
+    private IGetFavouritesUseCase getFavouritesUseCase;
 
-    private LiveData<List<ICategory>> categories;
-    private LiveData<List<IProduct>> featuredProducts;
+    private MutableLiveData<List<ICategory>> categories;
+    private MutableLiveData<List<IProduct>> featuredProducts;
     private MutableLiveData<List<String>> autoCompleteStrings;
-    private LiveData<List<IProduct>> searchResults;
+    private MutableLiveData<List<IProduct>> searchResults;
+
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     /**
      * Two way binding with text field in the search bar
@@ -67,14 +72,31 @@ public class LandingPageViewModel extends ViewModel {
         this.getFavouritesUseCase = getFavouritesUseCase;
     }
 
+    public void dispose() {
+        this.disposables.dispose();
+    }
+
     public void loadPageData() {
         Log.d(TAG, "loadPageData entered");
 
-        categories = new MutableLiveData(getCategoryDetailsUseCase.getCategoryDetails());
+        this.categories = new MutableLiveData<List<ICategory>>();
+        Single<List<ICategory>> categoryDetails = getCategoryDetailsUseCase.getCategoryDetails();
+        this.disposables.add(categoryDetails.subscribeWith(new DisposableSingleObserver<List<ICategory>>() {
+            @Override
+            public void onSuccess(List<ICategory> categoryDetail) {
+                categories.postValue(categoryDetail);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                // Handle error
+            }
+        }));
+
         //featuredProducts = new MutableLiveData(getFeaturedProductsUseCase.getFeaturedProducts());
-        featuredProducts = new MutableLiveData(new ArrayList<IProduct>());
-        autoCompleteStrings = new MutableLiveData<>();
-        searchResults = new MutableLiveData<>();
+        this.featuredProducts = new MutableLiveData(new ArrayList<IProduct>());
+        this.autoCompleteStrings = new MutableLiveData<>();
+        this.searchResults = new MutableLiveData<>();
     }
 
     public LiveData<List<ICategory>> getCategories() {
