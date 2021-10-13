@@ -1,10 +1,17 @@
 package se306p2.domain.usecase;
 
+import io.reactivex.rxjava3.core.Single;
 import se306p2.domain.RepositoryRouter;
 import se306p2.domain.interfaces.usecase.ISignInAnonymouslyUseCase;
 
 public class SignInAnonymouslyUseCase implements ISignInAnonymouslyUseCase {
-    public String signInAnonymously() {
-        return RepositoryRouter.getUserRepository().signInAnonymously();
+    public Single<String> signInAnonymously() {
+        return Single.create(emitter -> {
+            try {
+                emitter.onSuccess(RepositoryRouter.getUserRepository().signInAnonymously());
+            } catch (Exception e) {
+                emitter.onError(e);
+            }
+        });
     }
 }
