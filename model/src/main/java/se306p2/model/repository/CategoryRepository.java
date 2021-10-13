@@ -42,7 +42,7 @@ public class CategoryRepository implements ICategoryRepository {
                 categories.add(CategoryTransformer.unpack(ds.getId(), ds.getData()));
             }
             return categories;
-        } catch (ExecutionException | InterruptedException ex) {
+        } catch (ExecutionException | InterruptedException | IllegalStateException ex) {
             ex.printStackTrace();
             return null;
         }

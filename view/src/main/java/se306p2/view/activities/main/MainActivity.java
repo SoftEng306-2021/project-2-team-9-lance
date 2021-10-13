@@ -8,16 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import se306p2.domain.RepositoryRouter;
-import se306p2.domain.usecase.GetCurrentUserIdUseCase;
-import se306p2.domain.usecase.SignInAnonymouslyUseCase;
-import se306p2.model.repository.CategoryRepository;
-import se306p2.model.repository.DefaultRepository;
-import se306p2.model.repository.ProductRepository;
-import se306p2.model.repository.UserRepository;
 import se306p2.view.R;
 import se306p2.view.activities.landingpage.LandingPageActivity;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,17 +22,9 @@ public class MainActivity extends AppCompatActivity {
 
         RelativeLayout splashLayout = (RelativeLayout) findViewById(R.id.splash_layout);
 
-        DefaultRepository.init(this);
-        RepositoryRouter.init(null, CategoryRepository.getInstance(), ProductRepository.getInstance(), null, UserRepository.getInstance());
-
-
-        String testGetUserId = new GetCurrentUserIdUseCase().getCurrentUserId();
-        String testSignIn = new SignInAnonymouslyUseCase().signInAnonymously();
-        System.out.println(testGetUserId);
-        System.out.println(testSignIn);
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        viewModel.initData();
+        viewModel.initData(this);
 
         viewModel.getUser().observe(this, user -> {
             toLandingPage();

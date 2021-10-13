@@ -1,7 +1,9 @@
 package se306p2.view.activities.main;
 
+import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -13,6 +15,7 @@ import se306p2.domain.interfaces.usecase.ISignInAnonymouslyUseCase;
 import se306p2.domain.usecase.GetCurrentUserIdUseCase;
 import se306p2.domain.usecase.SignInAnonymouslyUseCase;
 import se306p2.model.repository.CategoryRepository;
+import se306p2.model.repository.DefaultRepository;
 import se306p2.model.repository.ProductRepository;
 import se306p2.model.repository.RatingRepository;
 import se306p2.model.repository.UserRepository;
@@ -35,14 +38,15 @@ public class MainViewModel extends ViewModel {
         this.signInAnonymouslyUseCase = signInAnonymouslyUseCase;
     }
 
-    public void initData() {
+    public void initData(@NonNull Context context) {
         Log.d(TAG, "++++++++++++initData entered");
 
+        DefaultRepository.init(context);
         RepositoryRouter.init(
                         null,
                         CategoryRepository.getInstance(),
                         ProductRepository.getInstance(),
-                        RatingRepository.getInstance(),
+                        null,
                         UserRepository.getInstance()
         );
     }

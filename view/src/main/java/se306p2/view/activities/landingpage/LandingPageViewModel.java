@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import se306p2.domain.interfaces.entity.ICategory;
@@ -70,7 +71,8 @@ public class LandingPageViewModel extends ViewModel {
         Log.d(TAG, "loadPageData entered");
 
         categories = new MutableLiveData(getCategoryDetailsUseCase.getCategoryDetails());
-        featuredProducts = new MutableLiveData(getFeaturedProductsUseCase.getFeaturedProducts());
+        //featuredProducts = new MutableLiveData(getFeaturedProductsUseCase.getFeaturedProducts());
+        featuredProducts = new MutableLiveData(new ArrayList<IProduct>());
         autoCompleteStrings = new MutableLiveData<>();
         searchResults = new MutableLiveData<>();
     }
