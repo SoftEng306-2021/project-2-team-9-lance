@@ -74,6 +74,8 @@ dependencies {
 
     androidTestImplementation "org.mockito:mockito-android:2.25.0"
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+
+    implementation "io.grpc:grpc-okhttp:1.41.0"
 }
 
 apply plugin: 'com.google.gms.google-services'
