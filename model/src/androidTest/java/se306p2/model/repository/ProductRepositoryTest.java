@@ -47,8 +47,8 @@ public class ProductRepositoryTest {
             // Setup Firestore
             FirebaseApp.clearInstancesForTest();
             FirebaseApp.initializeApp(ApplicationProvider.getApplicationContext(), new FirebaseOptions.Builder().
-                    setApiKey("apiKey").
-                    setApplicationId("applicationId").
+                    setApiKey("fakeApiKey").
+                    setApplicationId("fakeApplicationId").
                     setProjectId("se306-project-2-team-9").
                     build());
             firestore = FirebaseFirestore.getInstance();
