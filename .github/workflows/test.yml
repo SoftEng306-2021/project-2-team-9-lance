@@ -22,10 +22,15 @@ jobs:
           java-version: 11
           cache: 'gradle'
 
-      - name: Decode google-services.json
+      - name: Decode model google-services.json
         env:
           FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
         run: echo $FIREBASE_SECRET > ./model/google-services.json
+
+      - name: Decode view google-services.json
+        env:
+          FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
+        run: echo $FIREBASE_SECRET > ./view/google-services.json
 
       - name: Set up Node.js 14
         uses: actions/setup-node@v2
