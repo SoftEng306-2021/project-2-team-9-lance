@@ -49,7 +49,6 @@ public class UserRepository implements IUserRepository {
             AuthResult result = Tasks.await(mAuth.signInAnonymously());
             return result.getUser().getUid();
         } catch (ExecutionException | InterruptedException e) {
-
             e.printStackTrace();
             return null;
         }
