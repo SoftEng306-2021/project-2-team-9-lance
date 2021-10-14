@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,6 +40,7 @@ public class BrowseProductActivity extends AppCompatActivity {
     private static final String TAG = "BrowseProductActivity";
 
     private BrowseProductViewModel viewModel;
+    private BrowseProductsViewBinding binding;
 
     private String categoryId;
     private String categoryName;
@@ -46,12 +48,14 @@ public class BrowseProductActivity extends AppCompatActivity {
 
     private float startY;
 
-    private BrowseProductsViewBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.browse_products_view);
+
+        binding = DataBindingUtil.bind(findViewById(R.id.brandFilter));
+        binding.setViewModel(viewModel);
 
         createPriceSpinner();
         createBrandSpinner();
@@ -85,7 +89,7 @@ public class BrowseProductActivity extends AppCompatActivity {
         priceAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         priceSpinner.setAdapter(priceAdapter);
 
-        priceSpinner.setOnItemSelectedListener(new PriceSpinnerClass());
+//        priceSpinner.setOnItemSelectedListener(new PriceSpinnerClass());
     }
 
     private void createBrandSpinner() {
@@ -97,7 +101,7 @@ public class BrowseProductActivity extends AppCompatActivity {
         brandAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         brandSpinner.setAdapter(brandAdapter);
 
-        brandSpinner.setOnItemSelectedListener(new BrandSpinnerClass());
+//        brandSpinner.setOnItemSelectedListener(new BrandSpinnerClass());
     }
 
     private void initProductsRecyclerView() {
@@ -146,25 +150,25 @@ public class BrowseProductActivity extends AppCompatActivity {
 
     }
 
-    class PriceSpinnerClass implements AdapterView.OnItemSelectedListener {
-        public void onItemSelected(AdapterView<?> parent, View v, int position, long id ) {
-            viewModel.setPriceRangeSelected(position);
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> adapterView) {
-            viewModel.setPriceRangeSelected(0);
-        }
-    }
-
-    class BrandSpinnerClass implements AdapterView.OnItemSelectedListener {
-        public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-            viewModel.setBrandSelected(position);
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> adapterView) {
-            viewModel.setBrandSelected(0);
-        }
-    }
+//    class PriceSpinnerClass implements AdapterView.OnItemSelectedListener {
+//        public void onItemSelected(AdapterView<?> parent, View v, int position, long id ) {
+//            viewModel.setPriceRangeSelected(position);
+//        }
+//
+//        @Override
+//        public void onNothingSelected(AdapterView<?> adapterView) {
+//            viewModel.setPriceRangeSelected(0);
+//        }
+//    }
+//
+//    class BrandSpinnerClass implements AdapterView.OnItemSelectedListener {
+//        public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+//            viewModel.setBrandSelected(position);
+//        }
+//
+//        @Override
+//        public void onNothingSelected(AdapterView<?> adapterView) {
+//            viewModel.setBrandSelected(0);
+//        }
+//    }
 }
