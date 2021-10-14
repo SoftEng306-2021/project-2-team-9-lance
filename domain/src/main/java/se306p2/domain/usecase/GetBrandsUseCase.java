@@ -2,12 +2,27 @@ package se306p2.domain.usecase;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Single;
 import se306p2.domain.RepositoryRouter;
 import se306p2.domain.interfaces.entity.IBrand;
 import se306p2.domain.interfaces.usecase.IGetBrandsUseCase;
 
 public class GetBrandsUseCase implements IGetBrandsUseCase {
-    public List<IBrand> getBrands(String categoryId) {
-        return RepositoryRouter.getBrandRepository().getBrands(categoryId);
+    public Single<List<IBrand>> getBrands(String categoryId) {
+        return Single.create(emitter -> {
+            Thread thread = new Thread(() -> {
+                try {
+                    List<IBrand> brands = RepositoryRouter.getBrandRepository().getBrands(categoryId);
+                    if (brands == null) {
+                        emitter.onError(new NullPointerException());
+                        return;
+                    }
+                    emitter.onSuccess(brands);
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            });
+            thread.start();
+        });
     }
 }

@@ -1,5 +1,6 @@
 package se306p2.view.activities.browseproduct;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,14 +27,18 @@ import java.util.List;
 
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.view.R;
+import se306p2.view.activities.landingpage.LandingPageViewModel;
 import se306p2.view.common.adapters.ProductItemRecyclerViewAdapter;
 import se306p2.view.common.placeholders.PlaceholderGenerator;
 
 public class BrowseProductActivity extends AppCompatActivity {
     private static final String TAG = "BrowseProductActivity";
 
-    private List<IProduct> productList = new ArrayList<>();
+    private BrowseProductViewModel viewModel;
 
+    private String categoryId;
+    private String categoryName;
+    private List<IProduct> productList = new ArrayList<>();
 
     private float startY;
 
@@ -41,19 +47,19 @@ public class BrowseProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.browse_products_view);
 
-        Spinner priceSpinner = (Spinner) findViewById(R.id.priceFilter);
-        String[] prices = {"$0 - $49", "$50 - $149", "$150 - $299", "$299+"};
-        ArrayAdapter<CharSequence> priceAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, prices);
-        priceAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        priceSpinner.setAdapter(priceAdapter);
+        createPriceSpinner();
+        createBrandSpinner();
 
-        Spinner brandSpinner = (Spinner) findViewById(R.id.brandFilter);
-        String[] years = {"Apple", "Pear", "Watermelon"};
-        ArrayAdapter<CharSequence> brandAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, years);
-        brandAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        brandSpinner.setAdapter(brandAdapter);
+        Intent intent = getIntent();
+        categoryId = intent.getStringExtra("categoryId");
+        categoryName = intent.getStringExtra("categoryName");
 
         productList.addAll(PlaceholderGenerator.getProducts(20));
+
+        viewModel = new ViewModelProvider(this).get(BrowseProductViewModel.class);
+        viewModel.setCategoryId(categoryId);
+
+        viewModel.loadPageData();
 
         initProductsRecyclerView();
     }
@@ -63,6 +69,23 @@ public class BrowseProductActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.nav_menu, menu);
         return true;
+    }
+
+    private void createPriceSpinner() {
+        Spinner priceSpinner = (Spinner) findViewById(R.id.priceFilter);
+        String[] prices = {"$0 - $49", "$50 - $149", "$150 - $299", "$299+"};
+        ArrayAdapter<CharSequence> priceAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, prices);
+        priceAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        priceSpinner.setAdapter(priceAdapter);
+    }
+
+    private void createBrandSpinner() {
+
+        Spinner brandSpinner = (Spinner) findViewById(R.id.brandFilter);
+        String[] years = {"Apple", "Pear", "Watermelon"};
+        ArrayAdapter<CharSequence> brandAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, years);
+        brandAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        brandSpinner.setAdapter(brandAdapter);
     }
 
     private void initProductsRecyclerView() {

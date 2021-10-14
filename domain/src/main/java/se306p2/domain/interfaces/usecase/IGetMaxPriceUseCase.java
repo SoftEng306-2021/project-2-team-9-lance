@@ -2,6 +2,8 @@ package se306p2.domain.interfaces.usecase;
 
 import java.math.BigDecimal;
 
+import io.reactivex.rxjava3.core.Single;
+
 public interface IGetMaxPriceUseCase {
-    BigDecimal getMaxPrice(String categoryId);
+    Single<BigDecimal> getMaxPrice(String categoryId);
 }

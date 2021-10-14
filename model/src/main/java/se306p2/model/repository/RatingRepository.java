@@ -8,10 +8,9 @@ import se306p2.domain.interfaces.repositories.IRatingRepository;
 public class RatingRepository implements IRatingRepository {
 
     private FirebaseFirestore db;
-    private RatingRepository instance;
+    private static RatingRepository instance;
 
-    @Override
-    public IRatingRepository getInstance() {
+    public static IRatingRepository getInstance() {
         throw new UnsupportedOperationException();
     }
 

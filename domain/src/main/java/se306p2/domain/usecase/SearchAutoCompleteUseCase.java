@@ -2,11 +2,26 @@ package se306p2.domain.usecase;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Single;
 import se306p2.domain.RepositoryRouter;
 import se306p2.domain.interfaces.usecase.ISearchAutoCompleteUseCase;
 
 public class SearchAutoCompleteUseCase implements ISearchAutoCompleteUseCase {
-    public List<String> searchAutoComplete(String searchTerm) {
-        return RepositoryRouter.getProductRepository().searchAutoComplete(searchTerm);
+    public Single<List<String>> searchAutoComplete(String searchTerm) {
+        return Single.create(emitter -> {
+            Thread thread = new Thread(() -> {
+                try {
+                    List<String> search = RepositoryRouter.getProductRepository().searchAutoComplete(searchTerm);
+                    if (search == null) {
+                        emitter.onError(new NullPointerException());
+                        return;
+                    }
+                    emitter.onSuccess(search);
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            });
+            thread.start();
+        });
     }
 }
