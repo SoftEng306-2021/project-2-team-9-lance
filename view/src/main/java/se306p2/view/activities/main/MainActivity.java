@@ -22,6 +22,13 @@ public class MainActivity extends AppCompatActivity {
 
         RelativeLayout splashLayout = (RelativeLayout) findViewById(R.id.splash_layout);
 
+        splashLayout.setOnClickListener((e) -> {
+            if (viewModel.getUser().getValue() != null) {
+                System.out.println("--------------------HERE2");
+
+                toLandingPage();
+            }
+        });
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         viewModel.initData(this);
