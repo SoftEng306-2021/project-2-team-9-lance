@@ -56,7 +56,6 @@ public class BrowseProductViewModel extends BaseObservable {
     }
 
 
-
     public List<IBrand> getBrands() {
         return availableBrands;
     }
