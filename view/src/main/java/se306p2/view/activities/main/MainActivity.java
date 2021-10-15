@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private void toLandingPage() {
         //
 
-//        Intent intent = new Intent(this, LandingPageActivity.class);
-                Intent intent = new Intent(this, BrowseProductActivity.class);
+        Intent intent = new Intent(this, LandingPageActivity.class);
+//                Intent intent = new Intent(this, BrowseProductActivity.class);
 
         startActivity(intent);
     }

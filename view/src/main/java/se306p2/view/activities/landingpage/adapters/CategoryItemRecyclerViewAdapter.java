@@ -56,31 +56,31 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
 
         holder.categoryName.setText(currentCategory.getName());
 
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                Log.d(TAG, "onBinderViewHolder, image clicked");
-//
-//
-//                Intent intent = new Intent(holder.itemView.getContext(), BrowseProductActivity.class);
-//                intent.putExtra("categoryName", currentCategory.getName());
-//                intent.putExtra("categoryId", currentCategory.getId());
-//                context.startActivity(intent);
-//            }
-//        });
-
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("++++++++++++++++++++++++++++++++TEMP CLICK HANDLER CLICKED");
-//                Log.d(TAG, "onBinderViewHolder, " + product.getBrandName() + " " + product.getName() + "clicked");
-                Intent intent = new Intent(context, ProductDetailActivity.class);
 
+                Log.d(TAG, "onBinderViewHolder, image clicked");
+
+
+                Intent intent = new Intent(holder.itemView.getContext(), BrowseProductActivity.class);
+                intent.putExtra("categoryName", currentCategory.getName());
+                intent.putExtra("categoryId", currentCategory.getId());
                 context.startActivity(intent);
             }
         });
+
+//
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                System.out.println("++++++++++++++++++++++++++++++++TEMP CLICK HANDLER CLICKED");
+////                Log.d(TAG, "onBinderViewHolder, " + product.getBrandName() + " " + product.getName() + "clicked");
+//                Intent intent = new Intent(context, ProductDetailActivity.class);
+//
+//                context.startActivity(intent);
+//            }
+//        });
     }
 
     @Override
