@@ -43,8 +43,8 @@ public class BrowseProductActivity extends AppCompatActivity {
     private BrowseProductViewModel viewModel;
     private BrowseProductsViewBinding binding;
 
-//    private String categoryId;
-//    private String categoryName;
+    private String categoryId;
+    private String categoryName;
     private List<IProduct> productList = new ArrayList<>();
 
     private float startY;
@@ -63,20 +63,20 @@ public class BrowseProductActivity extends AppCompatActivity {
 
 
 
-//        Intent intent = getIntent();
-//        categoryId = intent.getStringExtra("categoryId");
-//        categoryName = intent.getStringExtra("categoryName");
+        Intent intent = getIntent();
+        categoryId = intent.getStringExtra("categoryId");
+        categoryName = intent.getStringExtra("categoryName");
 
         productList.addAll(PlaceholderGenerator.getProducts(20));
 
-//        viewModel.setCategoryId(categoryId);
+        viewModel.setCategoryId(categoryId);
 
 
 
 //        createPriceSpinner();
 //        createBrandSpinner();
 
-//        initProductsRecyclerView();
+        initProductsRecyclerView();
     }
 
     @Override
@@ -113,51 +113,51 @@ public class BrowseProductActivity extends AppCompatActivity {
 //        brandSpinner.setOnItemSelectedListener(new BrandSpinnerClass());
     }
 
-//    private void initProductsRecyclerView() {
-//        Log.d(TAG, "initFeaturedListRecyclerView entered");
-//
-//        RecyclerView recyclerView = findViewById(R.id.browse_products_list);
-//
-//        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-//        recyclerView.setLayoutManager(manager);
-//
-//        ProductItemRecyclerViewAdapter adapter = new ProductItemRecyclerViewAdapter(this, productList);
-//        recyclerView.setAdapter(adapter);
-//
-//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//
-//                System.out.println("==========" + dx + " " + dy);
-//
-//                LinearLayoutCompat filtersBar = (LinearLayoutCompat) findViewById(R.id.filtersBar);
-//                ViewGroup.MarginLayoutParams filtersBarParams = (ViewGroup.MarginLayoutParams) filtersBar.getLayoutParams();
-//
-//                if (dy > 15) {
-//                    if (filtersBarParams.topMargin >= 15) {
-//                        filtersBarParams.topMargin -= 10;
-//                    }
-//                    if (filtersBarParams.bottomMargin >= 10) {
-//                        filtersBarParams.bottomMargin -= 10;
-//                    }
-//                }
-//
-//
-//                if (dy < -15) {
-//                    if (filtersBarParams.topMargin <= 45) {
-//                        filtersBarParams.topMargin += 10;
-//                    }
-//                    if (filtersBarParams.bottomMargin <= 45) {
-//                        filtersBarParams.bottomMargin += 10;
-//                    }
-//                }
-//
-//                filtersBar.requestLayout();
-//            }
-//        });
-//
-//    }
+    private void initProductsRecyclerView() {
+        Log.d(TAG, "initFeaturedListRecyclerView entered");
+
+        RecyclerView recyclerView = findViewById(R.id.browse_products_list);
+
+        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(manager);
+
+        ProductItemRecyclerViewAdapter adapter = new ProductItemRecyclerViewAdapter(this, productList);
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                System.out.println("==========" + dx + " " + dy);
+
+                LinearLayoutCompat filtersBar = (LinearLayoutCompat) findViewById(R.id.filtersBar);
+                ViewGroup.MarginLayoutParams filtersBarParams = (ViewGroup.MarginLayoutParams) filtersBar.getLayoutParams();
+
+                if (dy > 15) {
+                    if (filtersBarParams.topMargin >= 15) {
+                        filtersBarParams.topMargin -= 10;
+                    }
+                    if (filtersBarParams.bottomMargin >= 10) {
+                        filtersBarParams.bottomMargin -= 10;
+                    }
+                }
+
+
+                if (dy < -15) {
+                    if (filtersBarParams.topMargin <= 45) {
+                        filtersBarParams.topMargin += 10;
+                    }
+                    if (filtersBarParams.bottomMargin <= 45) {
+                        filtersBarParams.bottomMargin += 10;
+                    }
+                }
+
+                filtersBar.requestLayout();
+            }
+        });
+
+    }
 
 //    class PriceSpinnerClass implements AdapterView.OnItemSelectedListener {
 //        public void onItemSelected(AdapterView<?> parent, View v, int position, long id ) {
