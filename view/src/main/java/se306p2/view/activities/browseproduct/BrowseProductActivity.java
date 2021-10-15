@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,6 +39,8 @@ public class BrowseProductActivity extends AppCompatActivity {
 
     private float startY;
 
+    private ImageView filterButton;
+    private ImageView cancelFilterButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +50,8 @@ public class BrowseProductActivity extends AppCompatActivity {
         Intent intent = getIntent();
         categoryId = intent.getStringExtra("categoryId");
         categoryName = intent.getStringExtra("categoryName");
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
 
         viewModel = new ViewModelProvider(this).get(BrowseProductViewModel.class);
         viewModel.init(categoryId);
@@ -56,6 +61,7 @@ public class BrowseProductActivity extends AppCompatActivity {
 
 
         initProductsRecyclerView();
+        initFilterButtons();
     }
 
     @Override
@@ -91,6 +97,20 @@ public class BrowseProductActivity extends AppCompatActivity {
         });
 
     }
+
+    public void initFilterButtons() {
+        filterButton = (ImageView) findViewById(R.id.browse_products_filter_icon);
+        cancelFilterButton = (ImageView) findViewById(R.id.browse_products_cancel_filter);
+
+        filterButton.setOnClickListener(e -> {
+            viewModel.loadProducts();
+        });
+
+        cancelFilterButton.setOnClickListener(e -> {
+            viewModel.clearFilter();
+        });
+
+     }
 
     private void animateStickyFilterBar(int dx, int dy) {
         LinearLayoutCompat filtersBar = (LinearLayoutCompat) findViewById(R.id.filtersBar);

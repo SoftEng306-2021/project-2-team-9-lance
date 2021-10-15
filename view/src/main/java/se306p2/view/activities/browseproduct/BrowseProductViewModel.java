@@ -150,6 +150,12 @@ public class BrowseProductViewModel extends ViewModel {
         );
     }
 
+    public void clearFilter() {
+        observableBrandIndexSelected.set(0);
+        observablePriceBracketIndexSelected.set(0);
+        loadProducts();
+    }
+
     public LiveData<List<IProduct>> getProducts() {
         return products;
     }
