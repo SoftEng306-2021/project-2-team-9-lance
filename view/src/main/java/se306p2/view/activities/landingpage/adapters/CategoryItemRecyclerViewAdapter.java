@@ -56,9 +56,7 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
 
         holder.categoryName.setText(currentCategory.getName());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        holder.itemView.setOnClickListener(e -> {
 
                 Log.d(TAG, "onBinderViewHolder, image clicked");
 
@@ -67,20 +65,9 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
                 intent.putExtra("categoryName", currentCategory.getName());
                 intent.putExtra("categoryId", currentCategory.getId());
                 context.startActivity(intent);
-            }
+
         });
 
-//
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                System.out.println("++++++++++++++++++++++++++++++++TEMP CLICK HANDLER CLICKED");
-////                Log.d(TAG, "onBinderViewHolder, " + product.getBrandName() + " " + product.getName() + "clicked");
-//                Intent intent = new Intent(context, ProductDetailActivity.class);
-//
-//                context.startActivity(intent);
-//            }
-//        });
     }
 
     @Override
@@ -98,19 +85,7 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
             categoryName = itemView.findViewById(R.id.category_icon_name);
         }
 
-
-//        @Override
-//        public void onClick(View view) {
-//            int position = getLayoutPosition();
-//            ICategory category = categories.get(position);
-//
-////                Log.d(TAG, "onBinderViewHolder, " + product.getBrandName() + " " + product.getName() + "clicked");
-//            System.out.println("++++++++++++++++++++++++++++++++++++++++on Click on category");
-//            Intent intent = new Intent(context, ProductDetailActivity.class);
-//            intent.putExtra("categoryName", "categoryName");
-//            intent.putExtra("categoryId", "categoryId");
-//            context.startActivity(intent);
-//        }
+        
     }
 
 

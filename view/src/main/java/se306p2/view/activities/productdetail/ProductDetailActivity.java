@@ -96,11 +96,8 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         hideSection(detailsContent, chevronIcon);
 
-        detailsTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        detailsTitle.setOnClickListener(e -> {
                 toggleShowSection(detailsContent, chevronIcon);
-            }
         });
     }
 
@@ -112,11 +109,8 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         hideSection(benefitsContent, chevronIcon);
 
-        benefitsTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        benefitsTitle.setOnClickListener(e -> {
                 toggleShowSection(benefitsContent, chevronIcon);
-            }
         });
 
         RecyclerView recyclerView = findViewById(R.id.product_details_benefits);
@@ -143,11 +137,8 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         hideSection(ingredientsContent, chevronIcon);
 
-        ingredientsTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        ingredientsTitle.setOnClickListener(e -> {
                 toggleShowSection(ingredientsContent, chevronIcon);
-            }
         });
     }
 

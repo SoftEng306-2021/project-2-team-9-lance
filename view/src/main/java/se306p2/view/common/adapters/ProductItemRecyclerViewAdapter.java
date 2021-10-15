@@ -30,9 +30,8 @@ import se306p2.view.common.helper.DisplayDataFormatter;
 public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<ProductItemRecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "ProductItemRecyclerViewAdapter";
-
-    private Context context;
     List<IProduct> products;
+    private Context context;
 
     public ProductItemRecyclerViewAdapter(Context context, List<IProduct> products) {
         this.context = context;
@@ -70,13 +69,10 @@ public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<Product
         holder.productPriceDollar.setText(dollar);
         holder.productPriceCent.setText(cent);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onBinderViewHolder, " + product.getBrandName() + " " + product.getName() + "clicked");
-                Intent intent = new Intent(context, ProductDetailActivity.class);
-                context.startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(e -> {
+            Log.d(TAG, "onBinderViewHolder, " + product.getBrandName() + " " + product.getName() + "clicked");
+            Intent intent = new Intent(context, ProductDetailActivity.class);
+            context.startActivity(intent);
         });
     }
 
@@ -86,7 +82,7 @@ public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<Product
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView productImage;
         TextView productBrand;
         TextView productName;
@@ -101,7 +97,6 @@ public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<Product
             productPriceDollar = itemView.findViewById(se306p2.view.R.id.product_listitem_price_dollar);
             productPriceCent = itemView.findViewById(se306p2.view.R.id.product_listitem_price_cent);
         }
-
 
 
     }
