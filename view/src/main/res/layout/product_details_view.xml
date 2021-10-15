@@ -313,6 +313,76 @@
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical"
+                    android:id="@+id/product_details_usage_container"
+                    >
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/product_details_usage_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/raleway"
+                                android:text="Usage"
+                                android:textColor="@color/black"
+                                android:textFontWeight="400"
+                                android:textSize="20dp" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/product_details_usage_chevron"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:layout_marginRight="10dp"
+                                android:scaleX="1.5"
+                                android:scaleY="1.5"
+                                android:src="@drawable/ic_dropdown_arrow" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <View
+                            android:layout_width="30dp"
+                            android:layout_height="2dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@color/red" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/product_details_usage_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/product_details_usage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/raleway"
+                            android:text="Bacon ipsum dolor amet turducken shoulder turkey short ribs venison jowl. Ham short ribs cupim prosciutto, jerky corned beef ball tip kevin jowl. Ground round bacon biltong sausage rump prosciutto bresaola landjaeger. Buffalo hamburger strip steak chuck ribeye pork loin. Ham hock spare ribs swine tenderloin, capicola shank burgdoggen chislic pig turducken."
+                            android:textColor="@color/black"
+                            android:textFontWeight="500"
+                            android:textSize="15dp" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"

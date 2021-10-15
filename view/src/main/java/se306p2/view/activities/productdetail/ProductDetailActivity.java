@@ -53,7 +53,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private TextView brandName, productName, priceDollars, priceCents;
     private TextView slogan, description;
+    private TextView usage;
     private TextView ingredients;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +73,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         initProductInfo();
         initDetails();
         initBenefits();
+        initUsage();
         initIngredients();
         initProductVersions();
     }
@@ -147,6 +150,25 @@ public class ProductDetailActivity extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
         });
 
+    }
+
+    private void initUsage() {
+        usage = (TextView) findViewById(R.id.product_details_usage);
+
+        viewModel.getProduct().observe(this, observedProduct -> {
+            usage.setText(observedProduct.getIngredients());
+        });
+
+        LinearLayoutCompat usageTitle = (LinearLayoutCompat) findViewById(R.id.product_details_usage_title);
+        LinearLayoutCompat usageContent = (LinearLayoutCompat) findViewById(R.id.product_details_usage_content);
+
+        ImageView chevronIcon = (ImageView)findViewById(R.id.product_details_usage_chevron);
+
+        hideSection(usageContent, chevronIcon);
+
+        usageTitle.setOnClickListener(e -> {
+            toggleShowSection(usageContent, chevronIcon);
+        });
     }
 
     private void initIngredients() {
