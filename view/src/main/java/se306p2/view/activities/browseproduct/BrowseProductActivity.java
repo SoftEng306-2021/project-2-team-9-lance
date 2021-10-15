@@ -57,7 +57,7 @@ public class BrowseProductActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(BrowseProductViewModel.class);
         viewModel.loadPageData();
-//        binding = DataBindingUtil.bind(findViewById(R.id.brandFilter));
+
         binding = DataBindingUtil.setContentView(this, R.layout.browse_products_view);
         binding.setViewModel(viewModel);
 
@@ -72,10 +72,6 @@ public class BrowseProductActivity extends AppCompatActivity {
         viewModel.setCategoryId(categoryId);
 
 
-
-//        createPriceSpinner();
-//        createBrandSpinner();
-
         initProductsRecyclerView();
     }
 
@@ -86,32 +82,8 @@ public class BrowseProductActivity extends AppCompatActivity {
         return true;
     }
 
-//    private void createPriceSpinner() {
-//        Spinner priceSpinner = (Spinner) findViewById(R.id.priceFilter);
-//        String[] priceBrackets = viewModel.getPriceBrackets();
-//
-//        ArrayAdapter<CharSequence> priceAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, priceBrackets);
-//        priceAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-//        priceSpinner.setAdapter(priceAdapter);
-//
-////        priceSpinner.setOnItemSelectedListener(new PriceSpinnerClass());
-//    }
 
-    private void createBrandSpinner() {
-//        String[] spinnerBrands = FormatConverter.ConvertBrandsToStringArr(viewModel.getBrands());
 
-//        String[] spinnerBrands = {"one", "two", "three"};
-
-//        ObservableArrayList<String> spinnerBrands = viewModel.getObservableBrandsList();
-//
-//        Spinner brandSpinner = (Spinner) findViewById(R.id.brandFilter);
-//
-//        ArrayAdapter<CharSequence> brandAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, spinnerBrands);
-//        brandAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-//        brandSpinner.setAdapter(brandAdapter);
-
-//        brandSpinner.setOnItemSelectedListener(new BrandSpinnerClass());
-    }
 
     private void initProductsRecyclerView() {
         Log.d(TAG, "initFeaturedListRecyclerView entered");
@@ -158,26 +130,4 @@ public class BrowseProductActivity extends AppCompatActivity {
         });
 
     }
-
-//    class PriceSpinnerClass implements AdapterView.OnItemSelectedListener {
-//        public void onItemSelected(AdapterView<?> parent, View v, int position, long id ) {
-//            viewModel.setPriceRangeSelected(position);
-//        }
-//
-//        @Override
-//        public void onNothingSelected(AdapterView<?> adapterView) {
-//            viewModel.setPriceRangeSelected(0);
-//        }
-//    }
-//
-//    class BrandSpinnerClass implements AdapterView.OnItemSelectedListener {
-//        public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-//            viewModel.setBrandSelected(position);
-//        }
-//
-//        @Override
-//        public void onNothingSelected(AdapterView<?> adapterView) {
-//            viewModel.setBrandSelected(0);
-//        }
-//    }
 }
