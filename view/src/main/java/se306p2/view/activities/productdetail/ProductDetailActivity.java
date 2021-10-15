@@ -3,6 +3,7 @@ package se306p2.view.activities.productdetail;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.LayoutTransition;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.flexbox.FlexDirection;
@@ -37,16 +39,22 @@ import se306p2.view.common.placeholders.PlaceholderGenerator;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
-    private IProduct product;
-    private List<IBenefit> benefits;
+    private String productId;
+
+    private ProductDetailViewModel viewModel;
+    
+    TextView brandName, productName, slogan, priceDollars, priceCents;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_details_view);
 
+        viewModel = new ViewModelProvider(this).get(ProductDetailViewModel.class);
 
-        getData();
+        Intent intent = getIntent();
+        productId = intent.getStringExtra("productId");
 
         setUpAnimationEnvironment();
 
@@ -56,10 +64,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         initIngredients();
     }
 
-    private void getData() {
-        product = PlaceholderGenerator.getProduct();
-        benefits = PlaceholderGenerator.getBenefits();
-    }
 
     private void setUpAnimationEnvironment() {
         LinearLayoutCompat rootLinearLayout = (LinearLayoutCompat)findViewById(R.id.product_details_container);
@@ -68,13 +72,14 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void initProductInfo() {
-        TextView brandName, productName, slogan, priceDollars, priceCents;
-
         brandName = (TextView) findViewById(R.id.product_details_brand);
         productName = (TextView) findViewById(R.id.product_details_name);
         slogan = (TextView) findViewById(R.id.product_details_slogan);
         priceDollars = (TextView) findViewById(R.id.product_details_cents);
         priceCents = (TextView) findViewById(R.id.product_details_cents);
+
+        viewModel.getProduct().
+
 
         brandName.setText(product.getBrandName());
         productName.setText(product.getName());
