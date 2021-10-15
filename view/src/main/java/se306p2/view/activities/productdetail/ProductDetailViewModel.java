@@ -20,6 +20,7 @@ import se306p2.domain.usecase.GetBenefitsUseCase;
 import se306p2.domain.usecase.GetFavouritesUseCase;
 import se306p2.domain.usecase.GetProductUseCase;
 import se306p2.domain.usecase.GetProductVersionsUseCase;
+import se306p2.view.common.placeholders.PlaceholderGenerator;
 
 public class ProductDetailViewModel extends ViewModel {
     private static final String TAG = "ProductDetailViewModel";
@@ -63,35 +64,46 @@ public class ProductDetailViewModel extends ViewModel {
     }
 
     private void loadProduct() {
-        Single<IProduct> productSingle = getProductUseCase.getProduct(productId);
-        this.disposables.add(productSingle.subscribeWith(new DisposableSingleObserver<IProduct>() {
-            @Override
-            public void onSuccess(IProduct retrievedProduct) {
-                product.postValue(retrievedProduct);
-            }
+        //TODO **DO NOT DELETE**
+        //TODO uncomment the following when backend has data.
+//        Single<IProduct> productSingle = getProductUseCase.getProduct(productId);
+//        this.disposables.add(productSingle.subscribeWith(new DisposableSingleObserver<IProduct>() {
+//            @Override
+//            public void onSuccess(IProduct retrievedProduct) {
+//                product.postValue(retrievedProduct);
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                e.printStackTrace();
+//                //Handle error
+//            }
+//        }));
 
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-                //Handle error
-            }
-        }));
+        //TODO delete the following when backend has data.
+        product.postValue(PlaceholderGenerator.getProduct());
     }
 
-    private void loadBenefits() {
-        Single<List<IBenefit>> benefitsSingle = getBenefitsUseCase.getBenefits(productId);
-        this.disposables.add(benefitsSingle.subscribeWith(new DisposableSingleObserver<List<IBenefit>>() {
-            @Override
-            public void onSuccess(List<IBenefit> retrievedBenefit) {
-                benefits.postValue(retrievedBenefit);
-            }
 
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-                //Handle error
-            }
-        }));
+    private void loadBenefits() {
+        //TODO **DO NOT DELETE**
+        //TODO uncomment the following when backend has data.
+//        Single<List<IBenefit>> benefitsSingle = getBenefitsUseCase.getBenefits(productId);
+//        this.disposables.add(benefitsSingle.subscribeWith(new DisposableSingleObserver<List<IBenefit>>() {
+//            @Override
+//            public void onSuccess(List<IBenefit> retrievedBenefit) {
+//                benefits.postValue(retrievedBenefit);
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                e.printStackTrace();
+//                //Handle error
+//            }
+//        }));
+
+        //TODO delete the following when backend has data.
+        benefits.postValue(PlaceholderGenerator.getBenefits());
     }
 
     public LiveData<IProduct> getProduct() {

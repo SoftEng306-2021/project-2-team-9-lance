@@ -54,10 +54,11 @@ public class ProductDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_details_view);
 
-        viewModel = new ViewModelProvider(this).get(ProductDetailViewModel.class);
-
         Intent intent = getIntent();
         productId = intent.getStringExtra("productId");
+
+        viewModel = new ViewModelProvider(this).get(ProductDetailViewModel.class);
+        viewModel.init(productId);
 
         setUpAnimationEnvironment();
 
