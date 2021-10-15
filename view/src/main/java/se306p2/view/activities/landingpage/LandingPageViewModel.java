@@ -72,9 +72,6 @@ public class LandingPageViewModel extends ViewModel {
         this.getFavouritesUseCase = getFavouritesUseCase;
     }
 
-    public void dispose() {
-        this.disposables.dispose();
-    }
 
     public void loadPageData() {
         Log.d(TAG, "loadPageData entered");
@@ -127,5 +124,8 @@ public class LandingPageViewModel extends ViewModel {
 //    private void loadAutocompleteStrings() {
 //        Single<List<String>>  autocompleteSingle = searchAutoCompleteUseCase.searchAutoComplete(searchTerm)
 //    }
+    public void dispose() {
+        this.disposables.dispose();
+    }
 
 }

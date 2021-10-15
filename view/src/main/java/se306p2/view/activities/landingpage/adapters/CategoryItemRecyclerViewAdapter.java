@@ -88,7 +88,7 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
         return categories != null? categories.size(): 0;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView categoryImage;
         TextView categoryName;
 
@@ -99,18 +99,18 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
         }
 
 
-        @Override
-        public void onClick(View view) {
-            int position = getLayoutPosition();
-            ICategory category = categories.get(position);
-
-//                Log.d(TAG, "onBinderViewHolder, " + product.getBrandName() + " " + product.getName() + "clicked");
-            System.out.println("++++++++++++++++++++++++++++++++++++++++on Click on category");
-            Intent intent = new Intent(context, ProductDetailActivity.class);
-            intent.putExtra("categoryName", "categoryName");
-            intent.putExtra("categoryId", "categoryId");
-            context.startActivity(intent);
-        }
+//        @Override
+//        public void onClick(View view) {
+//            int position = getLayoutPosition();
+//            ICategory category = categories.get(position);
+//
+////                Log.d(TAG, "onBinderViewHolder, " + product.getBrandName() + " " + product.getName() + "clicked");
+//            System.out.println("++++++++++++++++++++++++++++++++++++++++on Click on category");
+//            Intent intent = new Intent(context, ProductDetailActivity.class);
+//            intent.putExtra("categoryName", "categoryName");
+//            intent.putExtra("categoryId", "categoryId");
+//            context.startActivity(intent);
+//        }
     }
 
 

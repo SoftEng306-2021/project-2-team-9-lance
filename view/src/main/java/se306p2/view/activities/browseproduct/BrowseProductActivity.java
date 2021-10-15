@@ -2,25 +2,17 @@ package se306p2.view.activities.browseproduct;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ObservableArrayList;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,9 +22,7 @@ import java.util.List;
 
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.view.R;
-import se306p2.view.activities.landingpage.LandingPageViewModel;
 import se306p2.view.common.adapters.ProductItemRecyclerViewAdapter;
-import se306p2.view.common.helper.FormatConverter;
 import se306p2.view.common.placeholders.PlaceholderGenerator;
 import se306p2.view.databinding.BrowseProductsViewBinding;
 
@@ -55,20 +45,21 @@ public class BrowseProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.browse_products_view);
 
+        Intent intent = getIntent();
+        categoryId = intent.getStringExtra("categoryId");
+        categoryName = intent.getStringExtra("categoryName");
+
         viewModel = new ViewModelProvider(this).get(BrowseProductViewModel.class);
-        viewModel.loadPageData();
+        viewModel.init(categoryId);
 
         binding = DataBindingUtil.setContentView(this, R.layout.browse_products_view);
         binding.setViewModel(viewModel);
 
 
-        Intent intent = getIntent();
-        categoryId = intent.getStringExtra("categoryId");
-        categoryName = intent.getStringExtra("categoryName");
+
 
         productList.addAll(PlaceholderGenerator.getProducts(20));
 
-        viewModel.setCategoryId(categoryId);
 
         initProductsRecyclerView();
     }
