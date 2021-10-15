@@ -8,9 +8,11 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import se306p2.domain.interfaces.entity.IBenefit;
+import se306p2.domain.interfaces.entity.IBrand;
 import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.view.common.placeholders.placeholderEntities.PlaceholderBenefit;
+import se306p2.view.common.placeholders.placeholderEntities.PlaceholderBrand;
 import se306p2.view.common.placeholders.placeholderEntities.PlaceholderCategory;
 import se306p2.view.common.placeholders.placeholderEntities.PlaceholderProduct;
 
@@ -82,6 +84,12 @@ public class PlaceholderGenerator {
         List<IBenefit> placeholderBenefitsCopy = new ArrayList<>(placeholderBenefits);
         Collections.shuffle(placeholderBenefitsCopy);
         return placeholderBenefitsCopy;
+    }
+
+    public static List<IBrand> getBrands() {
+        List<IBrand> placeholderBrandsCopy = new ArrayList<>(placeholderBrands);
+        Collections.shuffle(placeholderBrandsCopy);
+        return placeholderBrandsCopy;
     }
 
     private static List<IProduct> placeholderProducts = new ArrayList<>(
@@ -384,4 +392,13 @@ public class PlaceholderGenerator {
                     )
     );
 
+    private static List<IBrand> placeholderBrands = new ArrayList<>(
+            Arrays.asList(
+                    new PlaceholderBrand("0", "Tatcha", "img"),
+                    new PlaceholderBrand("0", "Gisou", "img"),
+                    new PlaceholderBrand("0", "Sunday Riley", "img"),
+                    new PlaceholderBrand("0", "Floral Street", "img"),
+                    new PlaceholderBrand("0", "Rose Inc", "img")
+                    )
+    );
 }

@@ -46,7 +46,6 @@ public class MainViewModel extends ViewModel {
     }
 
     public void initData(@NonNull Context context) {
-        Log.d(TAG, "++++++++++++initData entered");
 
         DefaultRepository.init(context);
         RepositoryRouter.init(
@@ -85,12 +84,10 @@ public class MainViewModel extends ViewModel {
                     @Override
                     public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull String s) {
                         userId.postValue(s);
-                        System.out.println("--------onError... signInAnonymously.doOnSuccess: id: " + s);
                     }
 
                     @Override
                     public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
-                        System.out.println("-------doOnError ");
                         e.printStackTrace();
                     }
                 }));

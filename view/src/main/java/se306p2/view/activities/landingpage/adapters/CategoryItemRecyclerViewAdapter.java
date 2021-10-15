@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import se306p2.domain.interfaces.entity.ICategory;
+import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.view.R;
 import se306p2.view.activities.browseproduct.BrowseProductActivity;
 import se306p2.view.activities.landingpage.LandingPageViewModel;
@@ -61,12 +62,25 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
 
                 Log.d(TAG, "onBinderViewHolder, image clicked");
 
-                Intent intent = new Intent(context, BrowseProductActivity.class);
+
+                Intent intent = new Intent(holder.itemView.getContext(), BrowseProductActivity.class);
                 intent.putExtra("categoryName", currentCategory.getName());
                 intent.putExtra("categoryId", currentCategory.getId());
                 context.startActivity(intent);
             }
         });
+
+//
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                System.out.println("++++++++++++++++++++++++++++++++TEMP CLICK HANDLER CLICKED");
+////                Log.d(TAG, "onBinderViewHolder, " + product.getBrandName() + " " + product.getName() + "clicked");
+//                Intent intent = new Intent(context, ProductDetailActivity.class);
+//
+//                context.startActivity(intent);
+//            }
+//        });
     }
 
     @Override
@@ -83,6 +97,20 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
             categoryImage = itemView.findViewById(R.id.category_icon);
             categoryName = itemView.findViewById(R.id.category_icon_name);
         }
+
+
+//        @Override
+//        public void onClick(View view) {
+//            int position = getLayoutPosition();
+//            ICategory category = categories.get(position);
+//
+////                Log.d(TAG, "onBinderViewHolder, " + product.getBrandName() + " " + product.getName() + "clicked");
+//            System.out.println("++++++++++++++++++++++++++++++++++++++++on Click on category");
+//            Intent intent = new Intent(context, ProductDetailActivity.class);
+//            intent.putExtra("categoryName", "categoryName");
+//            intent.putExtra("categoryId", "categoryId");
+//            context.startActivity(intent);
+//        }
     }
 
 

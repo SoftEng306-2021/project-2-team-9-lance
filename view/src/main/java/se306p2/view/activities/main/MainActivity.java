@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import se306p2.view.R;
+import se306p2.view.activities.browseproduct.BrowseProductActivity;
 import se306p2.view.activities.landingpage.LandingPageActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,7 +47,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void toLandingPage() {
         //
+
         Intent intent = new Intent(this, LandingPageActivity.class);
+//                Intent intent = new Intent(this, BrowseProductActivity.class);
+
         startActivity(intent);
     }
 
