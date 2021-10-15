@@ -62,7 +62,6 @@ public class BrowseProductActivity extends AppCompatActivity {
         binding.setViewModel(viewModel);
 
 
-
         Intent intent = getIntent();
         categoryId = intent.getStringExtra("categoryId");
         categoryName = intent.getStringExtra("categoryName");
@@ -70,7 +69,6 @@ public class BrowseProductActivity extends AppCompatActivity {
         productList.addAll(PlaceholderGenerator.getProducts(20));
 
         viewModel.setCategoryId(categoryId);
-
 
         initProductsRecyclerView();
     }
@@ -81,8 +79,6 @@ public class BrowseProductActivity extends AppCompatActivity {
         inflater.inflate(R.menu.nav_menu, menu);
         return true;
     }
-
-
 
 
     private void initProductsRecyclerView() {
@@ -101,33 +97,35 @@ public class BrowseProductActivity extends AppCompatActivity {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                System.out.println("==========" + dx + " " + dy);
-
-                LinearLayoutCompat filtersBar = (LinearLayoutCompat) findViewById(R.id.filtersBar);
-                ViewGroup.MarginLayoutParams filtersBarParams = (ViewGroup.MarginLayoutParams) filtersBar.getLayoutParams();
-
-                if (dy > 15) {
-                    if (filtersBarParams.topMargin >= 15) {
-                        filtersBarParams.topMargin -= 10;
-                    }
-                    if (filtersBarParams.bottomMargin >= 10) {
-                        filtersBarParams.bottomMargin -= 10;
-                    }
-                }
-
-
-                if (dy < -15) {
-                    if (filtersBarParams.topMargin <= 45) {
-                        filtersBarParams.topMargin += 10;
-                    }
-                    if (filtersBarParams.bottomMargin <= 45) {
-                        filtersBarParams.bottomMargin += 10;
-                    }
-                }
-
-                filtersBar.requestLayout();
+                animateStickyFilterBar(dx, dy);
             }
         });
 
+    }
+
+    private void animateStickyFilterBar(int dx, int dy) {
+        LinearLayoutCompat filtersBar = (LinearLayoutCompat) findViewById(R.id.filtersBar);
+        ViewGroup.MarginLayoutParams filtersBarParams = (ViewGroup.MarginLayoutParams) filtersBar.getLayoutParams();
+
+        if (dy > 15) {
+            if (filtersBarParams.topMargin >= 15) {
+                filtersBarParams.topMargin -= 10;
+            }
+            if (filtersBarParams.bottomMargin >= 10) {
+                filtersBarParams.bottomMargin -= 10;
+            }
+        }
+
+
+        if (dy < -15) {
+            if (filtersBarParams.topMargin <= 45) {
+                filtersBarParams.topMargin += 10;
+            }
+            if (filtersBarParams.bottomMargin <= 45) {
+                filtersBarParams.bottomMargin += 10;
+            }
+        }
+
+        filtersBar.requestLayout();
     }
 }
