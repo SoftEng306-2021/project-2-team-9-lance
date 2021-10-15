@@ -85,7 +85,7 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
             categoryName = itemView.findViewById(R.id.category_icon_name);
         }
 
-        
+
     }
 
 
