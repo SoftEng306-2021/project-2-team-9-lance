@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+
+  "name": "MECCA Website EZ Scraper",
+  "version": "0.1.0",
+  "description": "MECCA Website Scrapper",
+
+  "content_scripts": [
+    {
+      "css": ["styles.css"],
+      "js": ["content.js"],
+      "matches": ["https://www.meccabeauty.co.nz/*"]
+    }
+  ],
+  "permissions": [
+    "tabs"
+  ]
+}

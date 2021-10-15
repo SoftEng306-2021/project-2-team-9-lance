@@ -63,13 +63,20 @@ Powerhouse (deep brown satin)`,
       "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dwe926c1cd/product/nars/hr/i-052040-bijoux-eyeshadow-palette-1-940.jpg",
     form: form.Palette,
     price: 95.0,
-    productVersion: [{
-      id: "qTZENjVk4sHRsjunBZ8c",
-      name: "Bijoux Eyeshadow Palette",
-      hexColor: "",
-      imageURI: [],
-      order: 1,
-    }],
+    productVersion: [
+      {
+        id: "qTZENjVk4sHRsjunBZ8c",
+        name: "Bijoux Eyeshadow Palette",
+        hexColor: "",
+        imageURI: [
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dwe926c1cd/product/nars/hr/i-052040-bijoux-eyeshadow-palette-1-940.jpg",
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dw6f798729/product/nars/hr/i-052040-bijoux-eyeshadow-palette-7-1-940.jpg",
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dw14171099/product/nars/hr/i-052040-bijoux-eyeshadow-palette-7-2-940.jpg",
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dw155576d1/product/nars/hr/i-052040-bijoux-eyeshadow-palette-7-3-940.jpg"
+        ],
+        order: 1,
+      },
+    ],
   },
   {
     id: "tHQLXsFtsnQ2YyBp3f8S",
@@ -94,13 +101,15 @@ Just Lust 3g`,
       "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dwb2ba5fb0/product/nars/hr/i-052041-high-profile-cheek-palette-1-940.jpg",
     form: form.Palette,
     price: 95.0,
-    productVersion: [{
-      id: "C9PwyH3RFv29kQdsYSyN",
-      name: "High Profile Cheek Palette",
-      hexColor: "",
-      imageURI: [],
-      order: 1,
-    }],
+    productVersion: [
+      {
+        id: "C9PwyH3RFv29kQdsYSyN",
+        name: "High Profile Cheek Palette",
+        hexColor: "",
+        imageURI: [],
+        order: 1,
+      },
+    ],
   },
 ];
 
@@ -139,10 +148,15 @@ const init = async () => {
             imageURI: version.imageURI,
             order: version.order,
           };
-    
-          await db.collection("product").doc(product.id).collection("productVersion").doc(version.id).set(data);
+
+          await db
+            .collection("product")
+            .doc(product.id)
+            .collection("productVersion")
+            .doc(version.id)
+            .set(data);
         })
-      )
+      );
     })
   );
 };
