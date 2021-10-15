@@ -7,6 +7,30 @@ const { form } = require("./form");
 const { categories } = require("./categories");
 const { brands } = require("./brands");
 
+/* TEMPLATE
+{
+  id: "",
+  name: "",
+  category: "",
+  brand: "",
+  slogan: "",
+  usage: ``,
+  details: ``,
+  link: "",
+  defaultImageURI:
+    "",
+  form: form.,
+  price: 0,
+  productVersion: [{
+    id: "",
+    name: "",
+    hexColor: "",
+    imageURI: [],
+    order: 1,
+  }],
+},
+*/
+
 const products = [
   {
     id: "gxcn5w7AsbIgFLLzb9nW",
@@ -39,6 +63,13 @@ Powerhouse (deep brown satin)`,
       "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dwe926c1cd/product/nars/hr/i-052040-bijoux-eyeshadow-palette-1-940.jpg",
     form: form.Palette,
     price: 95.0,
+    productVersion: [{
+      id: "qTZENjVk4sHRsjunBZ8c",
+      name: "Bijoux Eyeshadow Palette",
+      hexColor: "",
+      imageURI: [],
+      order: 1,
+    }],
   },
   {
     id: "tHQLXsFtsnQ2YyBp3f8S",
@@ -63,6 +94,13 @@ Just Lust 3g`,
       "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dwb2ba5fb0/product/nars/hr/i-052041-high-profile-cheek-palette-1-940.jpg",
     form: form.Palette,
     price: 95.0,
+    productVersion: [{
+      id: "C9PwyH3RFv29kQdsYSyN",
+      name: "High Profile Cheek Palette",
+      hexColor: "",
+      imageURI: [],
+      order: 1,
+    }],
   },
 ];
 
@@ -91,7 +129,20 @@ const init = async () => {
         price: product.price,
       };
 
-      return await db.collection("product").doc(product.id).set(data);
+      await db.collection("product").doc(product.id).set(data);
+
+      await Promise.all(
+        product.productVersion.map(async (version) => {
+          const data = {
+            name: version.name,
+            hexColor: version.hexColor,
+            imageURI: version.imageURI,
+            order: version.order,
+          };
+    
+          await db.collection("product").doc(product.id).collection("productVersion").doc(version.id).set(data);
+        })
+      )
     })
   );
 };
