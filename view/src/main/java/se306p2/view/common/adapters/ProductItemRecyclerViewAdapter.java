@@ -30,9 +30,8 @@ import se306p2.view.common.helper.DisplayDataFormatter;
 public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<ProductItemRecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "ProductItemRecyclerViewAdapter";
-
-    private Context context;
     List<IProduct> products;
+    private Context context;
 
     public ProductItemRecyclerViewAdapter(Context context, List<IProduct> products) {
         this.context = context;
@@ -51,17 +50,17 @@ public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<Product
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBinderViewHolder entered");
 
-        IProduct product = products.get(position);
+        IProduct currentProduct = products.get(position);
 
         Glide.with(context)
                 .asBitmap()
-                .load(product.getDefaultImageURI())
+                .load(currentProduct.getDefaultImageURI())
                 .into(holder.productImage);
 
-        holder.productBrand.setText(product.getBrandName());
-        holder.productName.setText(product.getName());
+        holder.productBrand.setText(currentProduct.getBrandName());
+        holder.productName.setText(currentProduct.getName());
 
-        String[] formattedPrice = DisplayDataFormatter.formatPriceData(product.getPrice());
+        String[] formattedPrice = DisplayDataFormatter.formatPriceData(currentProduct.getPrice());
 
         String dollar = formattedPrice[0];
         String cent = formattedPrice[1];
@@ -70,13 +69,11 @@ public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<Product
         holder.productPriceDollar.setText(dollar);
         holder.productPriceCent.setText(cent);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onBinderViewHolder, " + product.getBrandName() + " " + product.getName() + "clicked");
-                Intent intent = new Intent(context, ProductDetailActivity.class);
-                context.startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(e -> {
+            Log.d(TAG, "onBinderViewHolder, " + currentProduct.getBrandName() + " " + currentProduct.getName() + "clicked");
+            Intent intent = new Intent(context, ProductDetailActivity.class);
+            intent.putExtra("productId", currentProduct.getId());
+            context.startActivity(intent);
         });
     }
 
@@ -86,7 +83,7 @@ public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<Product
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView productImage;
         TextView productBrand;
         TextView productName;
@@ -101,7 +98,6 @@ public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<Product
             productPriceDollar = itemView.findViewById(se306p2.view.R.id.product_listitem_price_dollar);
             productPriceCent = itemView.findViewById(se306p2.view.R.id.product_listitem_price_cent);
         }
-
 
 
     }

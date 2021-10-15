@@ -30,6 +30,7 @@ import se306p2.view.activities.browseproduct.BrowseProductActivity;
 
 public class LandingPageViewModel extends ViewModel {
     private static final String TAG = "LandingPageActivity";
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     private IGetFeaturedProductsUseCase getFeaturedProductsUseCase;
     private IGetCategoryDetailsUseCase getCategoryDetailsUseCase;
@@ -41,8 +42,6 @@ public class LandingPageViewModel extends ViewModel {
     private MutableLiveData<List<IProduct>> featuredProducts = new MutableLiveData<>();
     private MutableLiveData<List<String>> autoCompleteStrings = new MutableLiveData<>();
     private MutableLiveData<List<IProduct>> searchResults = new MutableLiveData<>();
-
-    private CompositeDisposable disposables = new CompositeDisposable();
 
     /**
      * Two way binding with text field in the search bar
@@ -73,8 +72,8 @@ public class LandingPageViewModel extends ViewModel {
     }
 
 
-    public void loadPageData() {
-        Log.d(TAG, "loadPageData entered");
+    public void init() {
+        Log.d(TAG, "init entered");
 
         loadCategories();
         loadFeaturedProducts();

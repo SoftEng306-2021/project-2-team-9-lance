@@ -3,16 +3,24 @@ package se306p2.view.activities.productdetail;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.LayoutTransition;
+import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.flexbox.FlexDirection;
@@ -26,8 +34,10 @@ import java.util.List;
 
 import se306p2.domain.interfaces.entity.IBenefit;
 import se306p2.domain.interfaces.entity.IProduct;
+import se306p2.domain.interfaces.entity.IProductVersion;
 import se306p2.view.R;
 import se306p2.view.activities.productdetail.adapters.BenefitItemRecyclerViewAdapter;
+import se306p2.view.common.adapters.ProductItemRecyclerViewAdapter;
 import se306p2.view.common.helper.DisplayDataFormatter;
 
 import android.os.Bundle;
@@ -37,16 +47,24 @@ import se306p2.view.common.placeholders.PlaceholderGenerator;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
-    private IProduct product;
-    private List<IBenefit> benefits;
+    private String productId;
+
+    private ProductDetailViewModel viewModel;
+
+    private TextView brandName, productName, priceDollars, priceCents;
+    private TextView slogan, description;
+    private TextView ingredients;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_details_view);
 
+        Intent intent = getIntent();
+        productId = intent.getStringExtra("productId");
 
-        getData();
+        viewModel = new ViewModelProvider(this).get(ProductDetailViewModel.class);
+        viewModel.init(productId);
 
         setUpAnimationEnvironment();
 
@@ -54,12 +72,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         initDetails();
         initBenefits();
         initIngredients();
+        initProductVersions();
     }
 
-    private void getData() {
-        product = PlaceholderGenerator.getProduct();
-        benefits = PlaceholderGenerator.getBenefits();
-    }
 
     private void setUpAnimationEnvironment() {
         LinearLayoutCompat rootLinearLayout = (LinearLayoutCompat)findViewById(R.id.product_details_container);
@@ -68,26 +83,30 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void initProductInfo() {
-        TextView brandName, productName, slogan, priceDollars, priceCents;
-
         brandName = (TextView) findViewById(R.id.product_details_brand);
         productName = (TextView) findViewById(R.id.product_details_name);
-        slogan = (TextView) findViewById(R.id.product_details_slogan);
         priceDollars = (TextView) findViewById(R.id.product_details_cents);
         priceCents = (TextView) findViewById(R.id.product_details_cents);
 
-        brandName.setText(product.getBrandName());
-        productName.setText(product.getName());
-        slogan.setText(product.getSlogan());
+        viewModel.getProduct().observe(this, observedProduct -> {
+            brandName.setText(observedProduct.getBrandName());
+            productName.setText(observedProduct.getName());
 
-        String[] formattedPrice = DisplayDataFormatter.formatPriceData(product.getPrice());
-        priceDollars.setText(formattedPrice[0]);
-        priceCents.setText(formattedPrice[1]);
+            String[] formattedPrice = DisplayDataFormatter.formatPriceData(observedProduct.getPrice());
+
+            priceDollars.setText(formattedPrice[0]);
+            priceCents.setText(formattedPrice[1]);
+        });
     }
 
     private void initDetails() {
-        TextView description = (TextView) findViewById(R.id.product_details_description);
-        description.setText(product.getDetails());
+        slogan = (TextView) findViewById(R.id.product_details_slogan);
+        description = (TextView) findViewById(R.id.product_details_description);
+
+        viewModel.getProduct().observe(this, observedProduct -> {
+            slogan.setText(observedProduct.getSlogan());
+            description.setText(observedProduct.getDetails());
+        });
 
         LinearLayoutCompat detailsTitle = (LinearLayoutCompat) findViewById(R.id.product_details_details_title);
         LinearLayoutCompat detailsContent = (LinearLayoutCompat) findViewById(R.id.product_details_details_content);
@@ -96,11 +115,8 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         hideSection(detailsContent, chevronIcon);
 
-        detailsTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        detailsTitle.setOnClickListener(e -> {
                 toggleShowSection(detailsContent, chevronIcon);
-            }
         });
     }
 
@@ -112,29 +128,33 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         hideSection(benefitsContent, chevronIcon);
 
-        benefitsTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        benefitsTitle.setOnClickListener(e -> {
                 toggleShowSection(benefitsContent, chevronIcon);
-            }
         });
+
 
         RecyclerView recyclerView = findViewById(R.id.product_details_benefits);
 
-        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
-        layoutManager.setFlexDirection(FlexDirection.ROW);
-        layoutManager.setJustifyContent(JustifyContent.FLEX_START);
-        layoutManager.setFlexWrap(FlexWrap.WRAP);
-        recyclerView.setLayoutManager(layoutManager);
+        viewModel.getBenefits().observe(this, observedBenefits -> {
+            BenefitItemRecyclerViewAdapter adapter = new BenefitItemRecyclerViewAdapter(this, observedBenefits);
 
-        BenefitItemRecyclerViewAdapter adapter = new BenefitItemRecyclerViewAdapter(this, benefits);
-        recyclerView.setAdapter(adapter);
+            FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
+            layoutManager.setFlexDirection(FlexDirection.ROW);
+            layoutManager.setJustifyContent(JustifyContent.FLEX_START);
+            layoutManager.setFlexWrap(FlexWrap.WRAP);
+            recyclerView.setLayoutManager(layoutManager);
+
+            recyclerView.setAdapter(adapter);
+        });
 
     }
 
     private void initIngredients() {
-        TextView ingredients = (TextView) findViewById(R.id.product_details_ingredients);
-        ingredients.setText(product.getIngredients());
+        ingredients = (TextView) findViewById(R.id.product_details_ingredients);
+
+        viewModel.getProduct().observe(this, observedProduct -> {
+            ingredients.setText(observedProduct.getIngredients());
+        });
 
         LinearLayoutCompat ingredientsTitle = (LinearLayoutCompat) findViewById(R.id.product_details_ingredients_title);
         LinearLayoutCompat ingredientsContent = (LinearLayoutCompat) findViewById(R.id.product_details_ingredients_content);
@@ -143,12 +163,47 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         hideSection(ingredientsContent, chevronIcon);
 
-        ingredientsTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        ingredientsTitle.setOnClickListener(e -> {
                 toggleShowSection(ingredientsContent, chevronIcon);
-            }
         });
+    }
+
+    private void initProductVersions() {
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.product_details_radio_group);
+        radioGroup.removeAllViews();
+
+        viewModel.getProductVersions().observe(this, observedProductVersions -> {
+
+            if (observedProductVersions.size() >  1) {
+              for (IProductVersion ver : observedProductVersions) {
+                  RadioButton button = createRadioButton(ver);
+                  radioGroup.addView(button);
+              }
+              radioGroup.getLayoutParams().height = RadioGroup.LayoutParams.WRAP_CONTENT;
+            }
+
+            }
+        );
+
+    }
+
+    private RadioButton createRadioButton(IProductVersion productVersion) {
+        RadioButton button = new RadioButton(this);
+
+        button.setScaleX(new Float(1.5));
+        button.setScaleY(new Float(1.5));
+
+        button.setText(null);
+
+        button.setPadding(0, 0, 3, 0);
+
+        button.setButtonTintList(ColorStateList.valueOf(Color.parseColor(productVersion.getHexColor())));
+
+//        button.setOnClickListener(e -> {
+//            viewModel.setCurrentVersion(productVersion);
+//        });
+
+        return button;
     }
 
     private void toggleShowSection(View toggleView, ImageView chevron) {

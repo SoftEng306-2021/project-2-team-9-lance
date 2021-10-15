@@ -1,6 +1,5 @@
 package se306p2.view.activities.landingpage;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,22 +11,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import se306p2.domain.interfaces.entity.ICategory;
-import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.view.R;
-import se306p2.view.activities.browseproduct.BrowseProductActivity;
 import se306p2.view.activities.landingpage.adapters.CategoryItemRecyclerViewAdapter;
 import se306p2.view.common.adapters.ProductItemRecyclerViewAdapter;
-import se306p2.view.common.placeholders.PlaceholderGenerator;
-import se306p2.view.common.placeholders.placeholderEntities.PlaceholderCategory;
 
 public class LandingPageActivity extends AppCompatActivity {
     private static final String TAG = "LandingPageActivity";
 
-    LandingPageViewModel viewModel;
+    private LandingPageViewModel viewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,7 +27,7 @@ public class LandingPageActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(LandingPageViewModel.class);
 
-        viewModel.loadPageData();
+        viewModel.init();
 
         initCategoryListRecyclerView();
         initFeaturedListRecyclerView();
