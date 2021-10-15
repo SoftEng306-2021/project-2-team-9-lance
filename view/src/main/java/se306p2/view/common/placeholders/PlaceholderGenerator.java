@@ -11,86 +11,14 @@ import se306p2.domain.interfaces.entity.IBenefit;
 import se306p2.domain.interfaces.entity.IBrand;
 import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.entity.IProduct;
+import se306p2.domain.interfaces.entity.IProductVersion;
 import se306p2.view.common.placeholders.placeholderEntities.PlaceholderBenefit;
 import se306p2.view.common.placeholders.placeholderEntities.PlaceholderBrand;
 import se306p2.view.common.placeholders.placeholderEntities.PlaceholderCategory;
 import se306p2.view.common.placeholders.placeholderEntities.PlaceholderProduct;
+import se306p2.view.common.placeholders.placeholderEntities.PlaceholderProductVersion;
 
 public class PlaceholderGenerator {
-
-    private PlaceholderGenerator() {};
-
-
-    /**
-     * @return One random product from the pool of placeholder products
-     */
-    public static IProduct getProduct() {
-        int randomPosition = ThreadLocalRandom.current().nextInt(0, placeholderProducts.size());
-        return placeholderProducts.get(randomPosition);
-    }
-
-    /**
-     * @return The entire existing pool of placeholder products, shuffled.
-     */
-    public static  List<IProduct> getProducts() {
-        List<IProduct> placeholderProductsCopy = new ArrayList<>(placeholderProducts);
-        Collections.shuffle(placeholderProductsCopy);
-        return placeholderProductsCopy;
-    }
-
-    /**
-     * Retrieves the specified number of placeholder products in shuffled order
-     * If specified number is larger than the pool, the pool is concatenated to itself
-     * multiple times after it's shuffled, until the list is large enough.
-     * @param numberRequired
-     * @return numberRequired number of placeholder products
-     */
-    public static List<IProduct> getProducts(int numberRequired) {
-        List<IProduct> placeholderProductsCopy = new ArrayList<>(placeholderProducts);
-        Collections.shuffle(placeholderProductsCopy);
-
-        List<IProduct> result = new ArrayList<>(placeholderProductsCopy);
-        while (numberRequired > result.size()) {
-            result.addAll(placeholderProductsCopy);
-        }
-
-        return result.subList(0, numberRequired);
-    }
-
-    public static ICategory getCategory() {
-        int randomPosition = ThreadLocalRandom.current().nextInt(0, placeholderCategories.size());
-        return placeholderCategories.get(randomPosition);
-    }
-
-    public static List<ICategory> getCategories() {
-        List<ICategory> placeholderCategoriesCopy = new ArrayList<>(placeholderCategories);
-        Collections.shuffle(placeholderCategoriesCopy);
-        return placeholderCategoriesCopy;
-    }
-
-    public static List<ICategory> getCategories(int numberRequired) {
-        List<ICategory> placeholderCategoriesCopy = new ArrayList<>(placeholderCategories);
-        Collections.shuffle(placeholderCategoriesCopy);
-
-        List<ICategory> result = new ArrayList<>(placeholderCategoriesCopy);
-        while (numberRequired > result.size()) {
-            result.addAll(placeholderCategoriesCopy);
-        }
-
-        return result.subList(0, numberRequired);
-    }
-
-    public static List<IBenefit> getBenefits() {
-        List<IBenefit> placeholderBenefitsCopy = new ArrayList<>(placeholderBenefits);
-        Collections.shuffle(placeholderBenefitsCopy);
-        return placeholderBenefitsCopy;
-    }
-
-    public static List<IBrand> getBrands() {
-        List<IBrand> placeholderBrandsCopy = new ArrayList<>(placeholderBrands);
-        Collections.shuffle(placeholderBrandsCopy);
-        return placeholderBrandsCopy;
-    }
 
     private static List<IProduct> placeholderProducts = new ArrayList<>(
             Arrays.asList(
@@ -352,6 +280,7 @@ public class PlaceholderGenerator {
             )
     );
 
+    ;
     private static List<ICategory> placeholderCategories = new ArrayList<>(
             Arrays.asList(
                     new PlaceholderCategory(
@@ -381,17 +310,15 @@ public class PlaceholderGenerator {
                     )
             )
     );
-
     private static List<IBenefit> placeholderBenefits = new ArrayList<>(
             Arrays.asList(
-                    new PlaceholderBenefit("0", "0","Cruelty-free", "https://user-images.githubusercontent.com/62003343/136661714-5bf6a4df-1acf-40b3-9955-eccfc48a903f.png"),
-                    new PlaceholderBenefit("0", "0","Vegan", "https://user-images.githubusercontent.com/62003343/136661712-bba4ba5b-74cf-4c17-9a36-22c2428835d4.png"),
-                    new PlaceholderBenefit("0", "0","Matte finish", "https://user-images.githubusercontent.com/62003343/136661711-cf5f7a01-ffa4-4708-84ca-252aaea35e48.png"),
-                    new PlaceholderBenefit("0", "0","Natural finish", "https://user-images.githubusercontent.com/62003343/136661710-2b223362-c3fa-4b41-b4ea-4e82e144d0ac.png"),
-                    new PlaceholderBenefit("0", "0","Sheer coverage", "https://user-images.githubusercontent.com/62003343/136661739-5237f5dc-36c5-421b-b11b-727c67d234e6.png")
-                    )
+                    new PlaceholderBenefit("0", "0", "Cruelty-free", "https://user-images.githubusercontent.com/62003343/136661714-5bf6a4df-1acf-40b3-9955-eccfc48a903f.png"),
+                    new PlaceholderBenefit("0", "0", "Vegan", "https://user-images.githubusercontent.com/62003343/136661712-bba4ba5b-74cf-4c17-9a36-22c2428835d4.png"),
+                    new PlaceholderBenefit("0", "0", "Matte finish", "https://user-images.githubusercontent.com/62003343/136661711-cf5f7a01-ffa4-4708-84ca-252aaea35e48.png"),
+                    new PlaceholderBenefit("0", "0", "Natural finish", "https://user-images.githubusercontent.com/62003343/136661710-2b223362-c3fa-4b41-b4ea-4e82e144d0ac.png"),
+                    new PlaceholderBenefit("0", "0", "Sheer coverage", "https://user-images.githubusercontent.com/62003343/136661739-5237f5dc-36c5-421b-b11b-727c67d234e6.png")
+            )
     );
-
     private static List<IBrand> placeholderBrands = new ArrayList<>(
             Arrays.asList(
                     new PlaceholderBrand("0", "Tatcha", "img"),
@@ -399,6 +326,180 @@ public class PlaceholderGenerator {
                     new PlaceholderBrand("0", "Sunday Riley", "img"),
                     new PlaceholderBrand("0", "Floral Street", "img"),
                     new PlaceholderBrand("0", "Rose Inc", "img")
+            )
+    );
+    private static List<IProductVersion> placeholderProductVersions = new ArrayList<>(
+            Arrays.asList(
+                    new PlaceholderProductVersion(
+                            "0",
+                            "ver0",
+                            "#AA1100",
+                            new ArrayList<String>(
+                                    Arrays.asList(
+                                            "",
+                                            ""
+                                    )
+                            ),
+                            0
+                    ),
+                    new PlaceholderProductVersion(
+                            "1",
+                            "ver1",
+                            "#FF4D6D",
+                            new ArrayList<String>(
+                                    Arrays.asList(
+                                            "",
+                                            ""
+                                    )
+                            ),
+                            0
+                    ),
+                    new PlaceholderProductVersion(
+                            "2",
+                            "ver2",
+                            "#FF9635",
+                            new ArrayList<String>(
+                                    Arrays.asList(
+                                            "",
+                                            ""
+                                    )
+                            ),
+                            0
+                    ),
+                    new PlaceholderProductVersion(
+                            "3",
+                            "ver3",
+                            "#FF7777",
+                            new ArrayList<String>(
+                                    Arrays.asList(
+                                            "",
+                                            ""
+                                    )
+                            ),
+                            0
+                    ),new PlaceholderProductVersion(
+                            "4",
+                            "ver4",
+                            "#B36D6D",
+                            new ArrayList<String>(
+                                    Arrays.asList(
+                                            "",
+                                            ""
+                                    )
+                            ),
+                            0
+                    ),new PlaceholderProductVersion(
+                            "5",
+                            "ver5",
+                            "#610000",
+                            new ArrayList<String>(
+                                    Arrays.asList(
+                                            "",
+                                            ""
+                                    )
+                            ),
+                            0
+                    )
                     )
     );
+
+    /**
+     * 50% of the time, the product will be one that has no colours.
+     * If the product is determined to have colours, up to n (randomly generated) versions
+     * is returned.
+     * @return List of versions. List is of size 1 if product has no versions.
+     */
+    public static List<IProductVersion> getProductVersions() {
+        int randomOneOrTwo = ThreadLocalRandom.current().nextInt(0, 2);
+        int randomPosition = ThreadLocalRandom.current().nextInt(1, placeholderProductVersions.size());
+
+        if (randomOneOrTwo <= 0) {
+            return Arrays.asList(
+                    new PlaceholderProductVersion(
+                            "0",
+                            "ver-nover",
+                            "",
+                            Arrays.asList("", ""),
+                            0
+                    )
+            );
+        } else {
+            List<IProductVersion> placeholderProductVersionsCopy = new ArrayList<>(placeholderProductVersions);
+            List<IProductVersion> subList = placeholderProductVersionsCopy.subList(0, randomPosition);
+            Collections.shuffle(subList);
+            return subList;
+        }
+    }
+
+    /**
+     * @return One random product from the pool of placeholder products
+     */
+    public static IProduct getProduct() {
+        int randomPosition = ThreadLocalRandom.current().nextInt(0, placeholderProducts.size());
+        return placeholderProducts.get(randomPosition);
+    }
+
+    /**
+     * @return The entire existing pool of placeholder products, shuffled.
+     */
+    public static List<IProduct> getProducts() {
+        List<IProduct> placeholderProductsCopy = new ArrayList<>(placeholderProducts);
+        Collections.shuffle(placeholderProductsCopy);
+        return placeholderProductsCopy;
+    }
+
+    /**
+     * Retrieves the specified number of placeholder products in shuffled order
+     * If specified number is larger than the pool, the pool is concatenated to itself
+     * multiple times after it's shuffled, until the list is large enough.
+     *
+     * @param numberRequired
+     * @return numberRequired number of placeholder products
+     */
+    public static List<IProduct> getProducts(int numberRequired) {
+        List<IProduct> placeholderProductsCopy = new ArrayList<>(placeholderProducts);
+        Collections.shuffle(placeholderProductsCopy);
+
+        List<IProduct> result = new ArrayList<>(placeholderProductsCopy);
+        while (numberRequired > result.size()) {
+            result.addAll(placeholderProductsCopy);
+        }
+
+        return result.subList(0, numberRequired);
+    }
+
+    public static ICategory getCategory() {
+        int randomPosition = ThreadLocalRandom.current().nextInt(0, placeholderCategories.size());
+        return placeholderCategories.get(randomPosition);
+    }
+
+    public static List<ICategory> getCategories() {
+        List<ICategory> placeholderCategoriesCopy = new ArrayList<>(placeholderCategories);
+        Collections.shuffle(placeholderCategoriesCopy);
+        return placeholderCategoriesCopy;
+    }
+
+    public static List<ICategory> getCategories(int numberRequired) {
+        List<ICategory> placeholderCategoriesCopy = new ArrayList<>(placeholderCategories);
+        Collections.shuffle(placeholderCategoriesCopy);
+
+        List<ICategory> result = new ArrayList<>(placeholderCategoriesCopy);
+        while (numberRequired > result.size()) {
+            result.addAll(placeholderCategoriesCopy);
+        }
+
+        return result.subList(0, numberRequired);
+    }
+
+    public static List<IBenefit> getBenefits() {
+        List<IBenefit> placeholderBenefitsCopy = new ArrayList<>(placeholderBenefits);
+        Collections.shuffle(placeholderBenefitsCopy);
+        return placeholderBenefitsCopy;
+    }
+
+    public static List<IBrand> getBrands() {
+        List<IBrand> placeholderBrandsCopy = new ArrayList<>(placeholderBrands);
+        Collections.shuffle(placeholderBrandsCopy);
+        return placeholderBrandsCopy;
+    }
 }
