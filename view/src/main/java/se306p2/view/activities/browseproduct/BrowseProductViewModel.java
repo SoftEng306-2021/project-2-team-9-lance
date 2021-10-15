@@ -3,6 +3,7 @@ package se306p2.view.activities.browseproduct;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableInt;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -31,6 +32,14 @@ import se306p2.model.entities.Brand;
 import se306p2.view.common.placeholders.PlaceholderGenerator;
 
 public class BrowseProductViewModel extends ViewModel {
+    private CompositeDisposable disposables = new CompositeDisposable();
+
+    private IGetMaxPriceUseCase getMaxPriceUseCase = new GetMaxPriceUseCase();
+    private IGetMinPriceUseCase getMinPriceUseCase = new GetMinPriceUseCase();
+    private IGetProductsByFilterUseCase getProductsByFilterUseCase = new GetProductsByFilterUseCase();
+    private IGetBrandsUseCase getBrandsUseCase = new GetBrandsUseCase();
+
+
     /**
      * Two way bound with the price bracket spinner in browse_products_view.xml
      * observablePriceBracketsList determines the list of options inside the spinner
@@ -43,16 +52,11 @@ public class BrowseProductViewModel extends ViewModel {
      */
     public final ObservableArrayList<String> observablePriceBracketsList = new ObservableArrayList<>();
     public final ObservableInt observablePriceBracketIndexSelected = new ObservableInt();
+
     public final ObservableArrayList<String> observableBrandsList = new ObservableArrayList<>();
     public final ObservableInt observableBrandIndexSelected = new ObservableInt();
 
-    IGetMaxPriceUseCase getMaxPriceUseCase = new GetMaxPriceUseCase();
-    IGetMinPriceUseCase getMinPriceUseCase = new GetMinPriceUseCase();
-    IGetProductsByFilterUseCase getProductsByFilterUseCase = new GetProductsByFilterUseCase();
-    IGetBrandsUseCase getBrandsUseCase = new GetBrandsUseCase();
 
-
-    private CompositeDisposable disposables = new CompositeDisposable();
     private String categoryId;
     private List<IBrand> brands = new ArrayList<>();
 
@@ -65,11 +69,6 @@ public class BrowseProductViewModel extends ViewModel {
         loadPriceBrackets();
         loadProducts();
     }
-
-    public ObservableArrayList<String> getObservableBrandsList() {
-        return observableBrandsList;
-    }
-
 
     public void loadProducts() {
 
@@ -149,6 +148,10 @@ public class BrowseProductViewModel extends ViewModel {
                         "Pls"
                 )
         );
+    }
+
+    public LiveData<List<IProduct>> getProducts() {
+        return products;
     }
 
     public void dispose() {

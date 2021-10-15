@@ -35,7 +35,6 @@ public class BrowseProductActivity extends AppCompatActivity {
 
     private String categoryId;
     private String categoryName;
-    private List<IProduct> productList = new ArrayList<>();
 
     private float startY;
 
@@ -56,11 +55,6 @@ public class BrowseProductActivity extends AppCompatActivity {
         binding.setViewModel(viewModel);
 
 
-
-
-        productList.addAll(PlaceholderGenerator.getProducts(20));
-
-
         initProductsRecyclerView();
     }
 
@@ -77,11 +71,15 @@ public class BrowseProductActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.browse_products_list);
 
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(manager);
 
-        ProductItemRecyclerViewAdapter adapter = new ProductItemRecyclerViewAdapter(this, productList);
-        recyclerView.setAdapter(adapter);
+        viewModel.getProducts().observe(this, products -> {
+            ProductItemRecyclerViewAdapter adapter = new ProductItemRecyclerViewAdapter(this, products);
+
+            LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            recyclerView.setLayoutManager(manager);
+
+            recyclerView.setAdapter(adapter);
+        });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
