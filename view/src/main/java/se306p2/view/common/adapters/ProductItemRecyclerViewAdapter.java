@@ -50,17 +50,17 @@ public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<Product
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBinderViewHolder entered");
 
-        IProduct product = products.get(position);
+        IProduct currentProduct = products.get(position);
 
         Glide.with(context)
                 .asBitmap()
-                .load(product.getDefaultImageURI())
+                .load(currentProduct.getDefaultImageURI())
                 .into(holder.productImage);
 
-        holder.productBrand.setText(product.getBrandName());
-        holder.productName.setText(product.getName());
+        holder.productBrand.setText(currentProduct.getBrandName());
+        holder.productName.setText(currentProduct.getName());
 
-        String[] formattedPrice = DisplayDataFormatter.formatPriceData(product.getPrice());
+        String[] formattedPrice = DisplayDataFormatter.formatPriceData(currentProduct.getPrice());
 
         String dollar = formattedPrice[0];
         String cent = formattedPrice[1];
@@ -70,8 +70,9 @@ public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<Product
         holder.productPriceCent.setText(cent);
 
         holder.itemView.setOnClickListener(e -> {
-            Log.d(TAG, "onBinderViewHolder, " + product.getBrandName() + " " + product.getName() + "clicked");
+            Log.d(TAG, "onBinderViewHolder, " + currentProduct.getBrandName() + " " + currentProduct.getName() + "clicked");
             Intent intent = new Intent(context, ProductDetailActivity.class);
+            intent.putExtra("productId", currentProduct.getId());
             context.startActivity(intent);
         });
     }

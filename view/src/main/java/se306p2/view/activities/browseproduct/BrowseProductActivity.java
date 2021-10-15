@@ -50,8 +50,6 @@ public class BrowseProductActivity extends AppCompatActivity {
         Intent intent = getIntent();
         categoryId = intent.getStringExtra("categoryId");
         categoryName = intent.getStringExtra("categoryName");
-        this.categoryId = categoryId;
-        this.categoryName = categoryName;
 
         viewModel = new ViewModelProvider(this).get(BrowseProductViewModel.class);
         viewModel.init(categoryId);
