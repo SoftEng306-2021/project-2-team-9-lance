@@ -35,13 +35,15 @@
                     android:background="@drawable/border_bottom"
                     android:orientation="horizontal">
 
-                    <Spinner
+                    <androidx.appcompat.widget.AppCompatSpinner
                         android:id="@+id/priceFilter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:background="@android:color/transparent"
                         android:gravity="center"
+                        android:entries="@{viewModel.observablePriceBracketsList}"
+                        android:selectedItemPosition="@={viewModel.observablePriceBracketIndexSelected}"
                         android:spinnerMode="dropdown" />
 
                     <ImageView

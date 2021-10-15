@@ -32,9 +32,13 @@ public class BrowseProductViewModel extends ViewModel {
     private String categoryId;
 
     private List<IBrand> availableBrands;
+    private List<String> priceBrackets;
     String brandIdSelected;
 
     List<IProduct> products;
+
+    public final ObservableArrayList<String> observablePriceBracketsList = new ObservableArrayList<>();
+    public final ObservableInt observablePriceBracketIndexSelected = new ObservableInt();
 
     public final ObservableArrayList<String> observableBrandsList = new ObservableArrayList<>();
     public final ObservableInt observableBrandIndexSelected = new ObservableInt();
@@ -47,6 +51,7 @@ public class BrowseProductViewModel extends ViewModel {
 
     public void loadPageData() {
         loadBrands();
+        loadPriceBrackets();
 
         for (int i = 0; i < availableBrands.size(); i++) {
             observableBrandsList.add(availableBrands.get(i).getName());
@@ -54,6 +59,11 @@ public class BrowseProductViewModel extends ViewModel {
 
         observableBrandIndexSelected.set(0);
 
+        for (int i = 0; i < priceBrackets.size(); i++) {
+            observablePriceBracketsList.add(priceBrackets.get(i));
+        }
+
+        observablePriceBracketIndexSelected.set(0);
 
 //        loadProducts();
     }
@@ -93,6 +103,15 @@ public class BrowseProductViewModel extends ViewModel {
                 new Brand("2", "BrandC", "image")
 
                 ));
+    }
+
+    private void loadPriceBrackets() {
+        //TODO replace
+        priceBrackets = new ArrayList<>(Arrays.asList(
+                "$0-$10",
+                "$11-$29",
+                "$30-$50"
+        ));
     }
 
 }
