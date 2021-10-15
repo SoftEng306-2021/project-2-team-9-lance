@@ -1,11 +1,4 @@
-const admin = require("firebase-admin");
-const serviceAccount = require("./serviceAccountKey.json");
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
-
-const db = admin.firestore();
+const { db } = require("./firestore");
 
 const GOOGLE_STORAGE =
   "https://storage.googleapis.com/se306-project-2-team-9.appspot.com";
@@ -57,3 +50,5 @@ const init = async () => {
 };
 
 init();
+
+exports.categories = categories;

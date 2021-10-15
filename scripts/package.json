@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "category": "node categories.js"
+    "category": "node categories.js",
+    "brand": "node brands",
+    "product": "node products"
   },
   "keywords": [],
   "author": "",
