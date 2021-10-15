@@ -37,10 +37,10 @@ public class LandingPageViewModel extends ViewModel {
     private ISearchProductsUseCase searchProductsUseCase;
     private IGetFavouritesUseCase getFavouritesUseCase;
 
-    private MutableLiveData<List<ICategory>> categories;
-    private MutableLiveData<List<IProduct>> featuredProducts;
-    private MutableLiveData<List<String>> autoCompleteStrings;
-    private MutableLiveData<List<IProduct>> searchResults;
+    private MutableLiveData<List<ICategory>> categories = new MutableLiveData<List<ICategory>>();
+    private MutableLiveData<List<IProduct>> featuredProducts = new MutableLiveData<>();
+    private MutableLiveData<List<String>> autoCompleteStrings = new MutableLiveData<>();
+    private MutableLiveData<List<IProduct>> searchResults = new MutableLiveData<>();
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
@@ -79,50 +79,54 @@ public class LandingPageViewModel extends ViewModel {
     public void loadPageData() {
         Log.d(TAG, "loadPageData entered");
 
-        this.categories = new MutableLiveData<List<ICategory>>();
-        Single<List<ICategory>> categoryDetails = getCategoryDetailsUseCase.getCategoryDetails();
-        this.disposables.add(categoryDetails.subscribeWith(new DisposableSingleObserver<List<ICategory>>() {
-            @Override
-            public void onSuccess(List<ICategory> categoryDetail) {
-                categories.postValue(categoryDetail);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                // Handle error
-            }
-        }));
-
-        //featuredProducts = new MutableLiveData(getFeaturedProductsUseCase.getFeaturedProducts());
-        this.featuredProducts = new MutableLiveData(new ArrayList<IProduct>());
-        this.autoCompleteStrings = new MutableLiveData<>();
-        this.searchResults = new MutableLiveData<>();
+        loadCategories();
+        loadFeaturedProducts();
     }
 
     public LiveData<List<ICategory>> getCategories() {
         return categories;
     }
 
-
     public LiveData<List<IProduct>> getFeaturedProducts() {
         return featuredProducts;
     }
 
 
-    public LiveData<List<String>> getAutoCompleteStrings() {
-        return autoCompleteStrings;
+    private void loadCategories() {
+        Single<List<ICategory>> categoriesSingle = getCategoryDetailsUseCase.getCategoryDetails();
+        this.disposables.add(categoriesSingle.subscribeWith(new DisposableSingleObserver<List<ICategory>>() {
+            @Override
+            public void onSuccess(List<ICategory> categoryList) {
+                categories.postValue(categoryList);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                // Handle error
+            }
+        }));
     }
 
-    public void updateAutoCompleteStrings(String searchTerm) {
-        searchAutoCompleteUseCase.searchAutoComplete(searchTerm);
+    private void loadFeaturedProducts() {
+        Single<List<IProduct>> productsSingle = getFeaturedProductsUseCase.getFeaturedProducts();
+        this.disposables.add(productsSingle.subscribeWith(new DisposableSingleObserver<List<IProduct>>() {
+            @Override
+            public void onSuccess(List<IProduct> productList) {
+                featuredProducts.postValue(productList);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                // Handle error
+            }
+        }));
     }
 
-    //This should probably go on the browse products page
-//    public List<IProduct> getSearchResults() {
-//        return searchProductsUseCase.searchProducts(searchTerm.getValue());
+    //TODO move this to Search activity potentially
+//    private void loadAutocompleteStrings() {
+//        Single<List<String>>  autocompleteSingle = searchAutoCompleteUseCase.searchAutoComplete(searchTerm)
 //    }
-
-
-
 
 }
