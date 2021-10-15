@@ -4,11 +4,16 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.LayoutTransition;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -29,6 +34,7 @@ import java.util.List;
 
 import se306p2.domain.interfaces.entity.IBenefit;
 import se306p2.domain.interfaces.entity.IProduct;
+import se306p2.domain.interfaces.entity.IProductVersion;
 import se306p2.view.R;
 import se306p2.view.activities.productdetail.adapters.BenefitItemRecyclerViewAdapter;
 import se306p2.view.common.adapters.ProductItemRecyclerViewAdapter;
@@ -66,6 +72,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         initDetails();
         initBenefits();
         initIngredients();
+        initProductVersions();
     }
 
 
@@ -159,6 +166,44 @@ public class ProductDetailActivity extends AppCompatActivity {
         ingredientsTitle.setOnClickListener(e -> {
                 toggleShowSection(ingredientsContent, chevronIcon);
         });
+    }
+
+    private void initProductVersions() {
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.product_details_radio_group);
+        radioGroup.removeAllViews();
+
+        viewModel.getProductVersions().observe(this, observedProductVersions -> {
+
+            if (observedProductVersions.size() >  1) {
+              for (IProductVersion ver : observedProductVersions) {
+                  RadioButton button = createRadioButton(ver);
+                  radioGroup.addView(button);
+              }
+              radioGroup.getLayoutParams().height = RadioGroup.LayoutParams.WRAP_CONTENT;
+            }
+
+            }
+        );
+
+    }
+
+    private RadioButton createRadioButton(IProductVersion productVersion) {
+        RadioButton button = new RadioButton(this);
+
+        button.setScaleX(new Float(1.5));
+        button.setScaleY(new Float(1.5));
+
+        button.setText(null);
+
+        button.setPadding(0, 0, 3, 0);
+
+        button.setButtonTintList(ColorStateList.valueOf(Color.parseColor(productVersion.getHexColor())));
+
+//        button.setOnClickListener(e -> {
+//            viewModel.setCurrentVersion(productVersion);
+//        });
+
+        return button;
     }
 
     private void toggleShowSection(View toggleView, ImageView chevron) {

@@ -36,6 +36,7 @@ public class ProductDetailViewModel extends ViewModel {
     private MutableLiveData<IProduct> product = new MutableLiveData<>();
     private MutableLiveData<List<IBenefit>> benefits = new MutableLiveData<>();
     private MutableLiveData<List<IProductVersion>> productVersions = new MutableLiveData<>();
+    private MutableLiveData<IProductVersion> currentProductVersion = new MutableLiveData<>();
 
     public ProductDetailViewModel() {
         this.getProductUseCase = new GetProductUseCase();
@@ -61,6 +62,7 @@ public class ProductDetailViewModel extends ViewModel {
 
         loadProduct();
         loadBenefits();
+        loadProductVersions();
     }
 
     private void loadProduct() {
@@ -106,12 +108,48 @@ public class ProductDetailViewModel extends ViewModel {
         benefits.postValue(PlaceholderGenerator.getBenefits());
     }
 
+    private void loadProductVersions() {
+        //TODO **DO NOT DELETE**
+        //TODO uncomment the following when backend has data.
+//        Single<List<IProductVersion>> productVersionsSingle = getProductVersionsUseCase.getProductVersions(productId);
+//        this.disposables.add(productVersionsSingle.subscribeWith(new DisposableSingleObserver<List<IProductVersion>>() {
+//            @Override
+//            public void onSuccess(List<IProductVersion> retrivedVersions) {
+//                productVersions.postValue(retrivedVersions);
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                e.printStackTrace();
+//                //Handle error
+//            }
+//        }));
+
+        //TODO delete the following when backend has data.
+        List<IProductVersion> vers = PlaceholderGenerator.getProductVersions();
+        System.out.println("==============================================" + vers.size());
+        productVersions.setValue(vers);
+
+
+
+        currentProductVersion.setValue(productVersions.getValue().get(0));
+    }
+
+    public void setCurrentVersion(IProductVersion ver) {
+        currentProductVersion.postValue(ver);
+    }
+
+
     public LiveData<IProduct> getProduct() {
         return product;
     }
 
     public LiveData<List<IBenefit>> getBenefits() {
         return benefits;
+    }
+
+    public LiveData<List<IProductVersion>> getProductVersions() {
+        return productVersions;
     }
 
     public void dispose() {
