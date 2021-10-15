@@ -42,8 +42,8 @@ public class CategoryRepository implements ICategoryRepository {
                 categories.add(CategoryTransformer.unpack(ds.getId(), ds.getData()));
             }
             return categories;
-        } catch (ExecutionException | InterruptedException ex) {
-            ex.printStackTrace();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -57,7 +57,7 @@ public class CategoryRepository implements ICategoryRepository {
             }
 
             return CategoryTransformer.unpack(snapshot.getId(), snapshot.getData());
-        } catch (ExecutionException | InterruptedException ex) {
+        } catch (ExecutionException | InterruptedException e) {
             return null;
         }
     }
@@ -73,7 +73,7 @@ public class CategoryRepository implements ICategoryRepository {
             }
 
             return new BigDecimal((double) snapshot.getDocuments().get(0).get("price"));
-        } catch (ExecutionException | InterruptedException | NullPointerException ex) {
+        } catch (ExecutionException | InterruptedException | NullPointerException e) {
             return null;
         }
     }
