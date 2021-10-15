@@ -83,15 +83,6 @@ public class LandingPageViewModel extends ViewModel {
         loadFeaturedProducts();
     }
 
-    public LiveData<List<ICategory>> getCategories() {
-        return categories;
-    }
-
-    public LiveData<List<IProduct>> getFeaturedProducts() {
-        return featuredProducts;
-    }
-
-
     private void loadCategories() {
         Single<List<ICategory>> categoriesSingle = getCategoryDetailsUseCase.getCategoryDetails();
         this.disposables.add(categoriesSingle.subscribeWith(new DisposableSingleObserver<List<ICategory>>() {
@@ -122,6 +113,14 @@ public class LandingPageViewModel extends ViewModel {
                 // Handle error
             }
         }));
+    }
+
+    public LiveData<List<ICategory>> getCategories() {
+        return categories;
+    }
+
+    public LiveData<List<IProduct>> getFeaturedProducts() {
+        return featuredProducts;
     }
 
     //TODO move this to Search activity potentially

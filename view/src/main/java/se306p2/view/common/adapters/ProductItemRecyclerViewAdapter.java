@@ -86,7 +86,7 @@ public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<Product
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView productImage;
         TextView productBrand;
         TextView productName;
@@ -101,5 +101,8 @@ public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<Product
             productPriceDollar = itemView.findViewById(se306p2.view.R.id.product_listitem_price_dollar);
             productPriceCent = itemView.findViewById(se306p2.view.R.id.product_listitem_price_cent);
         }
+
+
+
     }
 }

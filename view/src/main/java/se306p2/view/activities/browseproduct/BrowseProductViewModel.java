@@ -5,6 +5,8 @@ import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableInt;
 import androidx.lifecycle.ViewModel;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 
@@ -18,6 +20,7 @@ import se306p2.domain.usecase.GetBrandsUseCase;
 import se306p2.domain.usecase.GetMaxPriceUseCase;
 import se306p2.domain.usecase.GetMinPriceUseCase;
 import se306p2.domain.usecase.GetProductsByFilterUseCase;
+import se306p2.model.entities.Brand;
 
 public class BrowseProductViewModel extends ViewModel {
 
@@ -61,10 +64,14 @@ public class BrowseProductViewModel extends ViewModel {
         return availableBrands;
     }
 
+    public ObservableArrayList<String> getObservableBrandsList() {
+        return observableBrandsList;
+    }
+
 
     public String[] getPriceBrackets() {
         //TODO replace
-        return new String[]{"Price range1, price range2, price range3"};
+        return new String[]{"Price range1", "price range2", "price range3"};
     }
 
 
@@ -79,6 +86,13 @@ public class BrowseProductViewModel extends ViewModel {
 
     private void loadBrands() {
 //        availableBrands = getBrandsUseCase.getBrands(categoryId);
+        //TODO replace
+        availableBrands = new ArrayList<>(Arrays.asList(
+                new Brand("0", "BrandA", "image"),
+                new Brand("1", "BrandB", "image"),
+                new Brand("2", "BrandC", "image")
+
+                ));
     }
 
 }

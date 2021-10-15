@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import se306p2.domain.interfaces.entity.ICategory;
+import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.view.R;
 import se306p2.view.activities.browseproduct.BrowseProductActivity;
 import se306p2.view.activities.landingpage.LandingPageViewModel;
@@ -55,15 +56,28 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
 
         holder.categoryName.setText(currentCategory.getName());
 
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Log.d(TAG, "onBinderViewHolder, image clicked");
+//
+//
+//                Intent intent = new Intent(holder.itemView.getContext(), BrowseProductActivity.class);
+//                intent.putExtra("categoryName", currentCategory.getName());
+//                intent.putExtra("categoryId", currentCategory.getId());
+//                context.startActivity(intent);
+//            }
+//        });
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                System.out.println("++++++++++++++++++++++++++++++++TEMP CLICK HANDLER CLICKED");
+//                Log.d(TAG, "onBinderViewHolder, " + product.getBrandName() + " " + product.getName() + "clicked");
+                Intent intent = new Intent(context, ProductDetailActivity.class);
 
-                Log.d(TAG, "onBinderViewHolder, image clicked");
-
-                Intent intent = new Intent(context, BrowseProductActivity.class);
-                intent.putExtra("categoryName", currentCategory.getName());
-                intent.putExtra("categoryId", currentCategory.getId());
                 context.startActivity(intent);
             }
         });
@@ -74,7 +88,7 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
         return categories != null? categories.size(): 0;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView categoryImage;
         TextView categoryName;
 
@@ -82,6 +96,20 @@ public class CategoryItemRecyclerViewAdapter extends RecyclerView.Adapter<Catego
             super(itemView);
             categoryImage = itemView.findViewById(R.id.category_icon);
             categoryName = itemView.findViewById(R.id.category_icon_name);
+        }
+
+
+        @Override
+        public void onClick(View view) {
+            int position = getLayoutPosition();
+            ICategory category = categories.get(position);
+
+//                Log.d(TAG, "onBinderViewHolder, " + product.getBrandName() + " " + product.getName() + "clicked");
+            System.out.println("++++++++++++++++++++++++++++++++++++++++on Click on category");
+            Intent intent = new Intent(context, ProductDetailActivity.class);
+            intent.putExtra("categoryName", "categoryName");
+            intent.putExtra("categoryId", "categoryId");
+            context.startActivity(intent);
         }
     }
 

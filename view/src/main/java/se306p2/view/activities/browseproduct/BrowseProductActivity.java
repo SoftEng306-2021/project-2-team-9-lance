@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ObservableArrayList;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,8 +43,8 @@ public class BrowseProductActivity extends AppCompatActivity {
     private BrowseProductViewModel viewModel;
     private BrowseProductsViewBinding binding;
 
-    private String categoryId;
-    private String categoryName;
+//    private String categoryId;
+//    private String categoryName;
     private List<IProduct> productList = new ArrayList<>();
 
     private float startY;
@@ -54,24 +55,28 @@ public class BrowseProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.browse_products_view);
 
-        binding = DataBindingUtil.bind(findViewById(R.id.brandFilter));
+        viewModel = new ViewModelProvider(this).get(BrowseProductViewModel.class);
+        viewModel.loadPageData();
+//        binding = DataBindingUtil.bind(findViewById(R.id.brandFilter));
+        binding = DataBindingUtil.setContentView(this, R.layout.browse_products_view);
         binding.setViewModel(viewModel);
 
-        createPriceSpinner();
-        createBrandSpinner();
 
-        Intent intent = getIntent();
-        categoryId = intent.getStringExtra("categoryId");
-        categoryName = intent.getStringExtra("categoryName");
+
+//        Intent intent = getIntent();
+//        categoryId = intent.getStringExtra("categoryId");
+//        categoryName = intent.getStringExtra("categoryName");
 
         productList.addAll(PlaceholderGenerator.getProducts(20));
 
-        viewModel = new ViewModelProvider(this).get(BrowseProductViewModel.class);
-        viewModel.setCategoryId(categoryId);
+//        viewModel.setCategoryId(categoryId);
 
-        viewModel.loadPageData();
 
-        initProductsRecyclerView();
+
+//        createPriceSpinner();
+//        createBrandSpinner();
+
+//        initProductsRecyclerView();
     }
 
     @Override
@@ -81,74 +86,78 @@ public class BrowseProductActivity extends AppCompatActivity {
         return true;
     }
 
-    private void createPriceSpinner() {
-        Spinner priceSpinner = (Spinner) findViewById(R.id.priceFilter);
-        String[] priceBrackets = viewModel.getPriceBrackets();
-
-        ArrayAdapter<CharSequence> priceAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, priceBrackets);
-        priceAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        priceSpinner.setAdapter(priceAdapter);
-
-//        priceSpinner.setOnItemSelectedListener(new PriceSpinnerClass());
-    }
+//    private void createPriceSpinner() {
+//        Spinner priceSpinner = (Spinner) findViewById(R.id.priceFilter);
+//        String[] priceBrackets = viewModel.getPriceBrackets();
+//
+//        ArrayAdapter<CharSequence> priceAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, priceBrackets);
+//        priceAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+//        priceSpinner.setAdapter(priceAdapter);
+//
+////        priceSpinner.setOnItemSelectedListener(new PriceSpinnerClass());
+//    }
 
     private void createBrandSpinner() {
-        String[] spinnerBrands = FormatConverter.ConvertBrandsToStringArr(viewModel.getBrands());
+//        String[] spinnerBrands = FormatConverter.ConvertBrandsToStringArr(viewModel.getBrands());
 
-        Spinner brandSpinner = (Spinner) findViewById(R.id.brandFilter);
+//        String[] spinnerBrands = {"one", "two", "three"};
 
-        ArrayAdapter<CharSequence> brandAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, spinnerBrands);
-        brandAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        brandSpinner.setAdapter(brandAdapter);
+//        ObservableArrayList<String> spinnerBrands = viewModel.getObservableBrandsList();
+//
+//        Spinner brandSpinner = (Spinner) findViewById(R.id.brandFilter);
+//
+//        ArrayAdapter<CharSequence> brandAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, spinnerBrands);
+//        brandAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+//        brandSpinner.setAdapter(brandAdapter);
 
 //        brandSpinner.setOnItemSelectedListener(new BrandSpinnerClass());
     }
 
-    private void initProductsRecyclerView() {
-        Log.d(TAG, "initFeaturedListRecyclerView entered");
-
-        RecyclerView recyclerView = findViewById(R.id.browse_products_list);
-
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(manager);
-
-        ProductItemRecyclerViewAdapter adapter = new ProductItemRecyclerViewAdapter(this, productList);
-        recyclerView.setAdapter(adapter);
-
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                System.out.println("==========" + dx + " " + dy);
-
-                LinearLayoutCompat filtersBar = (LinearLayoutCompat) findViewById(R.id.filtersBar);
-                ViewGroup.MarginLayoutParams filtersBarParams = (ViewGroup.MarginLayoutParams) filtersBar.getLayoutParams();
-
-                if (dy > 15) {
-                    if (filtersBarParams.topMargin >= 15) {
-                        filtersBarParams.topMargin -= 10;
-                    }
-                    if (filtersBarParams.bottomMargin >= 10) {
-                        filtersBarParams.bottomMargin -= 10;
-                    }
-                }
-
-
-                if (dy < -15) {
-                    if (filtersBarParams.topMargin <= 45) {
-                        filtersBarParams.topMargin += 10;
-                    }
-                    if (filtersBarParams.bottomMargin <= 45) {
-                        filtersBarParams.bottomMargin += 10;
-                    }
-                }
-
-                filtersBar.requestLayout();
-            }
-        });
-
-    }
+//    private void initProductsRecyclerView() {
+//        Log.d(TAG, "initFeaturedListRecyclerView entered");
+//
+//        RecyclerView recyclerView = findViewById(R.id.browse_products_list);
+//
+//        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+//        recyclerView.setLayoutManager(manager);
+//
+//        ProductItemRecyclerViewAdapter adapter = new ProductItemRecyclerViewAdapter(this, productList);
+//        recyclerView.setAdapter(adapter);
+//
+//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//
+//                System.out.println("==========" + dx + " " + dy);
+//
+//                LinearLayoutCompat filtersBar = (LinearLayoutCompat) findViewById(R.id.filtersBar);
+//                ViewGroup.MarginLayoutParams filtersBarParams = (ViewGroup.MarginLayoutParams) filtersBar.getLayoutParams();
+//
+//                if (dy > 15) {
+//                    if (filtersBarParams.topMargin >= 15) {
+//                        filtersBarParams.topMargin -= 10;
+//                    }
+//                    if (filtersBarParams.bottomMargin >= 10) {
+//                        filtersBarParams.bottomMargin -= 10;
+//                    }
+//                }
+//
+//
+//                if (dy < -15) {
+//                    if (filtersBarParams.topMargin <= 45) {
+//                        filtersBarParams.topMargin += 10;
+//                    }
+//                    if (filtersBarParams.bottomMargin <= 45) {
+//                        filtersBarParams.bottomMargin += 10;
+//                    }
+//                }
+//
+//                filtersBar.requestLayout();
+//            }
+//        });
+//
+//    }
 
 //    class PriceSpinnerClass implements AdapterView.OnItemSelectedListener {
 //        public void onItemSelected(AdapterView<?> parent, View v, int position, long id ) {
