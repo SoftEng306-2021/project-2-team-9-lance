@@ -19,7 +19,7 @@ import se306p2.model.transformers.RatingTransformer;
 public class RatingRepository implements IRatingRepository {
 
     private FirebaseFirestore db;
-    private RatingRepository instance;
+    private static RatingRepository instance;
 
     public IRatingRepository getInstance() {
         throw new UnsupportedOperationException();

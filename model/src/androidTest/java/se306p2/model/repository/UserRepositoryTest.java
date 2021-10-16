@@ -100,6 +100,7 @@ class UserRepositoryTest {
         void testGetCurrentUserIdEmpty() {
             String userId = userRepository.getCurrentUserId();
             assertNull(userId);
+            auth.signOut();
         }
 
         @Test
@@ -120,6 +121,7 @@ class UserRepositoryTest {
         void testFavouritesUserNotExist() {
             Set<String> favourites = userRepository.favourites();
             assertNull(favourites);
+            auth.signOut();
         }
 
         @Test
