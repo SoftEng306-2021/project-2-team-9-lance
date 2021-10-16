@@ -7,17 +7,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import se306p2.domain.interfaces.entity.IBrand;
-import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.repositories.IBrandRepository;
-import se306p2.domain.interfaces.repositories.ICategoryRepository;
 import se306p2.model.transformers.BrandTransformer;
-import se306p2.model.transformers.CategoryTransformer;
+
 
 public class BrandRepository implements IBrandRepository {
     private FirebaseFirestore db;
@@ -57,7 +55,7 @@ public class BrandRepository implements IBrandRepository {
             DocumentReference category = db.collection("category").document(categoryId);
             QuerySnapshot snapshot = Tasks.await(db.collection("product").whereEqualTo("category", category).get());
 
-            Set<DocumentReference> uniqueBrands = new HashSet<>();
+            Set<DocumentReference> uniqueBrands = new LinkedHashSet<>();
 
             for (DocumentSnapshot ds : snapshot.getDocuments()) {
                 if (ds.contains("brand")) {

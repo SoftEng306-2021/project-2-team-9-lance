@@ -3,12 +3,8 @@ package se306p2.model.transformers;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.model.entities.Product;
@@ -40,6 +36,7 @@ public class ProductTransformer {
 
         return map;
     }
+
 
     public static IProduct unpack(String productId, String brandName, Map<String, Object> map) {
 

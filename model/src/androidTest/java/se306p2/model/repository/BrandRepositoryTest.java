@@ -81,16 +81,17 @@ class BrandRepositoryTest {
 
             // Setup Products
             entry = new HashMap<String, Object>() {{
+                put("brand", firestore.collection("brand").document("7WYBGBcygDqCBw7VsgQ8"));
+                put("category", firestore.collection("category").document("hsLyZbFCvHVAQRrP55bF"));
+            }};
+            Tasks.await(firestore.collection("product").document("ubLpqKgBWmerw3dQtg4P").set(entry));
+
+            entry = new HashMap<String, Object>() {{
                 put("brand", firestore.collection("brand").document("uhX8zbznAPY65zUjajAA"));
                 put("category", firestore.collection("category").document("hsLyZbFCvHVAQRrP55bF"));
             }};
             Tasks.await(firestore.collection("product").document("t3WZ88FWdbqkNEJHrLcw").set(entry));
 
-            entry = new HashMap<String, Object>() {{
-                put("brand", firestore.collection("brand").document("7WYBGBcygDqCBw7VsgQ8"));
-                put("category", firestore.collection("category").document("hsLyZbFCvHVAQRrP55bF"));
-            }};
-            Tasks.await(firestore.collection("product").document("ubLpqKgBWmerw3dQtg4P").set(entry));
 
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
