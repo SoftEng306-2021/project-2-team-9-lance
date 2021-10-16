@@ -40,6 +40,22 @@ const brands = [
     id: "CqNgX6pCGngaTYFvVdsr",
     name: "Living Proof",
   },
+  {
+    id: "3daGfH4XbnCj7BUJKdJw",
+    name: "BYREDO",
+  },
+  {
+    id: "HpHALn7Q6wz7hePsd6wB",
+    name: "diptyque",
+  },
+  {
+    id: "EgjeC7DM5GuNNVMXk6BG",
+    name: "Le Labo",
+  },
+  {
+    id: "a2psNHhH75nxV2g8xyy3",
+    name: "Bastide",
+  },
 ];
 
 const init = async () => {
