@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -19,22 +21,31 @@ import se306p2.view.R;
 
 public class SearchFragment extends DialogFragment {
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
+    AutoCompleteTextView autoCompleteTextView;
 
-//        getDialog().getWindow().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
-//        WindowManager.LayoutParams p = getDialog().getWindow().getAttributes();
-//        p.width = ViewGroup.LayoutParams.MATCH_PARENT;
-//        p.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE;
-//        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-//        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-//        getDialog().setContentView(R.layout.search_fragment);
-//
-//        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-//        getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        return inflater.inflate(R.layout.search_fragment, container, false);
+
+    ArrayAdapter<String> adapter;
+    String[] stop_names;
+
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.search_fragment, container, false);
+
+
+        stop_names = new String[]{"usa", "china", "russia", "bangladesh"};
+
+        autoCompleteTextView = rootView.findViewById(R.id.search_auto_complete_view);
+        autoCompleteTextView.setDropDownVerticalOffset(45);
+
+        adapter = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, stop_names);
+        autoCompleteTextView.setThreshold(1);
+        autoCompleteTextView.setAdapter(adapter);
+
+
+        return rootView;
     }
+
+
+
 }

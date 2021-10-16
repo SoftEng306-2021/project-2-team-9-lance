@@ -1,46 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#33000000"
-    android:layout_gravity="top"
-    >
-
-    <androidx.cardview.widget.CardView
-        android:layout_gravity="top"
+<layout>
+    <data>
+        <variable name="fragment" type="se306p2.view.common.SearchFragment" />
+    </data>
+    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:elevation="8dp"
-        app:cardCornerRadius="0dp">
+        android:layout_height="match_parent"
+        android:background="#68000000"
+        android:layout_gravity="top"
+        >
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.cardview.widget.CardView
+            android:layout_gravity="top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_margin="15dp"
+            android:elevation="8dp"
+            app:cardCornerRadius="0dp">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/search_bar_icon"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="15dp"
-                android:src="@drawable/ic_search_grey" />
-
-
-            <AutoCompleteTextView
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@android:color/transparent"
-                android:hint="Search for your favourite product..."
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="15dp"
-                android:textSize="16sp">
+                android:orientation="horizontal">
 
-            </AutoCompleteTextView>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.cardview.widget.CardView>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/search_bar_icon"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_search_grey" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+                <AutoCompleteTextView
+                    android:id="@+id/search_auto_complete_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:completionThreshold="1"
+                    android:backgroundTint="@android:color/transparent"
+                    android:hint="Search for your favourite product..."
+                    android:paddingLeft="5dp"
+                    android:paddingRight="15dp"
+
+                    android:paddingVertical="15dp"
+                    android:textSize="16sp">
+                </AutoCompleteTextView>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>
