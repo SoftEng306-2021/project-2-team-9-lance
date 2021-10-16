@@ -8,7 +8,6 @@ const form = {
   Mousse: "MOUSSE",
   Oil: "OIL",
   Scrub: "SCRUB",
-  Palette: "PALETTE",
 };
 
 exports.form = form;
