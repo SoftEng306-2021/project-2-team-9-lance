@@ -24,17 +24,17 @@ public class SearchFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        getDialog().getWindow().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
-        WindowManager.LayoutParams p = getDialog().getWindow().getAttributes();
-        p.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        p.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE;
-        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        getDialog().setContentView(R.layout.search_fragment);
-
-        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//        getDialog().getWindow().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
+//        WindowManager.LayoutParams p = getDialog().getWindow().getAttributes();
+//        p.width = ViewGroup.LayoutParams.MATCH_PARENT;
+//        p.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE;
+//        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+//        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+//        getDialog().setContentView(R.layout.search_fragment);
+//
+//        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//        getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         return inflater.inflate(R.layout.search_fragment, container, false);
     }
 }
