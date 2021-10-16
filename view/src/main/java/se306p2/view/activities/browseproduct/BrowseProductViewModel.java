@@ -69,7 +69,7 @@ public class BrowseProductViewModel extends ViewModel {
             new Integer[]{0, 15},
             new Integer[]{15, 50},
             new Integer[]{50, 100},
-            new Integer[]{100, null}
+            new Integer[]{100, -1}
     );
 
     public void init(String categoryId) {

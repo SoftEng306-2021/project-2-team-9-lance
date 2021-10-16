@@ -39,6 +39,7 @@ public class ProductDetailViewModel extends ViewModel {
     private MutableLiveData<List<IBenefit>> benefits = new MutableLiveData<>();
     private MutableLiveData<List<IProductVersion>> productVersions = new MutableLiveData<>();
     private MutableLiveData<IProductVersion> currentProductVersion = new MutableLiveData<>();
+    private MutableLiveData<Integer> currentProductPosition = new MutableLiveData<>();
 
     public ProductDetailViewModel() {
         this.getProductUseCase = new GetProductUseCase();
@@ -93,13 +94,16 @@ public class ProductDetailViewModel extends ViewModel {
                 observeOn(AndroidSchedulers.mainThread()).
                 subscribe(retrievedVersions -> {
                             productVersions.postValue(retrievedVersions);
+                            System.out.println("===============load product versions in view model... curernt version set to " + retrievedVersions.get(0).getId());
                             currentProductVersion.postValue(retrievedVersions.get(0));
+                            currentProductPosition.postValue(0);
                         },
                         e -> e.printStackTrace()));
     }
 
-    public void setCurrentVersion(IProductVersion ver) {
+    public void setCurrentVersion(IProductVersion ver, int index) {
         currentProductVersion.postValue(ver);
+        currentProductPosition.postValue(index);
     }
 
 
@@ -114,6 +118,13 @@ public class ProductDetailViewModel extends ViewModel {
     public LiveData<List<IProductVersion>> getProductVersions() {
         return productVersions;
     }
+
+    public LiveData<Integer> getCurrentProductPosition() { return currentProductPosition; };
+
+    public LiveData<IProductVersion> getCurrentProductVersion() {
+        System.out.println("========================getCurentProductVersion in view model " + currentProductVersion + " value " + currentProductVersion.getValue());
+        return currentProductVersion; };
+
 
     public void dispose() {
         this.disposables.dispose();

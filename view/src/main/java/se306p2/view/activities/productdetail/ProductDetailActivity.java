@@ -55,7 +55,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private TextView slogan, description;
     private TextView usage;
     private TextView ingredients;
-
+    RadioGroup radioGroup;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -191,14 +191,16 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void initProductVersions() {
-        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.product_details_radio_group);
+        radioGroup = (RadioGroup) findViewById(R.id.product_details_radio_group);
         radioGroup.removeAllViews();
 
         viewModel.getProductVersions().observe(this, observedProductVersions -> {
 
             if (observedProductVersions.size() >  1) {
-              for (IProductVersion ver : observedProductVersions) {
-                  RadioButton button = createRadioButton(ver);
+              for (int i = 0; i < observedProductVersions.size(); i++) {
+                  IProductVersion ver = observedProductVersions.get(i);
+                  RadioButton button = createRadioButton(ver, i);
+
                   radioGroup.addView(button);
               }
               radioGroup.getLayoutParams().height = RadioGroup.LayoutParams.WRAP_CONTENT;
@@ -207,9 +209,28 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         );
 
+        viewModel.getCurrentProductVersion().observe(this, observedVersion -> {
+            System.out.println("!!!!!!!!!!!!!!!!! Version changed to " + observedVersion.getId());
+        });
+
+        viewModel.getCurrentProductPosition().observe(this, observedPosition -> {
+            System.out.println("!!!!!!!!!!!!!!!!! Position changed to " + observedPosition);
+
+            for (int i = 0; i < radioGroup.getChildCount(); i++) {
+                View buttonView = radioGroup.getChildAt(i);
+                if (buttonView instanceof RadioButton) {
+                    if (observedPosition == i) {
+                        ((RadioButton) buttonView).setChecked(true);
+                    } else {
+                        ((RadioButton) buttonView).setChecked(false);
+                    }
+                }
+
+            }
+        });
     }
 
-    private RadioButton createRadioButton(IProductVersion productVersion) {
+    private RadioButton createRadioButton(IProductVersion productVersion, int index) {
         RadioButton button = new RadioButton(this);
 
         button.setScaleX(new Float(1.5));
@@ -221,9 +242,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         button.setButtonTintList(ColorStateList.valueOf(Color.parseColor(productVersion.getHexColor())));
 
-//        button.setOnClickListener(e -> {
-//            viewModel.setCurrentVersion(productVersion);
-//        });
+        button.setOnClickListener(e -> {
+            viewModel.setCurrentVersion(productVersion, index);
+        });
 
         return button;
     }
