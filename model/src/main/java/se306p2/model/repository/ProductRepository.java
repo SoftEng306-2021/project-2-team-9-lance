@@ -1,5 +1,10 @@
 package se306p2.model.repository;
 
+import com.algolia.search.saas.AlgoliaException;
+import com.algolia.search.saas.Client;
+import com.algolia.search.saas.Index;
+import com.algolia.search.saas.RequestOptions;
+import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -7,24 +12,24 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
-
 
 import se306p2.domain.interfaces.entity.IBenefit;
 import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.entity.IProductVersion;
 import se306p2.domain.interfaces.repositories.IProductRepository;
-import se306p2.model.entities.Benefit;
-import se306p2.model.entities.ProductVersion;
 import se306p2.model.transformers.BenefitTransformer;
 import se306p2.model.transformers.ProductTransformer;
 import se306p2.model.transformers.ProductVersionTransformer;
@@ -33,11 +38,22 @@ public class ProductRepository implements IProductRepository {
 
     private FirebaseFirestore db;
     private static ProductRepository instance;
+    private Client algolia;
 
+    private ProductRepository(FirebaseFirestore firestore) {
+        this.db = firestore;
+        // This is search key so can be public
+        this.algolia = new Client("JE24UH34RN", "a93d90ac0bbf715ade4ec77ac35b504c");
+    }
 
     public static IProductRepository getInstance() {
+        if (instance == null) {
+            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+            instance = new ProductRepository(firestore);
+        }
         return instance;
     }
+
 
     public List<IProduct> getProducts() {
 
@@ -45,9 +61,11 @@ public class ProductRepository implements IProductRepository {
         try {
             QuerySnapshot snapshot = Tasks.await(db.collection("product").get());
 
-            for (DocumentSnapshot ds : snapshot.getDocuments()) {
+            Map<DocumentReference, String> brandsMap = getBrandsFromSnapshot(snapshot.getDocuments());
 
-                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brand").toString(),ds.getData()));
+            for (DocumentSnapshot ds : snapshot.getDocuments()) {
+                String brandName = brandsMap.get((DocumentReference) ds.getData().get("brand"));
+                products.add(ProductTransformer.unpack(ds.getId(), brandName, ds.getData()));
             }
             return products;
         } catch (ExecutionException | InterruptedException ex) {
@@ -65,7 +83,9 @@ public class ProductRepository implements IProductRepository {
                 return null;
             }
 
-            return ProductTransformer.unpack(snapshot.getId(), snapshot.getData().get("brand").toString(),snapshot.getData());
+            DocumentReference brandRef = (DocumentReference) snapshot.getData().get("brand");
+            DocumentSnapshot brand = Tasks.await(brandRef.get());
+            return ProductTransformer.unpack(snapshot.getId(), brand.getData().get("name").toString(), snapshot.getData());
         } catch (ExecutionException | InterruptedException ex) {
             ex.printStackTrace();
             return null;
@@ -79,8 +99,12 @@ public class ProductRepository implements IProductRepository {
             DocumentReference docRef = db.collection("category").document(id);
             QuerySnapshot snapshot = Tasks.await(db.collection("product").whereEqualTo("category", docRef).get());
 
+            Map<DocumentReference, String> brandsMap = getBrandsFromSnapshot(snapshot.getDocuments());
+
             for (DocumentSnapshot ds : snapshot.getDocuments()) {
-                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brand").toString(),ds.getData()));
+                if (ds.getData() == null) break;
+                DocumentReference brandRef = (DocumentReference) ds.getData().get("brand");
+                products.add(ProductTransformer.unpack(ds.getId(), brandsMap.get(brandRef), ds.getData()));
             }
             return products;
 
@@ -97,25 +121,12 @@ public class ProductRepository implements IProductRepository {
             DocumentReference docRef = db.collection("category").document(category.getId());
             QuerySnapshot snapshot = Tasks.await(db.collection("product").whereEqualTo("category", docRef).get());
 
-            for (DocumentSnapshot ds : snapshot.getDocuments()) {
-                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brand").toString(),ds.getData()));
-            }
-            return products;
-
-        } catch (ExecutionException | InterruptedException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-    }
-
-    public List<IProduct> getProductsBySearch(String searchTerm) {
-        List<IProduct> products = new ArrayList<>();
-        try {
-
-            QuerySnapshot snapshot = Tasks.await(db.collection("product").orderBy("name").whereGreaterThan("name" ,searchTerm).whereLessThanOrEqualTo("name",searchTerm + '\uf8ff').get());
+            Map<DocumentReference, String> brandsMap = getBrandsFromSnapshot(snapshot.getDocuments());
 
             for (DocumentSnapshot ds : snapshot.getDocuments()) {
-                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brand").toString(),ds.getData()));
+                if (ds.getData() == null) break;
+                DocumentReference brandRef = (DocumentReference) ds.getData().get("brand");
+                products.add(ProductTransformer.unpack(ds.getId(), brandsMap.get(brandRef), ds.getData()));
             }
             return products;
 
@@ -140,21 +151,21 @@ public class ProductRepository implements IProductRepository {
 
             } else if (categoryId != null && brandId != null) {
 
-                DocumentReference docRefCategory =  db.collection("category").document(categoryId);
-                DocumentReference docRefBrand =  db.collection("brand").document(brandId);
+                DocumentReference docRefCategory = db.collection("category").document(categoryId);
+                DocumentReference docRefBrand = db.collection("brand").document(brandId);
 
                 Query initialQuery = db.collection("product").whereEqualTo("category", docRefCategory);
                 idQuery = initialQuery.whereEqualTo("brand", docRefBrand);
 
             } else if (brandId != null) {
 
-                DocumentReference docRefBrand =  db.collection("brand").document(brandId);
+                DocumentReference docRefBrand = db.collection("brand").document(brandId);
                 idQuery = db.collection("product").whereEqualTo("brand", docRefBrand);
 
 
             } else {
 
-                DocumentReference docRefCategory =  db.collection("category").document(categoryId);
+                DocumentReference docRefCategory = db.collection("category").document(categoryId);
                 idQuery = db.collection("product").whereEqualTo("category", docRefCategory);
 
             }
@@ -174,8 +185,11 @@ public class ProductRepository implements IProductRepository {
 
             }
 
+            Map<DocumentReference, String> brandsMap = getBrandsFromSnapshot(snapshot.getDocuments());
+
             for (DocumentSnapshot ds : snapshot.getDocuments()) {
-                products.add(ProductTransformer.unpack(ds.getId(), ds.getData().get("brand").toString(),ds.getData()));
+                String brandName = brandsMap.get((DocumentReference) ds.getData().get("brand"));
+                products.add(ProductTransformer.unpack(ds.getId(), brandName, ds.getData()));
             }
             return products;
 
@@ -183,6 +197,28 @@ public class ProductRepository implements IProductRepository {
             ex.printStackTrace();
             return null;
         }
+    }
+
+    private Map<DocumentReference, String> getBrandsFromSnapshot(List<DocumentSnapshot> snapshots) throws ExecutionException, InterruptedException {
+        Set<DocumentReference> brandsRefUnique = new HashSet<>();
+        for (DocumentSnapshot ds : snapshots) {
+            if (ds.getData() == null) break;
+            DocumentReference brandRef = (DocumentReference) ds.getData().get("brand");
+            brandsRefUnique.add(brandRef);
+        }
+
+        List<Task<DocumentSnapshot>> brands = new ArrayList<>();
+        for (DocumentReference df : brandsRefUnique) {
+            brands.add(df.get());
+        }
+
+        List<DocumentSnapshot> documentSnapshots = Tasks.await(Tasks.whenAllSuccess(brands));
+
+        Map<DocumentReference, String> brandsMap = new HashMap<>();
+        for (DocumentSnapshot ds : documentSnapshots) {
+            brandsMap.put(ds.getReference(), ds.getData().get("name").toString());
+        }
+        return brandsMap;
     }
 
     public List<IProductVersion> getProductVersions(String productId) {
@@ -193,8 +229,7 @@ public class ProductRepository implements IProductRepository {
             QuerySnapshot snapshot = Tasks.await(db.collection("product").document(productId).collection("productVersion").get());
 
             for (DocumentSnapshot ds : snapshot.getDocuments()) {
-
-                productVersions.add(ProductVersionTransformer.unpack(ds.getId(),ds.getData()) );
+                productVersions.add(ProductVersionTransformer.unpack(ds.getId(), ds.getData()));
             }
             return productVersions;
 
@@ -215,7 +250,7 @@ public class ProductRepository implements IProductRepository {
 
             for (DocumentSnapshot ds : snapshot.getDocuments()) {
 
-                benefits.add(BenefitTransformer.unpack(ds.getId(),ds.getData()));
+                benefits.add(BenefitTransformer.unpack(ds.getId(), ds.getData()));
             }
             return benefits;
 
@@ -227,10 +262,90 @@ public class ProductRepository implements IProductRepository {
     }
 
     public List<IProduct> getFeaturedProducts() {
-        throw new UnsupportedOperationException();
+        List<IProduct> products = new ArrayList<>();
+        try {
+            QuerySnapshot snapshot = Tasks.await(db.collection("product").get());
+
+            Map<DocumentReference, String> brandsMap = getBrandsFromSnapshot(snapshot.getDocuments());
+
+            for (DocumentSnapshot ds : snapshot.getDocuments()) {
+                String brandName = brandsMap.get((DocumentReference) ds.getData().get("brand"));
+                products.add(ProductTransformer.unpack(ds.getId(), brandName, ds.getData()));
+            }
+            return products;
+
+        } catch (ExecutionException | InterruptedException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     public List<String> searchAutoComplete(String searchTerm) {
-        throw new UnsupportedOperationException();
+        List<String> searchAutoCompletes = new ArrayList<>();
+
+        Index index = algolia.getIndex("products");
+        com.algolia.search.saas.Query query = new com.algolia.search.saas.Query(searchTerm)
+                .setAttributesToRetrieve("name")
+                .setHitsPerPage(4);
+        index.searchAsync(query, (content, error) -> {
+            try {
+                System.out.println(content.toString());
+                JSONArray array = content.getJSONArray("hits");
+                for (int i = 0; i < array.length(); i++) {
+                    searchAutoCompletes.add(array.getJSONObject(i).getString("name"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return searchAutoCompletes;
+    }
+
+
+    public List<IProduct> getProductsBySearch(String searchTerm) {
+        Index index = algolia.getIndex("products");
+        com.algolia.search.saas.Query query = new com.algolia.search.saas.Query(searchTerm)
+                .setAttributesToRetrieve("id")
+                .setHitsPerPage(100);
+
+        List<String> productIds = new ArrayList<>();
+        try {
+            JSONObject content = index.search(query, new RequestOptions());
+            JSONArray array = content.getJSONArray("hits");
+            for (int i = 0; i < array.length(); i++) {
+                productIds.add(array.getJSONObject(i).getString("id"));
+            }
+            System.out.println(productIds);
+        } catch (JSONException | AlgoliaException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
+        List<Task<DocumentSnapshot>> tasks = new ArrayList<>();
+        for (String productId : productIds) {
+            tasks.add(db.collection("product").document(productId).get());
+        }
+
+        try {
+            List<DocumentSnapshot> documentSnapshots = Tasks.await(Tasks.whenAllSuccess(tasks));
+
+            System.out.println(documentSnapshots);
+
+            Map<DocumentReference, String> brandsMap = getBrandsFromSnapshot(documentSnapshots);
+
+            List<IProduct> products = new ArrayList<>();
+            for (DocumentSnapshot ds : documentSnapshots) {
+                if (ds.getData() == null) break;
+                DocumentReference brandRef = (DocumentReference) ds.getData().get("brand");
+                products.add(ProductTransformer.unpack(ds.getId(), brandsMap.get(brandRef), ds.getData()));
+            }
+            return products;
+
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

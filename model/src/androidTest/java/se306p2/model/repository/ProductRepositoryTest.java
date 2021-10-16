@@ -32,6 +32,7 @@ import se306p2.domain.interfaces.entity.IBenefit;
 import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.entity.IProductVersion;
+import se306p2.domain.interfaces.repositories.IProductRepository;
 import se306p2.model.entities.Benefit;
 import se306p2.model.entities.Category;
 import se306p2.model.entities.Product;
@@ -39,10 +40,10 @@ import se306p2.model.entities.Product;
 
 public class ProductRepositoryTest {
     private static FirebaseFirestore firestore;
-    private static ProductRepository productRepository;
+    private static IProductRepository productRepository;
 
     @BeforeAll
-    static void setUp()  {
+    static void setUp() {
         try {
             // Setup Firestore
             FirebaseApp.clearInstancesForTest();
@@ -60,10 +61,7 @@ public class ProductRepositoryTest {
             firestore.setFirestoreSettings(settings);
 
             // Use Reflection to inject local Firebase instance
-            productRepository = new ProductRepository();
-            Field privateFirestore = ProductRepository.class.getDeclaredField("db");
-            privateFirestore.setAccessible(true);
-            privateFirestore.set(productRepository, firestore);
+            productRepository = ProductRepository.getInstance();
 
             // Setup Data
             Map<String, Object> entry;
@@ -96,7 +94,6 @@ public class ProductRepositoryTest {
             Tasks.await(firestore.collection("brand").document("zB8vZBerKRPJTSeVbyTm").set(entry));
 
 
-
             // Set up Benefit
             entry = new HashMap<String, Object>() {{
                 put("name", "Floral");
@@ -111,10 +108,10 @@ public class ProductRepositoryTest {
 
             // Set up productVersion
             entry = new HashMap<String, Object>() {{
-                put("name","version 1");
-                put("hexColor","#023d8a");
+                put("name", "version 1");
+                put("hexColor", "#023d8a");
                 put("imageURI", imageURIList);
-                put("order",1);
+                put("order", 1);
             }};
             Tasks.await(firestore.collection("product").document("BUVdXxq9sEZfPurxGT5c").collection("productVersion").document("7QccHbnF6wLg8wvzpRdA").set(entry));
 
@@ -134,7 +131,7 @@ public class ProductRepositoryTest {
                 put("link", "https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1");
                 put("defaultImageURI", "https://picsum.photos/100?mojave");
                 put("form", IProduct.Form.LIQUID);
-                put("price",361.0);
+                put("price", 361.0);
 
             }};
             Tasks.await(firestore.collection("product").document("BUVdXxq9sEZfPurxGT5c").set(entry));
@@ -152,10 +149,10 @@ public class ProductRepositoryTest {
 
             // Set up productVersion 2
             entry = new HashMap<String, Object>() {{
-                put("name","version 1");
-                put("hexColor","#05527e");
+                put("name", "version 1");
+                put("hexColor", "#05527e");
                 put("imageURI", imageURIList2);
-                put("order",1);
+                put("order", 1);
             }};
             Tasks.await(firestore.collection("product").document("QNpwXLxL7SmpQWmfqUtg").collection("productVersion").document("2zCtLeM4wR7AUcPQh98T").set(entry));
 
@@ -166,10 +163,10 @@ public class ProductRepositoryTest {
 
             // Set up productVersion 3
             entry = new HashMap<String, Object>() {{
-                put("name","version 2");
-                put("hexColor","#d55487");
+                put("name", "version 2");
+                put("hexColor", "#d55487");
                 put("imageURI", imageURIList3);
-                put("order",2);
+                put("order", 2);
             }};
             Tasks.await(firestore.collection("product").document("QNpwXLxL7SmpQWmfqUtg").collection("productVersion").document("KVdN8a4xAvCxTB8CUp3x").set(entry));
 
@@ -187,9 +184,9 @@ public class ProductRepositoryTest {
                 put("link", "https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1");
                 put("defaultImageURI", "https://picsum.photos/100?blanche");
                 put("form", IProduct.Form.LIQUID);
-                put("price",361.0);
-                put("numericRating",4.5);
-                put("numReviews",18);
+                put("price", 361.0);
+                put("numericRating", 4.5);
+                put("numReviews", 18);
 
             }};
             Tasks.await(firestore.collection("product").document("QNpwXLxL7SmpQWmfqUtg").set(entry));
@@ -215,10 +212,10 @@ public class ProductRepositoryTest {
 
             // Set up productVersion 4
             entry = new HashMap<String, Object>() {{
-                put("name","version 1");
-                put("hexColor","#05527e");
+                put("name", "version 1");
+                put("hexColor", "#05527e");
                 put("imageURI", imageURIList4);
-                put("order",1);
+                put("order", 1);
             }};
             Tasks.await(firestore.collection("product").document("eX6dyFbyDYMV5ArNS6gx").collection("productVersion").document("qt3KMwbQqHdq68SH4T4D").set(entry));
 
@@ -239,16 +236,15 @@ public class ProductRepositoryTest {
                 put("link", "https://www.meccabeauty.co.nz/chantecaille/liquid-lumiere/V-018711.html?cgpath=brands-chante");
                 put("defaultImageURI", "https://picsum.photos/100?liquid-lumiere");
                 put("form", IProduct.Form.LIQUID);
-                put("price",72.0);
-                put("numericRating",3.74);
-                put("numReviews",46);
+                put("price", 72.0);
+                put("numericRating", 3.74);
+                put("numReviews", 46);
 
             }};
             Tasks.await(firestore.collection("product").document("eX6dyFbyDYMV5ArNS6gx").set(entry));
 
 
-
-        } catch (NoSuchFieldException | IllegalAccessException | InterruptedException | ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             fail(e);
         }
@@ -296,22 +292,22 @@ public class ProductRepositoryTest {
 
             IProduct product_0 = products.get(0);
 
-            assertEquals("BUVdXxq9sEZfPurxGT5c",product_0.getId());
-            assertEquals("Mojave Ghost EDP",product_0.getName());
-            assertEquals("An elegant, warm floral with a woody twist.",product_0.getSlogan());
+            assertEquals("BUVdXxq9sEZfPurxGT5c", product_0.getId());
+            assertEquals("Mojave Ghost EDP", product_0.getName());
+            assertEquals("An elegant, warm floral with a woody twist.", product_0.getSlogan());
             assertEquals("Inspired by the incredibly rare Mojave Ghost flower that blossoms " +
                     "in the arid Mojave Desert, this fragrance is exotic, alluring and delicate just " +
                     "like the flower. It combines woody and floral tones to create a light and graceful " +
                     "yet warm scent that lingers on the skin. Explore a warm floral bouquet but not " +
-                    "as you know it, this spiced twist makes for a distinctive signature scent.",product_0.getDetails());
+                    "as you know it, this spiced twist makes for a distinctive signature scent.", product_0.getDetails());
             assertEquals("Store in a cool, dry place and out of direct sunlight. Use on clean " +
-                    "dry skin, gently spray onto pulse points avoiding rubbing wrists together.",product_0.getUsage());
-            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1",product_0.getLink());
-            assertEquals("https://picsum.photos/100?mojave",product_0.getDefaultImageURI());
-            assertEquals(IProduct.Form.LIQUID,product_0.getForm());
-            assertEquals(new BigDecimal(361),product_0.getPrice());
-            assertEquals(0.0,product_0.getNumericRating());
-            assertEquals(0,product_0.getNumReviews());
+                    "dry skin, gently spray onto pulse points avoiding rubbing wrists together.", product_0.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1", product_0.getLink());
+            assertEquals("https://picsum.photos/100?mojave", product_0.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product_0.getForm());
+            assertEquals(new BigDecimal(361), product_0.getPrice());
+            assertEquals(0.0, product_0.getNumericRating());
+            assertEquals(0, product_0.getNumReviews());
 
             IProduct product_1 = products.get(1);
 
@@ -321,8 +317,8 @@ public class ProductRepositoryTest {
             assertEquals("A fresh laundered scent which has a delicious warmth at its core " +
                     "that sets it apart. The ephemeral sweetness of the violet is anchored with the " +
                     "delectable milky richness of the sandalwood. A clean, modern take on a classic " +
-                    "floral aldehyde.",product_1.getDetails());
-            assertEquals("Spray onto pulse points as desired.",product_1.getUsage());
+                    "floral aldehyde.", product_1.getDetails());
+            assertEquals("Spray onto pulse points as desired.", product_1.getUsage());
             assertEquals("https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1", product_1.getLink());
             assertEquals("https://picsum.photos/100?blanche", product_1.getDefaultImageURI());
             assertEquals(IProduct.Form.LIQUID, product_1.getForm());
@@ -338,10 +334,10 @@ public class ProductRepositoryTest {
             assertEquals("Velvety-smooth and buildable, Liquid Lumière blends effortlessly " +
                     "as it highlights to leave skin feeling moisturised and supple. Micro-sized, " +
                     "light reflecting pigments blur imperfections to instantly illuminate the skin. " +
-                    "Packaged for portability.",product_2.getDetails());
+                    "Packaged for portability.", product_2.getDetails());
             assertEquals("After foundation application, use fingertips to tap the formula " +
                     "onto cheekbones, or any other area of desired highlight. Mix a pea-sized amount " +
-                    "into foundation or skincare for an all over glow.",product_2.getUsage());
+                    "into foundation or skincare for an all over glow.", product_2.getUsage());
             assertEquals("https://www.meccabeauty.co.nz/chantecaille/liquid-lumiere/V-018711.html?cgpath=brands-chante", product_2.getLink());
             assertEquals("https://picsum.photos/100?liquid-lumiere", product_2.getDefaultImageURI());
             assertEquals(IProduct.Form.LIQUID, product_2.getForm());
@@ -380,10 +376,10 @@ public class ProductRepositoryTest {
             assertEquals("Velvety-smooth and buildable, Liquid Lumière blends effortlessly " +
                     "as it highlights to leave skin feeling moisturised and supple. Micro-sized, " +
                     "light reflecting pigments blur imperfections to instantly illuminate the skin. " +
-                    "Packaged for portability.",product.getDetails());
+                    "Packaged for portability.", product.getDetails());
             assertEquals("After foundation application, use fingertips to tap the formula " +
                     "onto cheekbones, or any other area of desired highlight. Mix a pea-sized amount " +
-                    "into foundation or skincare for an all over glow.",product.getUsage());
+                    "into foundation or skincare for an all over glow.", product.getUsage());
             assertEquals("https://www.meccabeauty.co.nz/chantecaille/liquid-lumiere/V-018711.html?cgpath=brands-chante", product.getLink());
             assertEquals("https://picsum.photos/100?liquid-lumiere", product.getDefaultImageURI());
             assertEquals(IProduct.Form.LIQUID, product.getForm());
@@ -403,7 +399,7 @@ public class ProductRepositoryTest {
             List<IProduct> products = productRepository.getProductsByCategoryId("AAAAAAAAAAAAAAAAAAAA");
 
             assertNotNull(products);
-            assertEquals(emptyList,products);
+            assertEquals(emptyList, products);
         }
 
         @Test
@@ -411,7 +407,7 @@ public class ProductRepositoryTest {
 
             List<IProduct> products = productRepository.getProductsByCategoryId("9TYYjC3J5AUzbw4xsyQq");
 
-            assertEquals(1,products.size());
+            assertEquals(1, products.size());
 
             IProduct product = products.get(0);
 
@@ -421,10 +417,10 @@ public class ProductRepositoryTest {
             assertEquals("Velvety-smooth and buildable, Liquid Lumière blends effortlessly " +
                     "as it highlights to leave skin feeling moisturised and supple. Micro-sized, " +
                     "light reflecting pigments blur imperfections to instantly illuminate the skin. " +
-                    "Packaged for portability.",product.getDetails());
+                    "Packaged for portability.", product.getDetails());
             assertEquals("After foundation application, use fingertips to tap the formula " +
                     "onto cheekbones, or any other area of desired highlight. Mix a pea-sized amount " +
-                    "into foundation or skincare for an all over glow.",product.getUsage());
+                    "into foundation or skincare for an all over glow.", product.getUsage());
             assertEquals("https://www.meccabeauty.co.nz/chantecaille/liquid-lumiere/V-018711.html?cgpath=brands-chante", product.getLink());
             assertEquals("https://picsum.photos/100?liquid-lumiere", product.getDefaultImageURI());
             assertEquals(IProduct.Form.LIQUID, product.getForm());
@@ -440,26 +436,26 @@ public class ProductRepositoryTest {
 
             List<IProduct> products = productRepository.getProductsByCategoryId("pbsd3cBrG47WZg9Caj6H");
 
-            assertEquals(2,products.size());
+            assertEquals(2, products.size());
 
             IProduct product_0 = products.get(0);
 
-            assertEquals("BUVdXxq9sEZfPurxGT5c",product_0.getId());
-            assertEquals("Mojave Ghost EDP",product_0.getName());
-            assertEquals("An elegant, warm floral with a woody twist.",product_0.getSlogan());
+            assertEquals("BUVdXxq9sEZfPurxGT5c", product_0.getId());
+            assertEquals("Mojave Ghost EDP", product_0.getName());
+            assertEquals("An elegant, warm floral with a woody twist.", product_0.getSlogan());
             assertEquals("Inspired by the incredibly rare Mojave Ghost flower that blossoms " +
                     "in the arid Mojave Desert, this fragrance is exotic, alluring and delicate just " +
                     "like the flower. It combines woody and floral tones to create a light and " +
                     "graceful yet warm scent that lingers on the skin. Explore a warm floral bouquet " +
-                    "but not as you know it, this spiced twist makes for a distinctive signature scent.",product_0.getDetails());
+                    "but not as you know it, this spiced twist makes for a distinctive signature scent.", product_0.getDetails());
             assertEquals("Store in a cool, dry place and out of direct sunlight. Use on clean " +
-                    "dry skin, gently spray onto pulse points avoiding rubbing wrists together.",product_0.getUsage());
-            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1",product_0.getLink());
-            assertEquals("https://picsum.photos/100?mojave",product_0.getDefaultImageURI());
-            assertEquals(IProduct.Form.LIQUID,product_0.getForm());
-            assertEquals(new BigDecimal(361),product_0.getPrice());
-            assertEquals(0.0,product_0.getNumericRating());
-            assertEquals(0,product_0.getNumReviews());
+                    "dry skin, gently spray onto pulse points avoiding rubbing wrists together.", product_0.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1", product_0.getLink());
+            assertEquals("https://picsum.photos/100?mojave", product_0.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product_0.getForm());
+            assertEquals(new BigDecimal(361), product_0.getPrice());
+            assertEquals(0.0, product_0.getNumericRating());
+            assertEquals(0, product_0.getNumReviews());
 
 
             IProduct product_1 = products.get(1);
@@ -470,8 +466,8 @@ public class ProductRepositoryTest {
             assertEquals("A fresh laundered scent which has a delicious warmth at its core " +
                     "that sets it apart. The ephemeral sweetness of the violet is anchored with the " +
                     "delectable milky richness of the sandalwood. A clean, modern take on a classic " +
-                    "floral aldehyde.",product_1.getDetails());
-            assertEquals("Spray onto pulse points as desired.",product_1.getUsage());
+                    "floral aldehyde.", product_1.getDetails());
+            assertEquals("Spray onto pulse points as desired.", product_1.getUsage());
             assertEquals("https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1", product_1.getLink());
             assertEquals("https://picsum.photos/100?blanche", product_1.getDefaultImageURI());
             assertEquals(IProduct.Form.LIQUID, product_1.getForm());
@@ -491,23 +487,23 @@ public class ProductRepositoryTest {
         void testGetProductByCategoryNotExist() {
 
 
-            ICategory category = new Category("AAAAAAAAAAAAAAAAAAA","Fake Category","https://picsum.photos/100?fake-category");
+            ICategory category = new Category("AAAAAAAAAAAAAAAAAAA", "Fake Category", "https://picsum.photos/100?fake-category");
 
             List<IProduct> emptyList = new ArrayList<>();
             List<IProduct> products = productRepository.getProductsByCategory(category);
 
             assertNotNull(products);
-            assertEquals(emptyList,products);
+            assertEquals(emptyList, products);
         }
 
         @Test
         void testGetProductByCategoryOneProduct() {
 
-            ICategory category = new Category("9TYYjC3J5AUzbw4xsyQq","Skin Care","https://picsum.photos/100?skin-care");
+            ICategory category = new Category("9TYYjC3J5AUzbw4xsyQq", "Skin Care", "https://picsum.photos/100?skin-care");
 
             List<IProduct> products = productRepository.getProductsByCategory(category);
 
-            assertEquals(1,products.size());
+            assertEquals(1, products.size());
 
             IProduct product = products.get(0);
 
@@ -517,10 +513,10 @@ public class ProductRepositoryTest {
             assertEquals("Velvety-smooth and buildable, Liquid Lumière blends effortlessly " +
                     "as it highlights to leave skin feeling moisturised and supple. Micro-sized, light " +
                     "reflecting pigments blur imperfections to instantly illuminate the skin. " +
-                    "Packaged for portability.",product.getDetails());
+                    "Packaged for portability.", product.getDetails());
             assertEquals("After foundation application, use fingertips to tap the formula onto " +
                     "cheekbones, or any other area of desired highlight. Mix a pea-sized amount into " +
-                    "foundation or skincare for an all over glow.",product.getUsage());
+                    "foundation or skincare for an all over glow.", product.getUsage());
             assertEquals("https://www.meccabeauty.co.nz/chantecaille/liquid-lumiere/V-018711.html?cgpath=brands-chante", product.getLink());
             assertEquals("https://picsum.photos/100?liquid-lumiere", product.getDefaultImageURI());
             assertEquals(IProduct.Form.LIQUID, product.getForm());
@@ -533,29 +529,29 @@ public class ProductRepositoryTest {
 
         @Test
         void testGetProductByCategoryMoreThanOneProduct() {
-            ICategory category = new Category("pbsd3cBrG47WZg9Caj6H","Fragrance","https://picsum.photos/100?fragrance");
+            ICategory category = new Category("pbsd3cBrG47WZg9Caj6H", "Fragrance", "https://picsum.photos/100?fragrance");
             List<IProduct> products = productRepository.getProductsByCategory(category);
 
-            assertEquals(2,products.size());
+            assertEquals(2, products.size());
 
             IProduct product_0 = products.get(0);
 
-            assertEquals("BUVdXxq9sEZfPurxGT5c",product_0.getId());
-            assertEquals("Mojave Ghost EDP",product_0.getName());
-            assertEquals("An elegant, warm floral with a woody twist.",product_0.getSlogan());
+            assertEquals("BUVdXxq9sEZfPurxGT5c", product_0.getId());
+            assertEquals("Mojave Ghost EDP", product_0.getName());
+            assertEquals("An elegant, warm floral with a woody twist.", product_0.getSlogan());
             assertEquals("Inspired by the incredibly rare Mojave Ghost flower that blossoms " +
                     "in the arid Mojave Desert, this fragrance is exotic, alluring and delicate just " +
                     "like the flower. It combines woody and floral tones to create a light and graceful " +
                     "yet warm scent that lingers on the skin. Explore a warm floral bouquet but not " +
-                    "as you know it, this spiced twist makes for a distinctive signature scent.",product_0.getDetails());
+                    "as you know it, this spiced twist makes for a distinctive signature scent.", product_0.getDetails());
             assertEquals("Store in a cool, dry place and out of direct sunlight. Use on clean " +
-                    "dry skin, gently spray onto pulse points avoiding rubbing wrists together.",product_0.getUsage());
-            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1",product_0.getLink());
-            assertEquals("https://picsum.photos/100?mojave",product_0.getDefaultImageURI());
-            assertEquals(IProduct.Form.LIQUID,product_0.getForm());
-            assertEquals(new BigDecimal(361),product_0.getPrice());
-            assertEquals(0.0,product_0.getNumericRating());
-            assertEquals(0,product_0.getNumReviews());
+                    "dry skin, gently spray onto pulse points avoiding rubbing wrists together.", product_0.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1", product_0.getLink());
+            assertEquals("https://picsum.photos/100?mojave", product_0.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product_0.getForm());
+            assertEquals(new BigDecimal(361), product_0.getPrice());
+            assertEquals(0.0, product_0.getNumericRating());
+            assertEquals(0, product_0.getNumReviews());
 
 
             IProduct product_1 = products.get(1);
@@ -566,8 +562,8 @@ public class ProductRepositoryTest {
             assertEquals("A fresh laundered scent which has a delicious warmth at its core " +
                     "that sets it apart. The ephemeral sweetness of the violet is anchored with the " +
                     "delectable milky richness of the sandalwood. A clean, modern take on a classic " +
-                    "floral aldehyde.",product_1.getDetails());
-            assertEquals("Spray onto pulse points as desired.",product_1.getUsage());
+                    "floral aldehyde.", product_1.getDetails());
+            assertEquals("Spray onto pulse points as desired.", product_1.getUsage());
             assertEquals("https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1", product_1.getLink());
             assertEquals("https://picsum.photos/100?blanche", product_1.getDefaultImageURI());
             assertEquals(IProduct.Form.LIQUID, product_1.getForm());
@@ -590,7 +586,7 @@ public class ProductRepositoryTest {
             List<IProductVersion> productVersions = productRepository.getProductVersions("fakeproductid");
 
             assertNotNull(productVersions);
-            assertEquals(emptyList,productVersions);
+            assertEquals(emptyList, productVersions);
 
         }
 
@@ -599,17 +595,16 @@ public class ProductRepositoryTest {
 
             List<IProductVersion> productVersions = productRepository.getProductVersions("BUVdXxq9sEZfPurxGT5c");
 
-            assertEquals(1,productVersions.size());
+            assertEquals(1, productVersions.size());
 
             IProductVersion productVersion = productVersions.get(0);
 
-            assertEquals("7QccHbnF6wLg8wvzpRdA",productVersion.getId());
+            assertEquals("7QccHbnF6wLg8wvzpRdA", productVersion.getId());
             assertEquals("version 1", productVersion.getName());
-            assertEquals("#023d8a",productVersion.getHexColor());
-            assertEquals("https://picsum.photos/100?version1",productVersion.getImageURI().get(0));
-            assertEquals("https://picsum.photos/100?version2",productVersion.getImageURI().get(1));
-            assertEquals(1,productVersion.getOrder());
-
+            assertEquals("#023d8a", productVersion.getHexColor());
+            assertEquals("https://picsum.photos/100?version1", productVersion.getImageURI().get(0));
+            assertEquals("https://picsum.photos/100?version2", productVersion.getImageURI().get(1));
+            assertEquals(1, productVersion.getOrder());
 
 
         }
@@ -618,23 +613,23 @@ public class ProductRepositoryTest {
         void testGetProductVersionsTwoVersionsAndOneImageURI() {
             List<IProductVersion> productVersions = productRepository.getProductVersions("QNpwXLxL7SmpQWmfqUtg");
 
-            assertEquals(2,productVersions.size());
+            assertEquals(2, productVersions.size());
 
             IProductVersion productVersion = productVersions.get(0);
 
-            assertEquals("2zCtLeM4wR7AUcPQh98T",productVersion.getId());
+            assertEquals("2zCtLeM4wR7AUcPQh98T", productVersion.getId());
             assertEquals("version 1", productVersion.getName());
-            assertEquals("#05527e",productVersion.getHexColor());
-            assertEquals("https://picsum.photos/100?version1",productVersion.getImageURI().get(0));
-            assertEquals(1,productVersion.getOrder());
+            assertEquals("#05527e", productVersion.getHexColor());
+            assertEquals("https://picsum.photos/100?version1", productVersion.getImageURI().get(0));
+            assertEquals(1, productVersion.getOrder());
 
             IProductVersion productVersion_1 = productVersions.get(1);
 
-            assertEquals("KVdN8a4xAvCxTB8CUp3x",productVersion_1.getId());
+            assertEquals("KVdN8a4xAvCxTB8CUp3x", productVersion_1.getId());
             assertEquals("version 2", productVersion_1.getName());
-            assertEquals("#d55487",productVersion_1.getHexColor());
-            assertEquals("https://picsum.photos/100?version2",productVersion_1.getImageURI().get(0));
-            assertEquals(2,productVersion_1.getOrder());
+            assertEquals("#d55487", productVersion_1.getHexColor());
+            assertEquals("https://picsum.photos/100?version2", productVersion_1.getImageURI().get(0));
+            assertEquals(2, productVersion_1.getOrder());
 
 
         }
@@ -652,7 +647,7 @@ public class ProductRepositoryTest {
             List<IBenefit> benefits = productRepository.getBenefits("fakeproductid");
 
             assertNotNull(benefits);
-            assertEquals(emptyList,benefits);
+            assertEquals(emptyList, benefits);
 
         }
 
@@ -661,14 +656,13 @@ public class ProductRepositoryTest {
 
             List<IBenefit> benefits = productRepository.getBenefits("BUVdXxq9sEZfPurxGT5c");
 
-            assertEquals(1,benefits.size());
+            assertEquals(1, benefits.size());
 
             IBenefit benefit = benefits.get(0);
 
-            assertEquals("E9RW7WJh7w8GVWbPTyGs",benefit.getId());
+            assertEquals("E9RW7WJh7w8GVWbPTyGs", benefit.getId());
             assertEquals("Floral", benefit.getName());
-            assertEquals("https://picsum.photos/100?floral",benefit.getImageURI());
-
+            assertEquals("https://picsum.photos/100?floral", benefit.getImageURI());
 
 
         }
@@ -678,19 +672,19 @@ public class ProductRepositoryTest {
 
             List<IBenefit> benefits = productRepository.getBenefits("eX6dyFbyDYMV5ArNS6gx");
 
-            assertEquals(2,benefits.size());
+            assertEquals(2, benefits.size());
 
             IBenefit benefit_0 = benefits.get(0);
 
-            assertEquals("EPkt2Bx83jb4yd7xX8Zx",benefit_0.getId());
+            assertEquals("EPkt2Bx83jb4yd7xX8Zx", benefit_0.getId());
             assertEquals("Cruelty-free", benefit_0.getName());
-            assertEquals("https://picsum.photos/100?Cruelty-free",benefit_0.getImageURI());
+            assertEquals("https://picsum.photos/100?Cruelty-free", benefit_0.getImageURI());
 
             IBenefit benefit_1 = benefits.get(1);
 
-            assertEquals("wJsVCcCfVVKdWWA5dGma",benefit_1.getId());
+            assertEquals("wJsVCcCfVVKdWWA5dGma", benefit_1.getId());
             assertEquals("Dewy finish", benefit_1.getName());
-            assertEquals("https://picsum.photos/100?dewy-finish",benefit_1.getImageURI());
+            assertEquals("https://picsum.photos/100?dewy-finish", benefit_1.getImageURI());
 
         }
 
@@ -706,7 +700,7 @@ public class ProductRepositoryTest {
                 productRepository.getProductsByFilter(null, null, new BigDecimal(5.00), null);
                 fail();
             } catch (UnsupportedOperationException e) {
-                assertEquals("category and brand cannot be both null",e.getMessage());
+                assertEquals("category and brand cannot be both null", e.getMessage());
             }
 
         }
@@ -716,26 +710,26 @@ public class ProductRepositoryTest {
 
             List<IProduct> products = productRepository.getProductsByFilter("pbsd3cBrG47WZg9Caj6H", null, null, null);
 
-            assertEquals(2,products.size());
+            assertEquals(2, products.size());
 
             IProduct product_0 = products.get(0);
 
-            assertEquals("BUVdXxq9sEZfPurxGT5c",product_0.getId());
-            assertEquals("Mojave Ghost EDP",product_0.getName());
-            assertEquals("An elegant, warm floral with a woody twist.",product_0.getSlogan());
+            assertEquals("BUVdXxq9sEZfPurxGT5c", product_0.getId());
+            assertEquals("Mojave Ghost EDP", product_0.getName());
+            assertEquals("An elegant, warm floral with a woody twist.", product_0.getSlogan());
             assertEquals("Inspired by the incredibly rare Mojave Ghost flower that blossoms " +
                     "in the arid Mojave Desert, this fragrance is exotic, alluring and delicate just " +
                     "like the flower. It combines woody and floral tones to create a light and " +
                     "graceful yet warm scent that lingers on the skin. Explore a warm floral bouquet " +
-                    "but not as you know it, this spiced twist makes for a distinctive signature scent.",product_0.getDetails());
+                    "but not as you know it, this spiced twist makes for a distinctive signature scent.", product_0.getDetails());
             assertEquals("Store in a cool, dry place and out of direct sunlight. Use on clean " +
-                    "dry skin, gently spray onto pulse points avoiding rubbing wrists together.",product_0.getUsage());
-            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1",product_0.getLink());
-            assertEquals("https://picsum.photos/100?mojave",product_0.getDefaultImageURI());
-            assertEquals(IProduct.Form.LIQUID,product_0.getForm());
-            assertEquals(new BigDecimal(361),product_0.getPrice());
-            assertEquals(0.0,product_0.getNumericRating());
-            assertEquals(0,product_0.getNumReviews());
+                    "dry skin, gently spray onto pulse points avoiding rubbing wrists together.", product_0.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1", product_0.getLink());
+            assertEquals("https://picsum.photos/100?mojave", product_0.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product_0.getForm());
+            assertEquals(new BigDecimal(361), product_0.getPrice());
+            assertEquals(0.0, product_0.getNumericRating());
+            assertEquals(0, product_0.getNumReviews());
 
 
             IProduct product_1 = products.get(1);
@@ -746,8 +740,8 @@ public class ProductRepositoryTest {
             assertEquals("A fresh laundered scent which has a delicious warmth at its core " +
                     "that sets it apart. The ephemeral sweetness of the violet is anchored with the " +
                     "delectable milky richness of the sandalwood. A clean, modern take on a classic " +
-                    "floral aldehyde.",product_1.getDetails());
-            assertEquals("Spray onto pulse points as desired.",product_1.getUsage());
+                    "floral aldehyde.", product_1.getDetails());
+            assertEquals("Spray onto pulse points as desired.", product_1.getUsage());
             assertEquals("https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1", product_1.getLink());
             assertEquals("https://picsum.photos/100?blanche", product_1.getDefaultImageURI());
             assertEquals(IProduct.Form.LIQUID, product_1.getForm());
@@ -762,26 +756,26 @@ public class ProductRepositoryTest {
 
             List<IProduct> products = productRepository.getProductsByFilter(null, "bXWJLz3maMk9rtdWFRuN", null, null);
 
-            assertEquals(2,products.size());
+            assertEquals(2, products.size());
 
             IProduct product_0 = products.get(0);
 
-            assertEquals("BUVdXxq9sEZfPurxGT5c",product_0.getId());
-            assertEquals("Mojave Ghost EDP",product_0.getName());
-            assertEquals("An elegant, warm floral with a woody twist.",product_0.getSlogan());
+            assertEquals("BUVdXxq9sEZfPurxGT5c", product_0.getId());
+            assertEquals("Mojave Ghost EDP", product_0.getName());
+            assertEquals("An elegant, warm floral with a woody twist.", product_0.getSlogan());
             assertEquals("Inspired by the incredibly rare Mojave Ghost flower that blossoms " +
                     "in the arid Mojave Desert, this fragrance is exotic, alluring and delicate just " +
                     "like the flower. It combines woody and floral tones to create a light and graceful " +
                     "yet warm scent that lingers on the skin. Explore a warm floral bouquet but not " +
-                    "as you know it, this spiced twist makes for a distinctive signature scent.",product_0.getDetails());
+                    "as you know it, this spiced twist makes for a distinctive signature scent.", product_0.getDetails());
             assertEquals("Store in a cool, dry place and out of direct sunlight. Use on clean " +
-                    "dry skin, gently spray onto pulse points avoiding rubbing wrists together.",product_0.getUsage());
-            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1",product_0.getLink());
-            assertEquals("https://picsum.photos/100?mojave",product_0.getDefaultImageURI());
-            assertEquals(IProduct.Form.LIQUID,product_0.getForm());
-            assertEquals(new BigDecimal(361),product_0.getPrice());
-            assertEquals(0.0,product_0.getNumericRating());
-            assertEquals(0,product_0.getNumReviews());
+                    "dry skin, gently spray onto pulse points avoiding rubbing wrists together.", product_0.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1", product_0.getLink());
+            assertEquals("https://picsum.photos/100?mojave", product_0.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product_0.getForm());
+            assertEquals(new BigDecimal(361), product_0.getPrice());
+            assertEquals(0.0, product_0.getNumericRating());
+            assertEquals(0, product_0.getNumReviews());
 
 
             IProduct product_1 = products.get(1);
@@ -792,8 +786,8 @@ public class ProductRepositoryTest {
             assertEquals("A fresh laundered scent which has a delicious warmth at its core " +
                     "that sets it apart. The ephemeral sweetness of the violet is anchored with the " +
                     "delectable milky richness of the sandalwood. A clean, modern take on a classic " +
-                    "floral aldehyde.",product_1.getDetails());
-            assertEquals("Spray onto pulse points as desired.",product_1.getUsage());
+                    "floral aldehyde.", product_1.getDetails());
+            assertEquals("Spray onto pulse points as desired.", product_1.getUsage());
             assertEquals("https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1", product_1.getLink());
             assertEquals("https://picsum.photos/100?blanche", product_1.getDefaultImageURI());
             assertEquals(IProduct.Form.LIQUID, product_1.getForm());
@@ -808,26 +802,26 @@ public class ProductRepositoryTest {
 
             List<IProduct> products = productRepository.getProductsByFilter("pbsd3cBrG47WZg9Caj6H", "bXWJLz3maMk9rtdWFRuN", null, null);
 
-            assertEquals(2,products.size());
+            assertEquals(2, products.size());
 
             IProduct product_0 = products.get(0);
 
-            assertEquals("BUVdXxq9sEZfPurxGT5c",product_0.getId());
-            assertEquals("Mojave Ghost EDP",product_0.getName());
-            assertEquals("An elegant, warm floral with a woody twist.",product_0.getSlogan());
+            assertEquals("BUVdXxq9sEZfPurxGT5c", product_0.getId());
+            assertEquals("Mojave Ghost EDP", product_0.getName());
+            assertEquals("An elegant, warm floral with a woody twist.", product_0.getSlogan());
             assertEquals("Inspired by the incredibly rare Mojave Ghost flower that blossoms " +
                     "in the arid Mojave Desert, this fragrance is exotic, alluring and delicate just " +
                     "like the flower. It combines woody and floral tones to create a light and graceful " +
                     "yet warm scent that lingers on the skin. Explore a warm floral bouquet but not " +
-                    "as you know it, this spiced twist makes for a distinctive signature scent.",product_0.getDetails());
+                    "as you know it, this spiced twist makes for a distinctive signature scent.", product_0.getDetails());
             assertEquals("Store in a cool, dry place and out of direct sunlight. Use on clean " +
-                    "dry skin, gently spray onto pulse points avoiding rubbing wrists together.",product_0.getUsage());
-            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1",product_0.getLink());
-            assertEquals("https://picsum.photos/100?mojave",product_0.getDefaultImageURI());
-            assertEquals(IProduct.Form.LIQUID,product_0.getForm());
-            assertEquals(new BigDecimal(361),product_0.getPrice());
-            assertEquals(0.0,product_0.getNumericRating());
-            assertEquals(0,product_0.getNumReviews());
+                    "dry skin, gently spray onto pulse points avoiding rubbing wrists together.", product_0.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1", product_0.getLink());
+            assertEquals("https://picsum.photos/100?mojave", product_0.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product_0.getForm());
+            assertEquals(new BigDecimal(361), product_0.getPrice());
+            assertEquals(0.0, product_0.getNumericRating());
+            assertEquals(0, product_0.getNumReviews());
 
 
             IProduct product_1 = products.get(1);
@@ -838,8 +832,8 @@ public class ProductRepositoryTest {
             assertEquals("A fresh laundered scent which has a delicious warmth at its core " +
                     "that sets it apart. The ephemeral sweetness of the violet is anchored with the " +
                     "delectable milky richness of the sandalwood. A clean, modern take on a classic " +
-                    "floral aldehyde.",product_1.getDetails());
-            assertEquals("Spray onto pulse points as desired.",product_1.getUsage());
+                    "floral aldehyde.", product_1.getDetails());
+            assertEquals("Spray onto pulse points as desired.", product_1.getUsage());
             assertEquals("https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1", product_1.getLink());
             assertEquals("https://picsum.photos/100?blanche", product_1.getDefaultImageURI());
             assertEquals(IProduct.Form.LIQUID, product_1.getForm());
@@ -854,26 +848,26 @@ public class ProductRepositoryTest {
 
             List<IProduct> products = productRepository.getProductsByFilter("pbsd3cBrG47WZg9Caj6H", "bXWJLz3maMk9rtdWFRuN", new BigDecimal(361), null);
 
-            assertEquals(2,products.size());
+            assertEquals(2, products.size());
 
             IProduct product_0 = products.get(0);
 
-            assertEquals("BUVdXxq9sEZfPurxGT5c",product_0.getId());
-            assertEquals("Mojave Ghost EDP",product_0.getName());
-            assertEquals("An elegant, warm floral with a woody twist.",product_0.getSlogan());
+            assertEquals("BUVdXxq9sEZfPurxGT5c", product_0.getId());
+            assertEquals("Mojave Ghost EDP", product_0.getName());
+            assertEquals("An elegant, warm floral with a woody twist.", product_0.getSlogan());
             assertEquals("Inspired by the incredibly rare Mojave Ghost flower that blossoms " +
                     "in the arid Mojave Desert, this fragrance is exotic, alluring and delicate just " +
                     "like the flower. It combines woody and floral tones to create a light and graceful " +
                     "yet warm scent that lingers on the skin. Explore a warm floral bouquet but not " +
-                    "as you know it, this spiced twist makes for a distinctive signature scent.",product_0.getDetails());
+                    "as you know it, this spiced twist makes for a distinctive signature scent.", product_0.getDetails());
             assertEquals("Store in a cool, dry place and out of direct sunlight. Use on clean " +
-                    "dry skin, gently spray onto pulse points avoiding rubbing wrists together.",product_0.getUsage());
-            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1",product_0.getLink());
-            assertEquals("https://picsum.photos/100?mojave",product_0.getDefaultImageURI());
-            assertEquals(IProduct.Form.LIQUID,product_0.getForm());
-            assertEquals(new BigDecimal(361),product_0.getPrice());
-            assertEquals(0.0,product_0.getNumericRating());
-            assertEquals(0,product_0.getNumReviews());
+                    "dry skin, gently spray onto pulse points avoiding rubbing wrists together.", product_0.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1", product_0.getLink());
+            assertEquals("https://picsum.photos/100?mojave", product_0.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product_0.getForm());
+            assertEquals(new BigDecimal(361), product_0.getPrice());
+            assertEquals(0.0, product_0.getNumericRating());
+            assertEquals(0, product_0.getNumReviews());
 
 
             IProduct product_1 = products.get(1);
@@ -884,8 +878,8 @@ public class ProductRepositoryTest {
             assertEquals("A fresh laundered scent which has a delicious warmth at its core " +
                     "that sets it apart. The ephemeral sweetness of the violet is anchored with the " +
                     "delectable milky richness of the sandalwood. A clean, modern take on a classic " +
-                    "floral aldehyde.",product_1.getDetails());
-            assertEquals("Spray onto pulse points as desired.",product_1.getUsage());
+                    "floral aldehyde.", product_1.getDetails());
+            assertEquals("Spray onto pulse points as desired.", product_1.getUsage());
             assertEquals("https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1", product_1.getLink());
             assertEquals("https://picsum.photos/100?blanche", product_1.getDefaultImageURI());
             assertEquals(IProduct.Form.LIQUID, product_1.getForm());
@@ -900,26 +894,26 @@ public class ProductRepositoryTest {
 
             List<IProduct> products = productRepository.getProductsByFilter("pbsd3cBrG47WZg9Caj6H", "bXWJLz3maMk9rtdWFRuN", null, new BigDecimal(361));
 
-            assertEquals(2,products.size());
+            assertEquals(2, products.size());
 
             IProduct product_1 = products.get(1);
 
-            assertEquals("BUVdXxq9sEZfPurxGT5c",product_1.getId());
-            assertEquals("Mojave Ghost EDP",product_1.getName());
-            assertEquals("An elegant, warm floral with a woody twist.",product_1.getSlogan());
+            assertEquals("BUVdXxq9sEZfPurxGT5c", product_1.getId());
+            assertEquals("Mojave Ghost EDP", product_1.getName());
+            assertEquals("An elegant, warm floral with a woody twist.", product_1.getSlogan());
             assertEquals("Inspired by the incredibly rare Mojave Ghost flower that blossoms " +
                     "in the arid Mojave Desert, this fragrance is exotic, alluring and delicate just " +
                     "like the flower. It combines woody and floral tones to create a light and graceful " +
                     "yet warm scent that lingers on the skin. Explore a warm floral bouquet but not " +
-                    "as you know it, this spiced twist makes for a distinctive signature scent.",product_1.getDetails());
+                    "as you know it, this spiced twist makes for a distinctive signature scent.", product_1.getDetails());
             assertEquals("Store in a cool, dry place and out of direct sunlight. Use on clean " +
-                    "dry skin, gently spray onto pulse points avoiding rubbing wrists together.",product_1.getUsage());
-            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1",product_1.getLink());
-            assertEquals("https://picsum.photos/100?mojave",product_1.getDefaultImageURI());
-            assertEquals(IProduct.Form.LIQUID,product_1.getForm());
-            assertEquals(new BigDecimal(361),product_1.getPrice());
-            assertEquals(0.0,product_1.getNumericRating());
-            assertEquals(0,product_1.getNumReviews());
+                    "dry skin, gently spray onto pulse points avoiding rubbing wrists together.", product_1.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1", product_1.getLink());
+            assertEquals("https://picsum.photos/100?mojave", product_1.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product_1.getForm());
+            assertEquals(new BigDecimal(361), product_1.getPrice());
+            assertEquals(0.0, product_1.getNumericRating());
+            assertEquals(0, product_1.getNumReviews());
 
 
             IProduct product_0 = products.get(0);
@@ -930,8 +924,8 @@ public class ProductRepositoryTest {
             assertEquals("A fresh laundered scent which has a delicious warmth at its core " +
                     "that sets it apart. The ephemeral sweetness of the violet is anchored with the " +
                     "delectable milky richness of the sandalwood. A clean, modern take on a classic " +
-                    "floral aldehyde.",product_0.getDetails());
-            assertEquals("Spray onto pulse points as desired.",product_0.getUsage());
+                    "floral aldehyde.", product_0.getDetails());
+            assertEquals("Spray onto pulse points as desired.", product_0.getUsage());
             assertEquals("https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1", product_0.getLink());
             assertEquals("https://picsum.photos/100?blanche", product_0.getDefaultImageURI());
             assertEquals(IProduct.Form.LIQUID, product_0.getForm());
@@ -945,26 +939,26 @@ public class ProductRepositoryTest {
         void testGetProductsByFilterBothMinMaxNotNull() {
 
             List<IProduct> products = productRepository.getProductsByFilter("pbsd3cBrG47WZg9Caj6H", "bXWJLz3maMk9rtdWFRuN", new BigDecimal(361), new BigDecimal(361));
-            assertEquals(2,products.size());
+            assertEquals(2, products.size());
 
             IProduct product_1 = products.get(1);
 
-            assertEquals("BUVdXxq9sEZfPurxGT5c",product_1.getId());
-            assertEquals("Mojave Ghost EDP",product_1.getName());
-            assertEquals("An elegant, warm floral with a woody twist.",product_1.getSlogan());
+            assertEquals("BUVdXxq9sEZfPurxGT5c", product_1.getId());
+            assertEquals("Mojave Ghost EDP", product_1.getName());
+            assertEquals("An elegant, warm floral with a woody twist.", product_1.getSlogan());
             assertEquals("Inspired by the incredibly rare Mojave Ghost flower that blossoms " +
                     "in the arid Mojave Desert, this fragrance is exotic, alluring and delicate just " +
                     "like the flower. It combines woody and floral tones to create a light and graceful " +
                     "yet warm scent that lingers on the skin. Explore a warm floral bouquet but not " +
-                    "as you know it, this spiced twist makes for a distinctive signature scent.",product_1.getDetails());
+                    "as you know it, this spiced twist makes for a distinctive signature scent.", product_1.getDetails());
             assertEquals("Store in a cool, dry place and out of direct sunlight. Use on clean " +
-                    "dry skin, gently spray onto pulse points avoiding rubbing wrists together.",product_1.getUsage());
-            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1",product_1.getLink());
-            assertEquals("https://picsum.photos/100?mojave",product_1.getDefaultImageURI());
-            assertEquals(IProduct.Form.LIQUID,product_1.getForm());
-            assertEquals(new BigDecimal(361),product_1.getPrice());
-            assertEquals(0.0,product_1.getNumericRating());
-            assertEquals(0,product_1.getNumReviews());
+                    "dry skin, gently spray onto pulse points avoiding rubbing wrists together.", product_1.getUsage());
+            assertEquals("https://www.meccabeauty.co.nz/byredo/mojave-ghost-edp-100ml/I-019967.html#start=1", product_1.getLink());
+            assertEquals("https://picsum.photos/100?mojave", product_1.getDefaultImageURI());
+            assertEquals(IProduct.Form.LIQUID, product_1.getForm());
+            assertEquals(new BigDecimal(361), product_1.getPrice());
+            assertEquals(0.0, product_1.getNumericRating());
+            assertEquals(0, product_1.getNumReviews());
 
 
             IProduct product_0 = products.get(0);
@@ -975,8 +969,8 @@ public class ProductRepositoryTest {
             assertEquals("A fresh laundered scent which has a delicious warmth at its core " +
                     "that sets it apart. The ephemeral sweetness of the violet is anchored with the " +
                     "delectable milky richness of the sandalwood. A clean, modern take on a classic " +
-                    "floral aldehyde.",product_0.getDetails());
-            assertEquals("Spray onto pulse points as desired.",product_0.getUsage());
+                    "floral aldehyde.", product_0.getDetails());
+            assertEquals("Spray onto pulse points as desired.", product_0.getUsage());
             assertEquals("https://www.meccabeauty.co.nz/byredo/blanche-edp-100ml/I-008256.html#start=1", product_0.getLink());
             assertEquals("https://picsum.photos/100?blanche", product_0.getDefaultImageURI());
             assertEquals(IProduct.Form.LIQUID, product_0.getForm());
@@ -994,38 +988,14 @@ public class ProductRepositoryTest {
 
         @Test
         void testGetProductsBySearch() {
-
             productRepository.getProductsBySearch("");
-
-        }
-
-        @Test
-        void testGetProductsBySearchBlankString() {
-
-            List<IProduct> products = productRepository.getProductsBySearch("");
-            assertEquals(3,products.size());
-
         }
 
         @Test
         void testGetProductsBySearchNoMatchingString() {
-
             List<IProduct> products = productRepository.getProductsBySearch("nomatchingterm");
-            assertEquals(0,products.size());
-
+            assertEquals(0, products.size());
         }
-
-        @Test
-        void testGetProductsBySearchOneMatchingString() {
-
-            List<IProduct> products = productRepository.getProductsBySearch("Liq");
-            assertEquals(1,products.size());
-
-            IProduct product_0 = products.get(0);
-            assertEquals("Liquid Lumiere", product_0.getName());
-
-        }
-
     }
 
 }
