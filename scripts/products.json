@@ -1337,12 +1337,52 @@
       {
         "id": "AuH1knyao3Yzs6BW7wUP",
         "name": "Moisture Surge Sheer Tint SPF25",
-        "hexColor": "",
+        "hexColor": "#efcdb2",
         "imageURI": [
           "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dw1333a801/product/cliniq/hr/i-037370-moisture-surge-sheer-tint-spf25-1-940.jpg",
           "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dwe54dbe82/product/cliniq/tx/i-037370-moisture-surge-sheer-tint-spf25-medium-deep-4-940.png"
         ],
         "order": 1
+      },
+      {
+        "id": "IicfD0uLUUpV4It4GPWV",
+        "name": "Moisture Surge Sheer Tint SPF25",
+        "hexColor": "#ECC7AB",
+        "imageURI": [
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dw7c7f2b33/product/cliniq/hr/i-037367-moisture-surge-sheer-tint-spf25-1-940.jpg",
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dwedcee27f/product/cliniq/tx/i-037367-moisture-surge-sheer-tint-spf25-light-4-940.png"
+        ],
+        "order": 2
+      },
+      {
+        "id": "rah1atIMK7qKqHviVYR0",
+        "name": "Moisture Surge Sheer Tint SPF25",
+        "hexColor": "#E2A97D",
+        "imageURI": [
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dwac560bb3/product/cliniq/hr/i-037369-moisture-surge-sheer-tint-spf25-1-940.jpg",
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dw4c8dd596/product/cliniq/tx/i-037369-moisture-surge-sheer-tint-spf25-medium-4-940.png"
+        ],
+        "order": 3
+      },
+      {
+        "id": "GGd6VgXfo3SrQjQRHGJ8",
+        "name": "Moisture Surge Sheer Tint SPF25",
+        "hexColor": "#B78057",
+        "imageURI": [
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dw1333a801/product/cliniq/hr/i-037370-moisture-surge-sheer-tint-spf25-1-940.jpg",
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dwe54dbe82/product/cliniq/tx/i-037370-moisture-surge-sheer-tint-spf25-medium-deep-4-940.png"
+        ],
+        "order": 4
+      },
+      {
+        "id": "Fl3laxm2UAiIoM6idwBh",
+        "name": "Moisture Surge Sheer Tint SPF25",
+        "hexColor": "#EEBB88",
+        "imageURI": [
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dw9e972699/product/cliniq/hr/i-037368-moisture-surge-sheer-tint-spf25-1-940.jpg",
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dwedcee27f/product/cliniq/tx/i-037368-moisture-surge-sheer-tint-spf25-light-medium-4-940.png"
+        ],
+        "order": 5
       }
     ]
   },
@@ -1583,13 +1623,53 @@
       {
         "id": "tHEivlCwQwLzCFbYrodb",
         "name": "Lip Balm #1",
-        "hexColor": "",
+        "hexColor": "#EFEBEF",
         "imageURI": [
           "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dwd071f068/product/kiehls/hr/i-041316-lip-balm-1-1-940.jpg",
           "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dw2ecb6e02/product/kiehls/tx/i-041316-lip-balm-1-1-4-940.png",
           "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dw65022050/product/kiehls/hr/i-041316-lip-balm-1-1-7-1-940.jpg"
         ],
         "order": 1
+      },
+      {
+        "id": "I4xTQPcIYlgprui0pe9Y",
+        "name": "Lip Balm #1",
+        "hexColor": "#58B8C7",
+        "imageURI": [
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dw3b94d425/product/kiehls/hr/i-041314-lip-balm-1-mint-15ml-1-940.jpg",
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dwd7bef3ad/product/kiehls/tx/i-041314-lip-balm-1-mint-4-940.png"
+        ],
+        "order": 2
+      },
+      {
+        "id": "DQYeWDAmWZY6a4jHs6AP",
+        "name": "Lip Balm #1",
+        "hexColor": "#82C260",
+        "imageURI": [
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dwc13cb287/product/kiehls/hr/i-041315-lip-balm-1-pear-15ml-1-940.jpg",
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dw2ecb6e02/product/kiehls/tx/i-041315-lip-balm-1-pear-4-940.png"
+        ],
+        "order": 3
+      },
+      {
+        "id": "RsKWuuUK3seBt70s0jRL",
+        "name": "Lip Balm #1",
+        "hexColor": "#dd8C68",
+        "imageURI": [
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dw336e8d45/product/kiehls/hr/i-041313-lip-balm-1-mango-15ml-1-940.jpg",
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dw31817356/product/kiehls/tx/i-041313-lip-balm-1-mango-4-940.png"
+        ],
+        "order": 4
+      },
+      {
+        "id": "txM1ukW5ogdZGG8e5rXR",
+        "name": "Lip Balm #1",
+        "hexColor": "#BA2F62",
+        "imageURI": [
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dw40fd855b/product/kiehls/hr/i-041312-lip-balm-1-cranberry-15ml-1-940.jpg",
+          "https://www.meccabeauty.co.nz/on/demandware.static/-/Sites-mecca-online-catalog/default/dw31817356/product/kiehls/tx/i-041312-lip-balm-1-cranberry-4-940.png"
+        ],
+        "order": 5
       }
     ]
   },
