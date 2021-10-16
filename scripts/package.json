@@ -1,0 +1,18 @@
+{
+  "name": "lance-scripts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "category": "node categories.js",
+    "brand": "node brands",
+    "product": "node products"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "^9.1.3",
+    "firebase-admin": "^10.0.0"
+  }
+}

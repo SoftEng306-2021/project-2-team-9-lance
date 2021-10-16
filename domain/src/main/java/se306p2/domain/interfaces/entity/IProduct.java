@@ -15,7 +15,8 @@ public interface IProduct {
         LOTION,
         MOUSSE,
         OIL,
-        SCRUB
+        SCRUB,
+        PALETTE
     }
 
     String getId();
