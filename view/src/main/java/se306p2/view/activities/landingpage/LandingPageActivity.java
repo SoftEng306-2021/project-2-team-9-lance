@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import se306p2.view.R;
 import se306p2.view.activities.landingpage.adapters.CategoryItemRecyclerViewAdapter;
+import se306p2.view.common.SearchFragment;
 import se306p2.view.common.adapters.ProductItemRecyclerViewAdapter;
 
 public class LandingPageActivity extends AppCompatActivity {
@@ -39,6 +41,19 @@ public class LandingPageActivity extends AppCompatActivity {
         inflater.inflate(R.menu.nav_menu, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_search:
+                System.out.println("+------------------------------------------------------------");
+                SearchFragment searchFragment = new SearchFragment();
+                searchFragment.show(getSupportFragmentManager(), "SearchFragment");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    };
 
     private void initCategoryListRecyclerView() {
         Log.d(TAG, "initCategoryListRecyclerView entered");
