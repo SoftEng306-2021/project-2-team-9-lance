@@ -10,19 +10,17 @@ import se306p2.domain.interfaces.usecase.IGetBrandsUseCase;
 public class GetBrandsUseCase implements IGetBrandsUseCase {
     public Single<List<IBrand>> getBrands(String categoryId) {
         return Single.create(emitter -> {
-            Thread thread = new Thread(() -> {
-                try {
-                    List<IBrand> brands = RepositoryRouter.getBrandRepository().getBrands(categoryId);
-                    if (brands == null) {
-                        emitter.onError(new NullPointerException());
-                        return;
-                    }
-                    emitter.onSuccess(brands);
-                } catch (Exception e) {
-                    emitter.onError(e);
+            try {
+                List<IBrand> brands = RepositoryRouter.getBrandRepository().getBrands(categoryId);
+                if (brands == null) {
+                    emitter.onError(new NullPointerException());
+                    return;
                 }
-            });
-            thread.start();
+                emitter.onSuccess(brands);
+            } catch (Exception e) {
+                e.printStackTrace();
+                emitter.onError(e);
+            }
         });
     }
 }

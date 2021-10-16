@@ -52,6 +52,7 @@ public class BrowseProductActivity extends AppCompatActivity {
         categoryName = intent.getStringExtra("categoryName");
 
         viewModel = new ViewModelProvider(this).get(BrowseProductViewModel.class);
+        System.out.println(categoryId);
         viewModel.init(categoryId);
 
         binding = DataBindingUtil.setContentView(this, R.layout.browse_products_view);

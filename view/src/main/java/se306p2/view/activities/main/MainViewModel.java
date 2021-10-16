@@ -10,15 +10,18 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.observers.DisposableSingleObserver;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import se306p2.domain.RepositoryRouter;
 import se306p2.domain.interfaces.repositories.IBrandRepository;
 import se306p2.domain.interfaces.usecase.IGetCurrentUserIdUseCase;
 import se306p2.domain.interfaces.usecase.ISignInAnonymouslyUseCase;
 import se306p2.domain.usecase.GetCurrentUserIdUseCase;
 import se306p2.domain.usecase.SignInAnonymouslyUseCase;
+import se306p2.model.repository.BrandRepository;
 import se306p2.model.repository.CategoryRepository;
 import se306p2.model.repository.DefaultRepository;
 import se306p2.model.repository.ProductRepository;
@@ -49,11 +52,11 @@ public class MainViewModel extends ViewModel {
 
         DefaultRepository.init(context);
         RepositoryRouter.init(
-                        null,
-                        CategoryRepository.getInstance(),
-                        ProductRepository.getInstance(),
-                        null,
-                        UserRepository.getInstance()
+                BrandRepository.getInstance(),
+                CategoryRepository.getInstance(),
+                ProductRepository.getInstance(),
+                RatingRepository.getInstance(),
+                UserRepository.getInstance()
         );
     }
 
@@ -71,28 +74,19 @@ public class MainViewModel extends ViewModel {
 
     private void signInAnonymously() {
         Single<String> currentUserId = getCurrentUserIdUseCase.getCurrentUserId();
-        this.disposables.add(currentUserId.subscribeWith(new DisposableSingleObserver<String>() {
-            @Override
-            public void onSuccess(String id) {
-                userId.postValue(id);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Single<String> signedInUserId = signInAnonymouslyUseCase.signInAnonymously();
-                disposables.add(signedInUserId.subscribeWith(new DisposableSingleObserver<String>() {
-                    @Override
-                    public void onSuccess(@io.reactivex.rxjava3.annotations.NonNull String s) {
-                        userId.postValue(s);
-                    }
-
-                    @Override
-                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
-                        e.printStackTrace();
-                    }
-                }));
-                e.printStackTrace();
-            }
-        }));
+        this.disposables.add(currentUserId.
+                subscribeOn(Schedulers.io()).
+                observeOn(AndroidSchedulers.mainThread()).
+                subscribe(id -> userId.postValue(id),
+                        e -> {
+                            Single<String> signedInUserId = signInAnonymouslyUseCase.signInAnonymously();
+                            disposables.add(signedInUserId.
+                                    subscribeOn(Schedulers.io()).
+                                    observeOn(AndroidSchedulers.mainThread()).
+                                    subscribe(id -> userId.postValue(id), e2 -> {
+                                        e.printStackTrace();
+                                        e2.printStackTrace();
+                                    }));
+                        }));
     }
 }

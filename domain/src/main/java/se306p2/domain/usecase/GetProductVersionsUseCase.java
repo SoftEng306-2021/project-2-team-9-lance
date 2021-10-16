@@ -10,19 +10,16 @@ import se306p2.domain.interfaces.usecase.IGetProductVersionsUseCase;
 public class GetProductVersionsUseCase implements IGetProductVersionsUseCase {
     public Single<List<IProductVersion>> getProductVersions(String productId) {
         return Single.create(emitter -> {
-            Thread thread = new Thread(() -> {
-                try {
-                    List<IProductVersion> productVersions = RepositoryRouter.getProductRepository().getProductVersions(productId);
-                    if (productVersions == null) {
-                        emitter.onError(new NullPointerException());
-                        return;
-                    }
-                    emitter.onSuccess(productVersions);
-                } catch (Exception e) {
-                    emitter.onError(e);
+            try {
+                List<IProductVersion> productVersions = RepositoryRouter.getProductRepository().getProductVersions(productId);
+                if (productVersions == null) {
+                    emitter.onError(new NullPointerException());
+                    return;
                 }
-            });
-            thread.start();
+                emitter.onSuccess(productVersions);
+            } catch (Exception e) {
+                emitter.onError(e);
+            }
         });
     }
 }
