@@ -68,37 +68,25 @@ public class ProductDetailViewModel extends ViewModel {
     }
 
     private void loadProduct() {
-        //TODO **DO NOT DELETE**
-        //TODO uncomment the following when backend has data.
         Single<IProduct> productSingle = getProductUseCase.getProduct(productId);
         this.disposables.add(productSingle.
                 subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread()).
                 subscribe(retrievedProduct -> product.postValue(retrievedProduct),
                         e -> e.printStackTrace()));
-
-        //TODO delete the following when backend has data.
-        //product.postValue(PlaceholderGenerator.getProduct());
     }
 
 
     private void loadBenefits() {
-        //TODO **DO NOT DELETE**
-        //TODO uncomment the following when backend has data.
         Single<List<IBenefit>> benefitsSingle = getBenefitsUseCase.getBenefits(productId);
         this.disposables.add(benefitsSingle.
                 subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread()).
                 subscribe(retrievedBenefit -> benefits.postValue(retrievedBenefit),
                         e -> e.printStackTrace()));
-
-        //TODO delete the following when backend has data.
-        //benefits.postValue(PlaceholderGenerator.getBenefits());
     }
 
     private void loadProductVersions() {
-        //TODO **DO NOT DELETE**
-        //TODO uncomment the following when backend has data.
         Single<List<IProductVersion>> productVersionsSingle = getProductVersionsUseCase.getProductVersions(productId);
         this.disposables.add(productVersionsSingle.
                 subscribeOn(Schedulers.io()).
@@ -108,12 +96,6 @@ public class ProductDetailViewModel extends ViewModel {
                             currentProductVersion.postValue(retrievedVersions.get(0));
                         },
                         e -> e.printStackTrace()));
-
-        //TODO delete the following when backend has data.
-//        List<IProductVersion> vers = PlaceholderGenerator.getProductVersions();
-//        System.out.println("==============================================" + vers.size());
-//        productVersions.setValue(vers);
-
     }
 
     public void setCurrentVersion(IProductVersion ver) {

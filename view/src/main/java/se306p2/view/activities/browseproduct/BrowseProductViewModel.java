@@ -85,24 +85,19 @@ public class BrowseProductViewModel extends ViewModel {
         int selectedPriceBracketIndex = observablePriceBracketIndexSelected.get() - 1; //-1 is required to account for the "All" option at the start of the list
         Integer[] selectedPriceBracket = PRICE_BRACKETS.get(selectedPriceBracketIndex != -1 ? selectedPriceBracketIndex:0);
 
-        //TODO **DO NOT DELETE**
-        //TODO uncomment the following when backend has data.
         String brandId = brands == null || brands.size() == 0 || observableBrandIndexSelected.get() == 0 ? null :
                 brands.get(observableBrandIndexSelected.get() - 1).getId();
         Single<List<IProduct>> productsSingle = getProductsByFilterUseCase.getProductsByFilter(
                 categoryId,
                 brandId, //-1 is required to account for the "All" option at the start of the list
                 new BigDecimal(selectedPriceBracketIndex != -1 ? selectedPriceBracket[0]: 0),
-                new BigDecimal(selectedPriceBracketIndex != -1 ? selectedPriceBracket[0]: 1000)
+                new BigDecimal(selectedPriceBracketIndex != -1 ? selectedPriceBracket[1]: 1000)
         );
         this.disposables.add(productsSingle.
                 subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread()).
                 subscribe(productList -> products.postValue(productList),
                         e -> e.printStackTrace()));
-
-        //TODO delete the following when backend has data.
-        //products.postValue(PlaceholderGenerator.getProducts());
     }
 
     private void loadBrands() {
@@ -124,18 +119,6 @@ public class BrowseProductViewModel extends ViewModel {
                             loadProducts();
                         },
                         e -> e.printStackTrace()));
-
-        //TODO delete the following when backend has data.
-//        List<IBrand> placeholderBrands = PlaceholderGenerator.getBrands();
-//        brands.clear();
-//        brands.addAll(placeholderBrands);
-//        observableBrandsList.clear();
-//        observableBrandsList.add("All");
-//        observableBrandsList.addAll(
-//                placeholderBrands
-//                        .stream()
-//                        .map(brand -> brand.getName())
-//                        .collect(Collectors.toList()));
     }
 
     private void loadPriceBrackets() {
