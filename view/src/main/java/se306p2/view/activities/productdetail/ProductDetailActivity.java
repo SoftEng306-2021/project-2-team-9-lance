@@ -156,7 +156,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         usage = (TextView) findViewById(R.id.product_details_usage);
 
         viewModel.getProduct().observe(this, observedProduct -> {
-            usage.setText(observedProduct.getIngredients());
+            usage.setText(observedProduct.getUsage() );
         });
 
         LinearLayoutCompat usageTitle = (LinearLayoutCompat) findViewById(R.id.product_details_usage_title);

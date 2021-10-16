@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,6 +63,13 @@ public class BrowseProductViewModel extends ViewModel {
 
     private MutableLiveData<List<IProduct>> products = new MutableLiveData<>();
 
+    private final List<Integer[]> PRICE_BRACKETS = Arrays.asList(
+            new Integer[]{0, 15},
+            new Integer[]{15, 50},
+            new Integer[]{50, 100},
+            new Integer[]{100, null}
+            );
+
     public void init(String categoryId) {
         this.categoryId = categoryId;
 
@@ -71,14 +79,18 @@ public class BrowseProductViewModel extends ViewModel {
     }
 
     public void loadProducts() {
+        System.out.println("+++++++++++++++" + observablePriceBracketIndexSelected.get() + " " + observableBrandIndexSelected.get());
+
+        int selectedPriceBracketIndex = observablePriceBracketIndexSelected.get() - 1 < 0 ? 0 : observablePriceBracketIndexSelected.get() - 1; //-1 is required to account for the "All" option at the start of the list
+        Integer[] selectedPriceBracket = PRICE_BRACKETS.get(selectedPriceBracketIndex);
 
         //TODO **DO NOT DELETE**
         //TODO uncomment the following when backend has data.
 //        Single<List<IProduct>> productsSingle = getProductsByFilterUseCase.getProductsByFilter(
 //                categoryId,
-//                brands.get(observableBrandIndexSelected.get()).getId(),
-//                null, //TODO update this with logic when decisions on this functionality has been finalised
-//                null //TODO update this with logic when decisions on this functionality has been finalised
+//                brands.get(observableBrandIndexSelected.get() - 1 < 0 ? 0 : observableBrandIndexSelected.get() - 1).getId(), //-1 is required to account for the "All" option at the start of the list
+//                new BigDecimal(selectedPriceBracket[0]),
+//                new BigDecimal(selectedPriceBracket[1])
 //                );
 //        this.disposables.add(productsSingle.subscribeWith(new DisposableSingleObserver<List<IProduct>>() {
 //            @Override
@@ -108,6 +120,7 @@ public class BrowseProductViewModel extends ViewModel {
 //                brands.clear();
 //                brands.addAll(brandList);
 //                observableBrandsList.clear();
+//                observableBrandsList.add("All);
 //                observableBrandsList.addAll(
 //                        brandList
 //                                .stream()
@@ -129,6 +142,7 @@ public class BrowseProductViewModel extends ViewModel {
         brands.clear();
         brands.addAll(placeholderBrands);
         observableBrandsList.clear();
+        observableBrandsList.add("All");
         observableBrandsList.addAll(
                 placeholderBrands
                         .stream()
@@ -137,17 +151,15 @@ public class BrowseProductViewModel extends ViewModel {
     }
 
     private void loadPriceBrackets() {
-        //TODO delete the following when backend has data.
         observablePriceBracketsList.clear();
+        observablePriceBracketsList.add("All");
         observablePriceBracketsList.addAll(
-                Arrays.asList(
-                        "Backend",
-                        "Give",
-                        "Me",
-                        "Prices",
-                        "Pls"
-                )
-        );
+                PRICE_BRACKETS.stream().map(bracket -> {
+                            return bracket[1] == null ?
+                                    "$" + bracket[0] + "+" :
+                                    "$" + bracket[0] + " - $" + bracket[1];
+                        }
+                ).collect(Collectors.toList()));
     }
 
     public void clearFilter() {
