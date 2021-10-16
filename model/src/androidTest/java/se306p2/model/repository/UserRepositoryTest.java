@@ -97,7 +97,8 @@ class UserRepositoryTest {
     @DisplayName("firebase admin Test")
     class firebaseAdminTests {
         @Test
-        void testGetCurrentUserIdEmpty() {
+        void testGetCurrentUserIdEmpty()  {
+
             String userId = userRepository.getCurrentUserId();
             assertNull(userId);
             auth.signOut();

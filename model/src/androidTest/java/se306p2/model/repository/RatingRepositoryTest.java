@@ -32,14 +32,11 @@ import java.util.concurrent.ExecutionException;
 
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.entity.IRating;
-import se306p2.domain.interfaces.repositories.IUserRepository;
-import se306p2.model.entities.Rating;
 
 public class RatingRepositoryTest {
     private static FirebaseFirestore firestore;
     private static RatingRepository ratingRepository;
-    private static FirebaseAuth auth;
-    private static IUserRepository userRepository;
+    private static String dummyUserId = "ysjrdemq74zDG3HVpMDT";
 
     @BeforeAll
     static void setUp() {
@@ -65,13 +62,13 @@ public class RatingRepositoryTest {
             privateFirestore.setAccessible(true);
             privateFirestore.set(ratingRepository, firestore);
 
-            auth = FirebaseAuth.getInstance();
-            auth.useEmulator("10.0.2.2", 9099);
-
-            userRepository = UserRepository.getInstance();
-
             // Setup Data
             Map<String, Object> entry;
+
+            // Set up Dummy User Instance
+            entry = new HashMap<String, Object>() {{
+            }};
+            Tasks.await(firestore.collection("user").document(dummyUserId).set(entry));
 
             // Set up Brand
             entry = new HashMap<String, Object>() {{
@@ -108,7 +105,8 @@ public class RatingRepositoryTest {
     static void tearDown() {
         try {
             // Delete documents
-            Tasks.await(firestore.collection("user").document(userRepository.signInAnonymously()).delete());
+
+            Tasks.await(firestore.collection("user").document("ysjrdemq74zDG3HVpMDT").delete());
 
             Tasks.await(firestore.collection("product").document("vwyuy5Ft4UAU67WBNfjv").delete());
             Tasks.await(firestore.collection("product").document("JTSj6g2d2hLWDqKPXYTC").delete());
@@ -138,15 +136,14 @@ public class RatingRepositoryTest {
 
         @Test
         @Order(2)
-        void testRemoveRatingUserNotRatedAnythingYet() throws ExecutionException, InterruptedException {
-            String userId = userRepository.signInAnonymously();
+        void testRemoveRatingUserNotRatedAnythingYet() {
+
             try {
-                ratingRepository.removeRating("JTSj6g2d2hLWDqKPXYTC", userId);
+                ratingRepository.removeRating("JTSj6g2d2hLWDqKPXYTC", dummyUserId);
                 fail();
             } catch (UnsupportedOperationException e) {
                 assertEquals(e.getMessage(), "The user has not rated any products yet");
             }
-
 
         }
 
@@ -165,9 +162,7 @@ public class RatingRepositoryTest {
         @Order(4)
         void testAddRatingWithNoRateYet() {
 
-            String userId = userRepository.signInAnonymously();
-
-            IRating rating = ratingRepository.addRating("vwyuy5Ft4UAU67WBNfjv", userId, 5);
+            IRating rating = ratingRepository.addRating("vwyuy5Ft4UAU67WBNfjv", dummyUserId, 5);
 
             assertEquals(5.0, rating.getRating());
             assertEquals(1, rating.getNum());
@@ -177,9 +172,8 @@ public class RatingRepositoryTest {
         @Test
         @Order(5)
         void testAddRatingWithExistingRating() {
-            String userId = userRepository.signInAnonymously();
 
-            IRating rating = ratingRepository.addRating("JTSj6g2d2hLWDqKPXYTC", userId, 5);
+            IRating rating = ratingRepository.addRating("JTSj6g2d2hLWDqKPXYTC", dummyUserId, 5);
 
             assertEquals(4.0, rating.getRating());
             assertEquals(2, rating.getNum());
@@ -189,9 +183,8 @@ public class RatingRepositoryTest {
         @Test
         @Order(6)
         void testEditRatingWithExistingRatingToSameProduct() {
-            String userId = userRepository.signInAnonymously();
 
-            IRating rating = ratingRepository.addRating("JTSj6g2d2hLWDqKPXYTC", userId, 5);
+            IRating rating = ratingRepository.addRating("JTSj6g2d2hLWDqKPXYTC", dummyUserId, 5);
 
             assertEquals(4.0, rating.getRating());
             assertEquals(2, rating.getNum());
@@ -202,9 +195,8 @@ public class RatingRepositoryTest {
         @Test
         @Order(7)
         void testRemoveRatingFromProductThatDoesntExist() {
-            String userId = userRepository.signInAnonymously();
             try {
-                ratingRepository.removeRating("aaaaaaaaaaaaaaaaaaaa", userId);
+                ratingRepository.removeRating("aaaaaaaaaaaaaaaaaaaa", dummyUserId);
                 fail();
             } catch (UnsupportedOperationException e) {
                 assertEquals("product does not exist", e.getMessage());
@@ -215,8 +207,7 @@ public class RatingRepositoryTest {
         @Test
         @Order(8)
         void testRemoveRatingFromProductUserDidRate() {
-            String userId = userRepository.signInAnonymously();
-            IRating rating = ratingRepository.removeRating("JTSj6g2d2hLWDqKPXYTC", userId);
+            IRating rating = ratingRepository.removeRating("JTSj6g2d2hLWDqKPXYTC", dummyUserId);
 
             assertEquals(3.0, rating.getRating());
             assertEquals(1, rating.getNum());
@@ -226,8 +217,7 @@ public class RatingRepositoryTest {
         @Test
         @Order(9)
         void testRemoveRatingFromProductUserDidRateResultingInEmptyMapAndZeroRating() {
-            String userId = userRepository.signInAnonymously();
-            IRating rating = ratingRepository.removeRating("vwyuy5Ft4UAU67WBNfjv", userId);
+            IRating rating = ratingRepository.removeRating("vwyuy5Ft4UAU67WBNfjv", dummyUserId);
 
             assertEquals(0.0, rating.getRating());
             assertEquals(0, rating.getNum());
@@ -237,9 +227,8 @@ public class RatingRepositoryTest {
         @Test
         @Order(10)
         void testAddRatingFromProductThatDoesntExist() {
-            String userId = userRepository.signInAnonymously();
             try {
-                ratingRepository.addRating("aaaaaaaaaaaaaaaaaaaa", userId, 5);
+                ratingRepository.addRating("aaaaaaaaaaaaaaaaaaaa", dummyUserId, 5);
                 fail();
             } catch (UnsupportedOperationException e) {
                 assertEquals("product does not exist", e.getMessage());
@@ -247,16 +236,16 @@ public class RatingRepositoryTest {
         }
 
         @Test
-        @Order(10)
+        @Order(11)
         void testRemoveRatingFromProductButUserHasNotRatedIt() {
-            String userId = userRepository.signInAnonymously();
             try {
-                ratingRepository.removeRating("vwyuy5Ft4UAU67WBNfjv", userId);
+                ratingRepository.removeRating("vwyuy5Ft4UAU67WBNfjv", dummyUserId);
                 fail();
             } catch (UnsupportedOperationException e) {
                 assertEquals("This product has not been rated by the user yet", e.getMessage());
             }
         }
+
     }
 
 }
