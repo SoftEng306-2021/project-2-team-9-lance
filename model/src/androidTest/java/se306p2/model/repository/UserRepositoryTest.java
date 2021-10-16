@@ -82,8 +82,10 @@ class UserRepositoryTest {
     static void tearDown() {
         try {
             // Delete documents
+
             Tasks.await(firestore.collection("product").document("vwyuy5Ft4UAU67WBNfjv").delete());
             Tasks.await(firestore.collection("product").document("JTSj6g2d2hLWDqKPXYTC").delete());
+
 
             FirebaseApp.clearInstancesForTest();
         } catch (ExecutionException | InterruptedException exception) {
@@ -95,9 +97,11 @@ class UserRepositoryTest {
     @DisplayName("firebase admin Test")
     class firebaseAdminTests {
         @Test
-        void testGetCurrentUserIdEmpty() {
+        void testGetCurrentUserIdEmpty()  {
+
             String userId = userRepository.getCurrentUserId();
             assertNull(userId);
+            auth.signOut();
         }
 
         @Test
@@ -118,6 +122,7 @@ class UserRepositoryTest {
         void testFavouritesUserNotExist() {
             Set<String> favourites = userRepository.favourites();
             assertNull(favourites);
+            auth.signOut();
         }
 
         @Test
@@ -133,7 +138,11 @@ class UserRepositoryTest {
 
             Set<String> favourites = userRepository.favourites();
             assertEquals(new HashSet<String>(), favourites);
+
+            Tasks.await(firestore.collection("user").document(userRepository.getCurrentUserId()).delete());
             auth.signOut();
+
+
         }
 
         @Test
@@ -156,6 +165,8 @@ class UserRepositoryTest {
 
             assertTrue(favourites.remove("vwyuy5Ft4UAU67WBNfjv"));
             assertTrue(favourites.remove("JTSj6g2d2hLWDqKPXYTC"));
+
+            Tasks.await(firestore.collection("user").document(userRepository.getCurrentUserId()).delete());
             auth.signOut();
         }
     }
