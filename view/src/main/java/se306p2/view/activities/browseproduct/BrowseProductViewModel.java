@@ -1,6 +1,5 @@
 package se306p2.view.activities.browseproduct;
 
-import androidx.databinding.BaseObservable;
 import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableInt;
 import androidx.lifecycle.LiveData;
@@ -11,29 +10,24 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
-import java.util.Observable;
 import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.observers.DisposableSingleObserver;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import io.reactivex.rxjava3.subjects.AsyncSubject;
 import se306p2.domain.interfaces.entity.IBrand;
-import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.usecase.IGetBrandsUseCase;
 import se306p2.domain.interfaces.usecase.IGetMaxPriceUseCase;
 import se306p2.domain.interfaces.usecase.IGetMinPriceUseCase;
 import se306p2.domain.interfaces.usecase.IGetProductsByFilterUseCase;
+import se306p2.domain.interfaces.usecase.ISearchProductsUseCase;
 import se306p2.domain.usecase.GetBrandsUseCase;
 import se306p2.domain.usecase.GetMaxPriceUseCase;
 import se306p2.domain.usecase.GetMinPriceUseCase;
 import se306p2.domain.usecase.GetProductsByFilterUseCase;
-import se306p2.model.entities.Brand;
-import se306p2.view.common.placeholders.PlaceholderGenerator;
+import se306p2.domain.usecase.SearchProductsUseCase;
 
 public class BrowseProductViewModel extends ViewModel {
     private CompositeDisposable disposables = new CompositeDisposable();
@@ -42,6 +36,7 @@ public class BrowseProductViewModel extends ViewModel {
     private IGetMinPriceUseCase getMinPriceUseCase = new GetMinPriceUseCase();
     private IGetProductsByFilterUseCase getProductsByFilterUseCase = new GetProductsByFilterUseCase();
     private IGetBrandsUseCase getBrandsUseCase = new GetBrandsUseCase();
+    private ISearchProductsUseCase searchProductsUseCase = new SearchProductsUseCase();
 
     /**
      * Two way bound with the price bracket spinner in browse_products_view.xml
@@ -61,6 +56,7 @@ public class BrowseProductViewModel extends ViewModel {
 
 
     private String categoryId;
+    private String searchTerm;
     private List<IBrand> brands = new ArrayList<>();
 
     private MutableLiveData<List<IProduct>> products = new MutableLiveData<>();
@@ -72,18 +68,39 @@ public class BrowseProductViewModel extends ViewModel {
             new Integer[]{100, -1}
     );
 
-    public void init(String categoryId) {
+    public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
-
-        loadBrands();
-        loadPriceBrackets();
     }
 
-    public void loadProducts() {
+    public void setSearchTerm(String searchTerm) {
+        this.searchTerm = searchTerm;
+    }
+
+    public void init() {
+        loadBrands();
+        loadPriceBrackets();
+        if (searchTerm != null) {
+            loadProductsBySearchTerm();
+        } else {
+            loadProductsByFilter();
+        }
+    }
+
+    public void loadProductsBySearchTerm() {
+        Single<List<IProduct>> productsSingle = searchProductsUseCase.searchProducts(this.searchTerm);
+        this.disposables.add(productsSingle.
+                subscribeOn(Schedulers.io()).
+                observeOn(AndroidSchedulers.mainThread()).
+                subscribe(productList -> products.postValue(productList),
+                        e -> e.printStackTrace()));
+    }
+
+    public void loadProductsByFilter() {
+
         System.out.println("+++++++++++++++" + observablePriceBracketIndexSelected.get() + " " + observableBrandIndexSelected.get());
 
         int selectedPriceBracketIndex = observablePriceBracketIndexSelected.get() - 1; //-1 is required to account for the "All" option at the start of the list
-        Integer[] selectedPriceBracket = PRICE_BRACKETS.get(selectedPriceBracketIndex != -1 ? selectedPriceBracketIndex:0);
+        Integer[] selectedPriceBracket = PRICE_BRACKETS.get(selectedPriceBracketIndex != -1 ? selectedPriceBracketIndex : 0);
 
         String brandId = brands == null || brands.size() == 0 || observableBrandIndexSelected.get() == 0 ? null :
                 brands.get(observableBrandIndexSelected.get() - 1).getId();
@@ -116,7 +133,7 @@ public class BrowseProductViewModel extends ViewModel {
 
                             observableBrandIndexSelected.set(0);
 
-                            loadProducts();
+                            loadProductsByFilter();
                         },
                         e -> e.printStackTrace()));
     }
@@ -135,7 +152,7 @@ public class BrowseProductViewModel extends ViewModel {
     public void clearFilter() {
         observableBrandIndexSelected.set(0);
         observablePriceBracketIndexSelected.set(0);
-        loadProducts();
+        loadProductsByFilter();
     }
 
     public LiveData<List<IProduct>> getProducts() {

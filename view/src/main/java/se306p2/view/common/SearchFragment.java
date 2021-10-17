@@ -1,5 +1,6 @@
 package se306p2.view.common;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -44,7 +46,6 @@ public class SearchFragment extends DialogFragment {
 
 
     ArrayAdapter<String> adapter;
-    String[] stop_names;
 
     MutableLiveData<List<String>> autoCompleteOptions = new MutableLiveData<>();
 
@@ -56,8 +57,8 @@ public class SearchFragment extends DialogFragment {
 
         autoCompleteTextView = rootView.findViewById(R.id.search_auto_complete_view);
         autoCompleteTextView.setDropDownVerticalOffset(45);
-        autoCompleteTextView.setActivated(true);
         autoCompleteTextView.requestFocus();
+        showKeyboard();
 
         autoCompleteOptions.observe(this, observedAutocomplete -> {
             System.out.println("======================== observedAutoComplete" + observedAutocomplete.toString());
@@ -95,6 +96,7 @@ public class SearchFragment extends DialogFragment {
 
                 if ((keyEvent.getAction() == KeyEvent.ACTION_UP) && (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
                     System.out.println("------------------------------- enter pressed");
+                    closeKeyboard();
 
                     Intent intent = new Intent(getActivity(), BrowseProductActivity.class);
                     intent.putExtra("searchTerm", autoCompleteTextView.getText().toString());
@@ -127,5 +129,13 @@ public class SearchFragment extends DialogFragment {
         this.disposables.dispose();
     }
 
-    
+    public void showKeyboard(){
+        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+    }
+
+    public void closeKeyboard(){
+        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+    }
 }
