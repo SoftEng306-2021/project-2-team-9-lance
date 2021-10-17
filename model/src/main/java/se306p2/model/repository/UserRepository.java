@@ -66,6 +66,10 @@ public class UserRepository implements IUserRepository {
             DocumentSnapshot snapshot = Tasks.await(db.collection("user").document(userId).get());
             List<DocumentReference> favouriteList = (List<DocumentReference>) snapshot.get("favourites");
 
+            if (favouriteList == null) {
+                return new HashSet<>();
+            }
+
             return new HashSet<>(favouriteList.stream().map(s -> s.getId()).collect(Collectors.toList()));
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
@@ -82,8 +86,11 @@ public class UserRepository implements IUserRepository {
         try {
             DocumentSnapshot snapshot = Tasks.await(db.collection("user").document(userId).get());
             List<DocumentReference> favouriteList = (List<DocumentReference>) snapshot.get("favourites");
+            Set<DocumentReference> hashSet = new HashSet<>();
 
-            Set<DocumentReference> hashSet = new HashSet<>(favouriteList);
+            if (favouriteList != null) {
+                hashSet = new HashSet<>(favouriteList);
+            }
 
             DocumentReference productRef = db.collection("product").document(productId);
             if (hashSet.contains(productRef)) {
