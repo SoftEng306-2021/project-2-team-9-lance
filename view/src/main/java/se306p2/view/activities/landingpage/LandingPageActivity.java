@@ -45,6 +45,7 @@ public class LandingPageActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.nav_menu, menu);
+        menu.removeItem(R.id.nav_search);
         return true;
     }
 
