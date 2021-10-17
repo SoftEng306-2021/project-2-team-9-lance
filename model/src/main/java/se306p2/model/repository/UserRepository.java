@@ -8,6 +8,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -93,7 +94,7 @@ public class UserRepository implements IUserRepository {
 
             Tasks.await(db.collection("user")
                     .document(userId)
-                    .update("favourites", hashSet.toArray())
+                    .update("favourites", new ArrayList<>(hashSet))
             );
             return favourites();
         } catch (ExecutionException | InterruptedException e) {

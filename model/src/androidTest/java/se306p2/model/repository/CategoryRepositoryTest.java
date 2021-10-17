@@ -59,12 +59,14 @@ class CategoryRepositoryTest {
             entry = new HashMap<String, Object>() {{
                 put("name", "Fragrance");
                 put("imageURI", "https://picsum.photos/100?fragrance");
+                put("order", 2);
             }};
             Tasks.await(firestore.collection("category").document("aYTMjcwRhVYqc6t3GuXy").set(entry));
 
             entry = new HashMap<String, Object>() {{
                 put("name", "Skin Care");
                 put("imageURI", "https://picsum.photos/100?skin");
+                put("order", 1);
             }};
             Tasks.await(firestore.collection("category").document("B66rJmzEFRKzHzDwJBPM").set(entry));
 
