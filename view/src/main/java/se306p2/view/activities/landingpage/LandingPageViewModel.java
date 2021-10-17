@@ -40,10 +40,12 @@ public class LandingPageViewModel extends ViewModel {
     private ISearchProductsUseCase searchProductsUseCase;
     private IGetFavouritesUseCase getFavouritesUseCase;
 
+
     private MutableLiveData<List<ICategory>> categories = new MutableLiveData<List<ICategory>>();
     private MutableLiveData<List<IProduct>> featuredProducts = new MutableLiveData<>();
     private MutableLiveData<List<String>> autoCompleteStrings = new MutableLiveData<>();
     private MutableLiveData<List<IProduct>> searchResults = new MutableLiveData<>();
+    MutableLiveData<List<String>> autoCompleteOptions = new MutableLiveData<>();
 
     /**
      * Two way binding with text field in the search bar
@@ -98,6 +100,22 @@ public class LandingPageViewModel extends ViewModel {
                 subscribe(productList -> featuredProducts.postValue(productList),
                         e -> e.printStackTrace()));
     }
+
+    public void search(String str) {
+
+        System.out.println("======================== searching " + str);
+        Single<List<String>> autocompleteSingle = searchAutoCompleteUseCase.searchAutoComplete(str);
+        this.disposables.add(autocompleteSingle
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(autocompleteList -> {
+                    autoCompleteOptions.postValue(autocompleteList);
+                    System.out.println("==========RESULTS==============RESULTS========= " + autocompleteList);
+                }));
+
+    }
+
+    public LiveData<List<String>> getAutocompleteOptions() { return autoCompleteOptions; };
 
     public LiveData<List<ICategory>> getCategories() {
         return categories;

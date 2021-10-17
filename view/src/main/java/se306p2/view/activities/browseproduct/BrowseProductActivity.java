@@ -65,12 +65,12 @@ public class BrowseProductActivity extends AppCompatActivity {
         initFilterButtons();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.nav_menu, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.nav_menu, menu);
+//        return true;
+//    }
 
 
     private void initProductsRecyclerView() {

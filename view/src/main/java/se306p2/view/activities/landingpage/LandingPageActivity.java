@@ -12,6 +12,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import se306p2.view.R;
 import se306p2.view.activities.landingpage.adapters.CategoryItemRecyclerViewAdapter;
 import se306p2.view.common.SearchFragment;
@@ -90,5 +95,7 @@ public class LandingPageActivity extends AppCompatActivity {
             featuredRecyclerView.setAdapter(adapter);
         });
     }
+
+
 
 }
