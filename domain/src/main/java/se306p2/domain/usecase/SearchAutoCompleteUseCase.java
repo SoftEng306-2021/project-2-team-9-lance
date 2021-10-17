@@ -9,19 +9,16 @@ import se306p2.domain.interfaces.usecase.ISearchAutoCompleteUseCase;
 public class SearchAutoCompleteUseCase implements ISearchAutoCompleteUseCase {
     public Single<List<String>> searchAutoComplete(String searchTerm) {
         return Single.create(emitter -> {
-            Thread thread = new Thread(() -> {
-                try {
-                    List<String> search = RepositoryRouter.getProductRepository().searchAutoComplete(searchTerm);
-                    if (search == null) {
-                        emitter.onError(new NullPointerException());
-                        return;
-                    }
-                    emitter.onSuccess(search);
-                } catch (Exception e) {
-                    emitter.onError(e);
+            try {
+                List<String> search = RepositoryRouter.getProductRepository().searchAutoComplete(searchTerm);
+                if (search == null) {
+                    emitter.onError(new NullPointerException());
+                    return;
                 }
-            });
-            thread.start();
+                emitter.onSuccess(search);
+            } catch (Exception e) {
+                emitter.onError(e);
+            }
         });
     }
 }

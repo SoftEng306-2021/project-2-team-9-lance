@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.observers.DisposableSingleObserver;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import se306p2.domain.interfaces.entity.IBenefit;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.entity.IProductVersion;
@@ -37,6 +39,7 @@ public class ProductDetailViewModel extends ViewModel {
     private MutableLiveData<List<IBenefit>> benefits = new MutableLiveData<>();
     private MutableLiveData<List<IProductVersion>> productVersions = new MutableLiveData<>();
     private MutableLiveData<IProductVersion> currentProductVersion = new MutableLiveData<>();
+    private MutableLiveData<Integer> currentProductPosition = new MutableLiveData<>();
 
     public ProductDetailViewModel() {
         this.getProductUseCase = new GetProductUseCase();
@@ -66,77 +69,41 @@ public class ProductDetailViewModel extends ViewModel {
     }
 
     private void loadProduct() {
-        //TODO **DO NOT DELETE**
-        //TODO uncomment the following when backend has data.
-//        Single<IProduct> productSingle = getProductUseCase.getProduct(productId);
-//        this.disposables.add(productSingle.subscribeWith(new DisposableSingleObserver<IProduct>() {
-//            @Override
-//            public void onSuccess(IProduct retrievedProduct) {
-//                product.postValue(retrievedProduct);
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                e.printStackTrace();
-//                //Handle error
-//            }
-//        }));
-
-        //TODO delete the following when backend has data.
-        product.postValue(PlaceholderGenerator.getProduct());
+        Single<IProduct> productSingle = getProductUseCase.getProduct(productId);
+        this.disposables.add(productSingle.
+                subscribeOn(Schedulers.io()).
+                observeOn(AndroidSchedulers.mainThread()).
+                subscribe(retrievedProduct -> product.postValue(retrievedProduct),
+                        e -> e.printStackTrace()));
     }
 
 
     private void loadBenefits() {
-        //TODO **DO NOT DELETE**
-        //TODO uncomment the following when backend has data.
-//        Single<List<IBenefit>> benefitsSingle = getBenefitsUseCase.getBenefits(productId);
-//        this.disposables.add(benefitsSingle.subscribeWith(new DisposableSingleObserver<List<IBenefit>>() {
-//            @Override
-//            public void onSuccess(List<IBenefit> retrievedBenefit) {
-//                benefits.postValue(retrievedBenefit);
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                e.printStackTrace();
-//                //Handle error
-//            }
-//        }));
-
-        //TODO delete the following when backend has data.
-        benefits.postValue(PlaceholderGenerator.getBenefits());
+        Single<List<IBenefit>> benefitsSingle = getBenefitsUseCase.getBenefits(productId);
+        this.disposables.add(benefitsSingle.
+                subscribeOn(Schedulers.io()).
+                observeOn(AndroidSchedulers.mainThread()).
+                subscribe(retrievedBenefit -> benefits.postValue(retrievedBenefit),
+                        e -> e.printStackTrace()));
     }
 
     private void loadProductVersions() {
-        //TODO **DO NOT DELETE**
-        //TODO uncomment the following when backend has data.
-//        Single<List<IProductVersion>> productVersionsSingle = getProductVersionsUseCase.getProductVersions(productId);
-//        this.disposables.add(productVersionsSingle.subscribeWith(new DisposableSingleObserver<List<IProductVersion>>() {
-//            @Override
-//            public void onSuccess(List<IProductVersion> retrivedVersions) {
-//                productVersions.postValue(retrivedVersions);
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                e.printStackTrace();
-//                //Handle error
-//            }
-//        }));
-
-        //TODO delete the following when backend has data.
-        List<IProductVersion> vers = PlaceholderGenerator.getProductVersions();
-        System.out.println("==============================================" + vers.size());
-        productVersions.setValue(vers);
-
-
-
-        currentProductVersion.setValue(productVersions.getValue().get(0));
+        Single<List<IProductVersion>> productVersionsSingle = getProductVersionsUseCase.getProductVersions(productId);
+        this.disposables.add(productVersionsSingle.
+                subscribeOn(Schedulers.io()).
+                observeOn(AndroidSchedulers.mainThread()).
+                subscribe(retrievedVersions -> {
+                            productVersions.postValue(retrievedVersions);
+                            System.out.println("===============load product versions in view model... curernt version set to " + retrievedVersions.get(0).getId());
+                            currentProductVersion.postValue(retrievedVersions.get(0));
+                            currentProductPosition.postValue(0);
+                        },
+                        e -> e.printStackTrace()));
     }
 
-    public void setCurrentVersion(IProductVersion ver) {
+    public void setCurrentVersion(IProductVersion ver, int index) {
         currentProductVersion.postValue(ver);
+        currentProductPosition.postValue(index);
     }
 
 
@@ -151,6 +118,13 @@ public class ProductDetailViewModel extends ViewModel {
     public LiveData<List<IProductVersion>> getProductVersions() {
         return productVersions;
     }
+
+    public LiveData<Integer> getCurrentProductPosition() { return currentProductPosition; };
+
+    public LiveData<IProductVersion> getCurrentProductVersion() {
+        System.out.println("========================getCurentProductVersion in view model " + currentProductVersion + " value " + currentProductVersion.getValue());
+        return currentProductVersion; };
+
 
     public void dispose() {
         this.disposables.dispose();

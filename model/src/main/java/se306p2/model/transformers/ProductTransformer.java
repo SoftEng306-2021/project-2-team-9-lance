@@ -59,8 +59,14 @@ public class ProductTransformer {
 
         String ingredients = map.containsKey("ingredients") ? map.get("ingredients").toString() : "";
 
-        IProduct.Form form = IProduct.Form.valueOf(map.get("form").toString());
-        BigDecimal price = new BigDecimal(map.containsKey("price") ? (double) map.get("price") : 0.0);
+        IProduct.Form form = map.get("form").toString() == "" ? null: IProduct.Form.valueOf(map.get("form").toString());
+        BigDecimal price = null;
+        try {
+            price = new BigDecimal(map.containsKey("price") ? (double) map.get("price") : 0.0);
+        }catch(ClassCastException e) {
+            price = new BigDecimal(map.containsKey("price") ? (Long) map.get("price") : 0.0);
+        }
+
         Double numericRating = map.containsKey("numericRating") ? (double) map.get("numericRating") : 0.0;
         int numReviews = map.containsKey("numReviews") ? ((Long) map.get("numReviews")).intValue()  : 0;
         String defaultImageURI = map.containsKey("defaultImageURI") ? map.get("defaultImageURI").toString() : "";

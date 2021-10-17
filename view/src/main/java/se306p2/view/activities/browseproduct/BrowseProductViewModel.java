@@ -1,35 +1,33 @@
 package se306p2.view.activities.browseproduct;
 
-import androidx.databinding.BaseObservable;
 import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableInt;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
-import java.util.Observable;
 import java.util.stream.Collectors;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.observers.DisposableSingleObserver;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import se306p2.domain.interfaces.entity.IBrand;
-import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.usecase.IGetBrandsUseCase;
 import se306p2.domain.interfaces.usecase.IGetMaxPriceUseCase;
 import se306p2.domain.interfaces.usecase.IGetMinPriceUseCase;
 import se306p2.domain.interfaces.usecase.IGetProductsByFilterUseCase;
+import se306p2.domain.interfaces.usecase.ISearchProductsUseCase;
 import se306p2.domain.usecase.GetBrandsUseCase;
 import se306p2.domain.usecase.GetMaxPriceUseCase;
 import se306p2.domain.usecase.GetMinPriceUseCase;
 import se306p2.domain.usecase.GetProductsByFilterUseCase;
-import se306p2.model.entities.Brand;
-import se306p2.view.common.placeholders.PlaceholderGenerator;
+import se306p2.domain.usecase.SearchProductsUseCase;
 
 public class BrowseProductViewModel extends ViewModel {
     private CompositeDisposable disposables = new CompositeDisposable();
@@ -38,7 +36,7 @@ public class BrowseProductViewModel extends ViewModel {
     private IGetMinPriceUseCase getMinPriceUseCase = new GetMinPriceUseCase();
     private IGetProductsByFilterUseCase getProductsByFilterUseCase = new GetProductsByFilterUseCase();
     private IGetBrandsUseCase getBrandsUseCase = new GetBrandsUseCase();
-
+    private ISearchProductsUseCase searchProductsUseCase = new SearchProductsUseCase();
 
     /**
      * Two way bound with the price bracket spinner in browse_products_view.xml
@@ -58,102 +56,103 @@ public class BrowseProductViewModel extends ViewModel {
 
 
     private String categoryId;
+    private String searchTerm;
     private List<IBrand> brands = new ArrayList<>();
 
     private MutableLiveData<List<IProduct>> products = new MutableLiveData<>();
 
-    public void init(String categoryId) {
-        this.categoryId = categoryId;
+    private final List<Integer[]> PRICE_BRACKETS = Arrays.asList(
+            new Integer[]{0, 15},
+            new Integer[]{15, 50},
+            new Integer[]{50, 100},
+            new Integer[]{100, -1}
+    );
 
-        loadBrands();
-        loadPriceBrackets();
-        loadProducts();
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public void loadProducts() {
+    public void setSearchTerm(String searchTerm) {
+        this.searchTerm = searchTerm;
+    }
 
-        //TODO **DO NOT DELETE**
-        //TODO uncomment the following when backend has data.
-//        Single<List<IProduct>> productsSingle = getProductsByFilterUseCase.getProductsByFilter(
-//                categoryId,
-//                brands.get(observableBrandIndexSelected.get()).getId(),
-//                null, //TODO update this with logic when decisions on this functionality has been finalised
-//                null //TODO update this with logic when decisions on this functionality has been finalised
-//                );
-//        this.disposables.add(productsSingle.subscribeWith(new DisposableSingleObserver<List<IProduct>>() {
-//            @Override
-//            public void onSuccess(List<IProduct> productList) {
-//                products.postValue(productList);
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                e.printStackTrace();
-//                // Handle error
-//            }
-//        }));
+    public void init() {
+        loadBrands();
+        loadPriceBrackets();
+        if (searchTerm != null) {
+            loadProductsBySearchTerm();
+        } else {
+            loadProductsByFilter();
+        }
+    }
 
-        //TODO delete the following when backend has data.
-        products.postValue(PlaceholderGenerator.getProducts());
+    public void loadProductsBySearchTerm() {
+        Single<List<IProduct>> productsSingle = searchProductsUseCase.searchProducts(this.searchTerm);
+        this.disposables.add(productsSingle.
+                subscribeOn(Schedulers.io()).
+                observeOn(AndroidSchedulers.mainThread()).
+                subscribe(productList -> products.postValue(productList),
+                        e -> e.printStackTrace()));
+    }
+
+    public void loadProductsByFilter() {
+
+        System.out.println("+++++++++++++++" + observablePriceBracketIndexSelected.get() + " " + observableBrandIndexSelected.get());
+
+        int selectedPriceBracketIndex = observablePriceBracketIndexSelected.get() - 1; //-1 is required to account for the "All" option at the start of the list
+        Integer[] selectedPriceBracket = PRICE_BRACKETS.get(selectedPriceBracketIndex != -1 ? selectedPriceBracketIndex : 0);
+
+        String brandId = brands == null || brands.size() == 0 || observableBrandIndexSelected.get() == 0 ? null :
+                brands.get(observableBrandIndexSelected.get() - 1).getId();
+        Single<List<IProduct>> productsSingle = getProductsByFilterUseCase.getProductsByFilter(
+                categoryId,
+                brandId, //-1 is required to account for the "All" option at the start of the list
+                new BigDecimal(selectedPriceBracketIndex != -1 ? selectedPriceBracket[0]: 0),
+                new BigDecimal(selectedPriceBracketIndex != -1 ? selectedPriceBracket[1]: 1000)
+        );
+        this.disposables.add(productsSingle.
+                subscribeOn(Schedulers.io()).
+                observeOn(AndroidSchedulers.mainThread()).
+                subscribe(productList -> products.postValue(productList),
+                        e -> e.printStackTrace()));
     }
 
     private void loadBrands() {
+        Single<List<IBrand>> brandsSingle = getBrandsUseCase.getBrands(categoryId);
+        this.disposables.add(brandsSingle.
+                subscribeOn(Schedulers.io()).
+                observeOn(AndroidSchedulers.mainThread()).
+                subscribe(brandList -> {
+                            brands = brandList;
+                            observableBrandsList.clear();
+                            observableBrandsList.add("All");
+                            observableBrandsList.addAll(brandList
+                                    .stream()
+                                    .map(brand -> brand.getName())
+                                    .collect(Collectors.toList()));
 
-        //TODO **DO NOT DELETE**
-        //TODO uncomment the following when backend has data.
-//        Single<List<IBrand>> brandsSingle = getBrandsUseCase.getBrands(categoryId);
-//        this.disposables.add(brandsSingle.subscribeWith(new DisposableSingleObserver<List<IBrand>>() {
-//            @Override
-//            public void onSuccess(List<IBrand> brandList) {
-//                brands.clear();
-//                brands.addAll(brandList);
-//                observableBrandsList.clear();
-//                observableBrandsList.addAll(
-//                        brandList
-//                                .stream()
-//                                .map(brand -> brand.getName())
-//                                .collect(Collectors.toList())
-//                );
-//                observableBrandIndexSelected.set(0);
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                e.printStackTrace();
-//                // Handle error
-//            }
-//        }));
+                            observableBrandIndexSelected.set(0);
 
-        //TODO delete the following when backend has data.
-        List<IBrand> placeholderBrands = PlaceholderGenerator.getBrands();
-        brands.clear();
-        brands.addAll(placeholderBrands);
-        observableBrandsList.clear();
-        observableBrandsList.addAll(
-                placeholderBrands
-                        .stream()
-                        .map(brand -> brand.getName())
-                        .collect(Collectors.toList()));
+                            loadProductsByFilter();
+                        },
+                        e -> e.printStackTrace()));
     }
 
     private void loadPriceBrackets() {
-        //TODO delete the following when backend has data.
         observablePriceBracketsList.clear();
+        observablePriceBracketsList.add("All");
         observablePriceBracketsList.addAll(
-                Arrays.asList(
-                        "Backend",
-                        "Give",
-                        "Me",
-                        "Prices",
-                        "Pls"
-                )
-        );
+                PRICE_BRACKETS.stream().map(bracket ->
+                        bracket[1] == null ?
+                                "$" + bracket[0] + "+" :
+                                "$" + bracket[0] + " - $" + bracket[1]
+                ).collect(Collectors.toList()));
     }
 
     public void clearFilter() {
         observableBrandIndexSelected.set(0);
         observablePriceBracketIndexSelected.set(0);
-        loadProducts();
+        loadProductsByFilter();
     }
 
     public LiveData<List<IProduct>> getProducts() {

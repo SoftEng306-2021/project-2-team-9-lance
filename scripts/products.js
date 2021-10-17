@@ -62,6 +62,7 @@ const init = async () => {
         brand: db.doc(`brand/${brandsMap[product.brand].id}`),
         slogan: product.slogan,
         usage: product.usage,
+        details: product.details,
         link: product.link,
         defaultImageURI: product.defaultImageURI,
         form: product.form,

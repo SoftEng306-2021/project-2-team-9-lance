@@ -10,19 +10,16 @@ import se306p2.domain.interfaces.usecase.ISearchProductsUseCase;
 public class SearchProductsUseCase implements ISearchProductsUseCase {
     public Single<List<IProduct>> searchProducts(String term) {
         return Single.create(emitter -> {
-            Thread thread = new Thread(() -> {
-                try {
-                    List<IProduct> products = RepositoryRouter.getProductRepository().getProductsBySearch(term);
-                    if (products == null) {
-                        emitter.onError(new NullPointerException());
-                        return;
-                    }
-                    emitter.onSuccess(products);
-                } catch (Exception e) {
-                    emitter.onError(e);
+            try {
+                List<IProduct> products = RepositoryRouter.getProductRepository().getProductsBySearch(term);
+                if (products == null) {
+                    emitter.onError(new NullPointerException());
+                    return;
                 }
-            });
-            thread.start();
+                emitter.onSuccess(products);
+            } catch (Exception e) {
+                emitter.onError(e);
+            }
         });
     }
 }

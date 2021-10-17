@@ -8,7 +8,6 @@ import androidx.test.core.app.ApplicationProvider;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
@@ -21,21 +20,17 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.entity.IRating;
+import se306p2.domain.interfaces.repositories.IRatingRepository;
 
 public class RatingRepositoryTest {
     private static FirebaseFirestore firestore;
-    private static RatingRepository ratingRepository;
+    private static IRatingRepository ratingRepository;
     private static String dummyUserId = "ysjrdemq74zDG3HVpMDT";
 
     @BeforeAll
@@ -57,10 +52,7 @@ public class RatingRepositoryTest {
             firestore.setFirestoreSettings(settings);
 
             // Use Reflection to inject local Firebase instance
-            ratingRepository = new RatingRepository();
-            Field privateFirestore = RatingRepository.class.getDeclaredField("db");
-            privateFirestore.setAccessible(true);
-            privateFirestore.set(ratingRepository, firestore);
+            ratingRepository = RatingRepository.getInstance();
 
             // Setup Data
             Map<String, Object> entry;
@@ -95,7 +87,7 @@ public class RatingRepositoryTest {
             Tasks.await(firestore.collection("product").document("JTSj6g2d2hLWDqKPXYTC").set(entry));
 
 
-        } catch (NoSuchFieldException | IllegalAccessException | InterruptedException | ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             fail(e);
         }

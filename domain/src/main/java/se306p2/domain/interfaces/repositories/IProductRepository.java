@@ -16,7 +16,7 @@ public interface IProductRepository {
     List<IProduct> getProductsByCategoryId(String id);
     List<IProduct> getProductsByCategory(ICategory category);
     List<IProduct> getProductsBySearch(String searchTerm);
-    List<IProduct> getProductsByFilter(String categoryId, String brandId, BigDecimal min,BigDecimal max);
+    List<IProduct> getProductsByFilter(String categoryId, String brandId, BigDecimal min, BigDecimal max);
     List<IProductVersion> getProductVersions(String productId);
     List<IBenefit> getBenefits(String productId);
     List<IProduct> getFeaturedProducts();

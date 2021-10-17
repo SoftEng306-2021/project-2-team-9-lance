@@ -21,8 +21,16 @@ public class RatingRepository implements IRatingRepository {
     private FirebaseFirestore db;
     private static RatingRepository instance;
 
-    public IRatingRepository getInstance() {
-        throw new UnsupportedOperationException();
+    private RatingRepository(FirebaseFirestore firestore) {
+        this.db = firestore;
+    }
+
+    public static IRatingRepository getInstance() {
+        if (instance == null) {
+            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+            instance = new RatingRepository(firestore);
+        }
+        return instance;
     }
 
     public IRating getRating(String productId) {
