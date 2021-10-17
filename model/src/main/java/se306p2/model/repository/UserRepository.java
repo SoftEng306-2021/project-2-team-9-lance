@@ -101,7 +101,7 @@ public class UserRepository implements IUserRepository {
 
 
             DocumentReference productRef = db.collection("product").document(productId);
-            if (hashSet.contains(productRef)) {
+            if (!hashSet.contains(productRef)) {
                 hashSet.add(productRef);
             } else {
                 hashSet.remove(productRef);
