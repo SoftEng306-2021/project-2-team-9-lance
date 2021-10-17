@@ -3,6 +3,7 @@ package se306p2.view.activities.productdetail;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.LayoutTransition;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -22,6 +23,9 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
@@ -37,6 +41,7 @@ import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.entity.IProductVersion;
 import se306p2.view.R;
 import se306p2.view.activities.productdetail.adapters.BenefitItemRecyclerViewAdapter;
+import se306p2.view.activities.productdetail.adapters.ScreenSlidePagerAdapter;
 import se306p2.view.common.adapters.ProductItemRecyclerViewAdapter;
 import se306p2.view.common.helper.DisplayDataFormatter;
 
@@ -55,7 +60,9 @@ public class ProductDetailActivity extends AppCompatActivity {
     private TextView slogan, description;
     private TextView usage;
     private TextView ingredients;
-    RadioGroup radioGroup;
+    private RadioGroup radioGroup;
+
+    private ViewPager2 viewPager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +83,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         initUsage();
         initIngredients();
         initProductVersions();
+        initImages();
+        initImageCountDots();
     }
 
 
@@ -226,6 +235,51 @@ public class ProductDetailActivity extends AppCompatActivity {
                     }
                 }
 
+            }
+        });
+    }
+
+    private void initImages() {
+        viewPager = (ViewPager2) findViewById(R.id.image_slider_viewpager);
+
+        viewModel.getCurrentProductVersion().observe(this, observedVersion -> {
+            ScreenSlidePagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(this, observedVersion);
+            viewPager.setAdapter(pagerAdapter);
+        });
+
+    }
+
+    private void initImageCountDots() {
+        LinearLayoutCompat dotsContainer = findViewById(R.id.dots_container);
+        dotsContainer.removeAllViews();
+
+        viewModel.getCurrentProductVersion().observe(this, observedVersion -> {
+            dotsContainer.removeAllViews();
+            for (int i = 0; i < observedVersion.getImageURI().size(); i++) {
+                ImageView iv = new ImageView(getApplicationContext());
+                iv.setImageDrawable(getDrawable(R.drawable.circle));
+                LinearLayoutCompat.LayoutParams lp =  new LinearLayoutCompat.LayoutParams(
+                        LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
+                        LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
+                lp.setMargins(8, 0, 8, 0);
+                iv.setLayoutParams(lp);
+
+                dotsContainer.addView(iv);
+            }
+        });
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                for (int i = 0; i < dotsContainer.getChildCount(); i++) {
+                    ImageView child = (ImageView) dotsContainer.getChildAt(i);
+                    if (i == position) {
+                        child.setImageDrawable(getDrawable(R.drawable.dark_circle));
+                    } else {
+                        child.setImageDrawable(getDrawable(R.drawable.circle));
+                    }
+                }
             }
         });
     }
