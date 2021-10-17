@@ -329,7 +329,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         viewModel.getRating().observe(this, observedRating -> {
             DecimalFormat df = new DecimalFormat("#.#");
             ratingValue.setText(df.format(observedRating.getRating()));
-            numRatings.setText(Integer.toString(observedRating.getNum()));
+            numRatings.setText("(" + Integer.toString(observedRating.getNum()) + ")");
         });
 
 
