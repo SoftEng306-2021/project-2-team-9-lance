@@ -73,12 +73,14 @@ public class ProductRepositoryTest {
             entry = new HashMap<String, Object>() {{
                 put("name", "Fragrance");
                 put("imageURI", "https://picsum.photos/100?fragrance");
+                put("order", 1);
             }};
             Tasks.await(firestore.collection("category").document("pbsd3cBrG47WZg9Caj6H").set(entry));
 
             entry = new HashMap<String, Object>() {{
                 put("name", "Skin Care");
                 put("imageURI", "https://picsum.photos/100?skin-care");
+                put("order", 1);
             }};
             Tasks.await(firestore.collection("category").document("9TYYjC3J5AUzbw4xsyQq").set(entry));
 
@@ -135,7 +137,7 @@ public class ProductRepositoryTest {
                 put("defaultImageURI", "https://picsum.photos/100?mojave");
                 put("form", IProduct.Form.LIQUID);
                 put("price", 361.0);
-
+                put("order", 1);
             }};
             Tasks.await(firestore.collection("product").document("BUVdXxq9sEZfPurxGT5c").set(entry));
 
@@ -190,7 +192,7 @@ public class ProductRepositoryTest {
                 put("price", 361.0);
                 put("numericRating", 4.5);
                 put("numReviews", 18);
-
+                put("order", 2);
             }};
             Tasks.await(firestore.collection("product").document("QNpwXLxL7SmpQWmfqUtg").set(entry));
 
@@ -242,7 +244,7 @@ public class ProductRepositoryTest {
                 put("price", 72.0);
                 put("numericRating", 3.74);
                 put("numReviews", 46);
-
+                put("order", 3);
             }};
             Tasks.await(firestore.collection("product").document("eX6dyFbyDYMV5ArNS6gx").set(entry));
 
@@ -727,6 +729,12 @@ public class ProductRepositoryTest {
             assertEquals(2, products.size());
 
             IProduct product_0 = products.get(0);
+            IProduct product_1 = products.get(1);
+
+            if (!products.get(0).getId().equals("BUVdXxq9sEZfPurxGT5c")) {
+                product_1 = products.get(0);
+                product_0 = products.get(1);
+            }
 
             assertEquals("BUVdXxq9sEZfPurxGT5c", product_0.getId());
             assertEquals("Mojave Ghost EDP", product_0.getName());
@@ -744,9 +752,6 @@ public class ProductRepositoryTest {
             assertEquals(new BigDecimal(361), product_0.getPrice());
             assertEquals(0.0, product_0.getNumericRating());
             assertEquals(0, product_0.getNumReviews());
-
-
-            IProduct product_1 = products.get(1);
 
             assertEquals("QNpwXLxL7SmpQWmfqUtg", product_1.getId());
             assertEquals("Blanche EDP", product_1.getName());
@@ -773,6 +778,12 @@ public class ProductRepositoryTest {
             assertEquals(2, products.size());
 
             IProduct product_0 = products.get(0);
+            IProduct product_1 = products.get(1);
+
+            if (!products.get(0).getId().equals("BUVdXxq9sEZfPurxGT5c")) {
+                product_1 = products.get(0);
+                product_0 = products.get(1);
+            }
 
             assertEquals("BUVdXxq9sEZfPurxGT5c", product_0.getId());
             assertEquals("Mojave Ghost EDP", product_0.getName());
@@ -790,9 +801,6 @@ public class ProductRepositoryTest {
             assertEquals(new BigDecimal(361), product_0.getPrice());
             assertEquals(0.0, product_0.getNumericRating());
             assertEquals(0, product_0.getNumReviews());
-
-
-            IProduct product_1 = products.get(1);
 
             assertEquals("QNpwXLxL7SmpQWmfqUtg", product_1.getId());
             assertEquals("Blanche EDP", product_1.getName());
@@ -819,6 +827,12 @@ public class ProductRepositoryTest {
             assertEquals(2, products.size());
 
             IProduct product_0 = products.get(0);
+            IProduct product_1 = products.get(1);
+
+            if (!products.get(0).getId().equals("BUVdXxq9sEZfPurxGT5c")) {
+                product_1 = products.get(0);
+                product_0 = products.get(1);
+            }
 
             assertEquals("BUVdXxq9sEZfPurxGT5c", product_0.getId());
             assertEquals("Mojave Ghost EDP", product_0.getName());
@@ -837,8 +851,6 @@ public class ProductRepositoryTest {
             assertEquals(0.0, product_0.getNumericRating());
             assertEquals(0, product_0.getNumReviews());
 
-
-            IProduct product_1 = products.get(1);
 
             assertEquals("QNpwXLxL7SmpQWmfqUtg", product_1.getId());
             assertEquals("Blanche EDP", product_1.getName());
@@ -865,6 +877,12 @@ public class ProductRepositoryTest {
             assertEquals(2, products.size());
 
             IProduct product_0 = products.get(0);
+            IProduct product_1 = products.get(1);
+
+            if (!products.get(0).getId().equals("BUVdXxq9sEZfPurxGT5c")) {
+                product_1 = products.get(0);
+                product_0 = products.get(1);
+            }
 
             assertEquals("BUVdXxq9sEZfPurxGT5c", product_0.getId());
             assertEquals("Mojave Ghost EDP", product_0.getName());
@@ -883,8 +901,6 @@ public class ProductRepositoryTest {
             assertEquals(0.0, product_0.getNumericRating());
             assertEquals(0, product_0.getNumReviews());
 
-
-            IProduct product_1 = products.get(1);
 
             assertEquals("QNpwXLxL7SmpQWmfqUtg", product_1.getId());
             assertEquals("Blanche EDP", product_1.getName());
@@ -910,7 +926,13 @@ public class ProductRepositoryTest {
 
             assertEquals(2, products.size());
 
+            IProduct product_0 = products.get(0);
             IProduct product_1 = products.get(1);
+
+            if (products.get(0).getId().equals("BUVdXxq9sEZfPurxGT5c")) {
+                product_1 = products.get(0);
+                product_0 = products.get(1);
+            }
 
             assertEquals("BUVdXxq9sEZfPurxGT5c", product_1.getId());
             assertEquals("Mojave Ghost EDP", product_1.getName());
@@ -929,8 +951,6 @@ public class ProductRepositoryTest {
             assertEquals(0.0, product_1.getNumericRating());
             assertEquals(0, product_1.getNumReviews());
 
-
-            IProduct product_0 = products.get(0);
 
             assertEquals("QNpwXLxL7SmpQWmfqUtg", product_0.getId());
             assertEquals("Blanche EDP", product_0.getName());
@@ -955,7 +975,13 @@ public class ProductRepositoryTest {
             List<IProduct> products = productRepository.getProductsByFilter("pbsd3cBrG47WZg9Caj6H", "bXWJLz3maMk9rtdWFRuN", new BigDecimal(361), new BigDecimal(361));
             assertEquals(2, products.size());
 
+            IProduct product_0 = products.get(0);
             IProduct product_1 = products.get(1);
+
+            if (products.get(0).getId().equals("BUVdXxq9sEZfPurxGT5c")) {
+                product_1 = products.get(0);
+                product_0 = products.get(1);
+            }
 
             assertEquals("BUVdXxq9sEZfPurxGT5c", product_1.getId());
             assertEquals("Mojave Ghost EDP", product_1.getName());
@@ -974,8 +1000,6 @@ public class ProductRepositoryTest {
             assertEquals(0.0, product_1.getNumericRating());
             assertEquals(0, product_1.getNumReviews());
 
-
-            IProduct product_0 = products.get(0);
 
             assertEquals("QNpwXLxL7SmpQWmfqUtg", product_0.getId());
             assertEquals("Blanche EDP", product_0.getName());

@@ -37,7 +37,7 @@ public class BrandRepository implements IBrandRepository {
     public List<IBrand> getBrands() {
         List<IBrand> brands = new ArrayList<>();
         try {
-            QuerySnapshot snapshot = Tasks.await(db.collection("brand").get());
+            QuerySnapshot snapshot = Tasks.await(db.collection("brand").orderBy("name").get());
 
             for (DocumentSnapshot ds : snapshot.getDocuments()) {
                 brands.add(BrandTransformer.unpack(ds.getId(), ds.getData()));

@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -64,7 +65,7 @@ public class ProductRepository implements IProductRepository {
 
         List<IProduct> products = new ArrayList<>();
         try {
-            QuerySnapshot snapshot = Tasks.await(db.collection("product").get());
+            QuerySnapshot snapshot = Tasks.await(db.collection("product").orderBy("order").get());
 
             Map<DocumentReference, String> brandsMap = getBrandsFromSnapshot(snapshot.getDocuments());
 
@@ -102,7 +103,7 @@ public class ProductRepository implements IProductRepository {
         try {
 
             DocumentReference docRef = db.collection("category").document(id);
-            QuerySnapshot snapshot = Tasks.await(db.collection("product").whereEqualTo("category", docRef).get());
+            QuerySnapshot snapshot = Tasks.await(db.collection("product").whereEqualTo("category", docRef).orderBy("order").get());
 
             Map<DocumentReference, String> brandsMap = getBrandsFromSnapshot(snapshot.getDocuments());
 
@@ -124,7 +125,7 @@ public class ProductRepository implements IProductRepository {
         try {
 
             DocumentReference docRef = db.collection("category").document(category.getId());
-            QuerySnapshot snapshot = Tasks.await(db.collection("product").whereEqualTo("category", docRef).get());
+            QuerySnapshot snapshot = Tasks.await(db.collection("product").whereEqualTo("category", docRef).orderBy("order").get());
 
             Map<DocumentReference, String> brandsMap = getBrandsFromSnapshot(snapshot.getDocuments());
 
@@ -187,7 +188,6 @@ public class ProductRepository implements IProductRepository {
                 snapshot = Tasks.await(priceQuery.get());
             } else {
                 snapshot = Tasks.await(idQuery.get());
-
             }
 
             Map<DocumentReference, String> brandsMap = getBrandsFromSnapshot(snapshot.getDocuments());
@@ -196,6 +196,7 @@ public class ProductRepository implements IProductRepository {
                 String brandName = brandsMap.get((DocumentReference) ds.getData().get("brand"));
                 products.add(ProductTransformer.unpack(ds.getId(), brandName, ds.getData()));
             }
+            Collections.shuffle(products);
             return products;
 
         } catch (ExecutionException | InterruptedException ex) {
@@ -231,7 +232,7 @@ public class ProductRepository implements IProductRepository {
 
         try {
 
-            QuerySnapshot snapshot = Tasks.await(db.collection("product").document(productId).collection("productVersion").get());
+            QuerySnapshot snapshot = Tasks.await(db.collection("product").document(productId).collection("productVersion").orderBy("order").get());
 
             for (DocumentSnapshot ds : snapshot.getDocuments()) {
                 productVersions.add(ProductVersionTransformer.unpack(ds.getId(), ds.getData()));
@@ -269,7 +270,7 @@ public class ProductRepository implements IProductRepository {
     public List<IProduct> getFeaturedProducts() {
         List<IProduct> products = new ArrayList<>();
         try {
-            QuerySnapshot snapshot = Tasks.await(db.collection("product").get());
+            QuerySnapshot snapshot = Tasks.await(db.collection("product").orderBy("order").get());
 
             Map<DocumentReference, String> brandsMap = getBrandsFromSnapshot(snapshot.getDocuments());
 
