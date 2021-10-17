@@ -110,440 +110,447 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white"
-            app:cardElevation="20dp"
-            app:cardMaxElevation="20dp">
+       <ScrollView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           >
+           <androidx.cardview.widget.CardView
+               android:layout_marginLeft="5dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:background="@color/white"
+               app:cardElevation="20dp"
+               app:cardMaxElevation="20dp">
 
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/product_details_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:animateLayoutChanges="true"
-                android:orientation="vertical"
-                android:paddingHorizontal="30dp">
+               <androidx.appcompat.widget.LinearLayoutCompat
+                   android:id="@+id/product_details_container"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:animateLayoutChanges="true"
+                   android:orientation="vertical"
+                   android:paddingHorizontal="30dp">
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="15dp">
+                   <androidx.appcompat.widget.LinearLayoutCompat
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:paddingTop="15dp">
 
-                    <TextView
-                        android:id="@+id/product_details_brand"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/raleway"
-                        android:gravity="center_vertical"
-                        android:text="Brand Name"
-                        android:textColor="@color/black"
-                        android:textFontWeight="700"
-                        android:textSize="26sp" />
+                       <TextView
+                           android:id="@+id/product_details_brand"
+                           android:layout_width="wrap_content"
+                           android:layout_height="match_parent"
+                           android:layout_weight="1"
+                           android:fontFamily="@font/raleway"
+                           android:gravity="center_vertical"
+                           android:text="Brand Name"
+                           android:textColor="@color/black"
+                           android:textFontWeight="700"
+                           android:textSize="26sp" />
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingBottom="10dp">
+                       <androidx.appcompat.widget.LinearLayoutCompat
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:orientation="horizontal"
+                           android:paddingBottom="10dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0"
-                            android:fontFamily="@font/raleway"
-                            android:text="$"
-                            android:textColor="@color/black"
-                            android:textFontWeight="700"
-                            android:textSize="31sp" />
+                           <TextView
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:layout_weight="0"
+                               android:fontFamily="@font/raleway"
+                               android:text="$"
+                               android:textColor="@color/black"
+                               android:textFontWeight="700"
+                               android:textSize="31sp" />
 
-                        <TextView
-                            android:id="@+id/product_details_dollars"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0"
-                            android:fontFamily="@font/raleway"
-                            android:text="88"
-                            android:textColor="@color/black"
-                            android:textFontWeight="700"
-                            android:textSize="31sp" />
+                           <TextView
+                               android:id="@+id/product_details_dollars"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:layout_weight="0"
+                               android:fontFamily="@font/raleway"
+                               android:text="88"
+                               android:textColor="@color/black"
+                               android:textFontWeight="700"
+                               android:textSize="31sp" />
 
-                        <TextView
-                            android:id="@+id/product_details_cents"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0"
-                            android:fontFamily="@font/raleway"
-                            android:text="69"
-                            android:textColor="@color/red"
-                            android:textFontWeight="700"
+                           <TextView
+                               android:id="@+id/product_details_cents"
+                               android:layout_width="wrap_content"
+                               android:layout_height="match_parent"
+                               android:layout_weight="0"
+                               android:fontFamily="@font/raleway"
+                               android:text="69"
+                               android:textColor="@color/red"
+                               android:textFontWeight="700"
 
-                            android:textSize="16sp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                               android:textSize="16sp" />
+                       </androidx.appcompat.widget.LinearLayoutCompat>
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                   </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <TextView
-                    android:id="@+id/product_details_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/raleway"
-                    android:lineHeight="18dp"
-                    android:text="Some Long Ass Product Name That Probably Isn’t  Actually That Descriptive"
-                    android:textFontWeight="400"
-                    android:textSize="15sp" />
+                   <TextView
+                       android:id="@+id/product_details_name"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:fontFamily="@font/raleway"
+                       android:lineHeight="18dp"
+                       android:text="Some Long Ass Product Name That Probably Isn’t  Actually That Descriptive"
+                       android:textFontWeight="400"
+                       android:textSize="15sp" />
 
-                <RadioGroup
-                    android:id="@+id/product_details_radio_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="10dp">
+                   <RadioGroup
+                       android:id="@+id/product_details_radio_group"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:paddingVertical="10dp">
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="#B80000"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:paddingRight="3dp"
-                        android:scaleX="1.5"
-                        android:scaleY="1.5"
-                        android:text="@null" />
+                       <RadioButton
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:buttonTint="#B80000"
+                           android:minWidth="0dp"
+                           android:minHeight="0dp"
+                           android:paddingRight="3dp"
+                           android:scaleX="1.5"
+                           android:scaleY="1.5"
+                           android:text="@null" />
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="#FF4D6D"
-                        android:checked="true"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:paddingRight="3dp"
-                        android:scaleX="1.5"
-                        android:scaleY="1.5"
-                        android:text="@null" />
+                       <RadioButton
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:buttonTint="#FF4D6D"
+                           android:checked="true"
+                           android:minWidth="0dp"
+                           android:minHeight="0dp"
+                           android:paddingRight="3dp"
+                           android:scaleX="1.5"
+                           android:scaleY="1.5"
+                           android:text="@null" />
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="#FF9635"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:paddingRight="3dp"
-                        android:scaleX="1.5"
-                        android:scaleY="1.5"
-                        android:text="@null" />
+                       <RadioButton
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:buttonTint="#FF9635"
+                           android:minWidth="0dp"
+                           android:minHeight="0dp"
+                           android:paddingRight="3dp"
+                           android:scaleX="1.5"
+                           android:scaleY="1.5"
+                           android:text="@null" />
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="#FF7777"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:paddingRight="3dp"
-                        android:scaleX="1.5"
-                        android:scaleY="1.5"
-                        android:text="@null" />
+                       <RadioButton
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:buttonTint="#FF7777"
+                           android:minWidth="0dp"
+                           android:minHeight="0dp"
+                           android:paddingRight="3dp"
+                           android:scaleX="1.5"
+                           android:scaleY="1.5"
+                           android:text="@null" />
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="#B36D6D"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:paddingRight="3dp"
-                        android:scaleX="1.5"
-                        android:scaleY="1.5"
-                        android:text="@null" />
-                </RadioGroup>
+                       <RadioButton
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:buttonTint="#B36D6D"
+                           android:minWidth="0dp"
+                           android:minHeight="0dp"
+                           android:paddingRight="3dp"
+                           android:scaleX="1.5"
+                           android:scaleY="1.5"
+                           android:text="@null" />
+                   </RadioGroup>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:animateLayoutChanges="true"
-                    android:orientation="vertical">
+                   <androidx.appcompat.widget.LinearLayoutCompat
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginBottom="20dp"
+                       android:animateLayoutChanges="true"
+                       android:orientation="vertical">
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/product_details_details_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:orientation="vertical">
+                       <androidx.appcompat.widget.LinearLayoutCompat
+                           android:id="@+id/product_details_details_title"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:background="?android:attr/selectableItemBackground"
+                           android:orientation="vertical">
 
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                           <androidx.appcompat.widget.LinearLayoutCompat
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/raleway"
-                                android:text="Details"
-                                android:textColor="@color/black"
-                                android:textFontWeight="400"
-                                android:textSize="20dp" />
+                               <TextView
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:layout_marginTop="5dp"
+                                   android:layout_weight="1"
+                                   android:fontFamily="@font/raleway"
+                                   android:text="Details"
+                                   android:textColor="@color/black"
+                                   android:textFontWeight="400"
+                                   android:textSize="20dp" />
 
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:id="@+id/product_details_details_chevron"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:layout_marginRight="10dp"
-                                android:scaleX="1.5"
-                                android:scaleY="1.5"
-                                android:src="@drawable/ic_dropdown_arrow" />
-                        </androidx.appcompat.widget.LinearLayoutCompat>
+                               <androidx.appcompat.widget.AppCompatImageView
+                                   android:id="@+id/product_details_details_chevron"
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:layout_gravity="bottom"
+                                   android:layout_marginRight="10dp"
+                                   android:scaleX="1.5"
+                                   android:scaleY="1.5"
+                                   android:src="@drawable/ic_dropdown_arrow" />
+                           </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <View
-                            android:layout_width="30dp"
-                            android:layout_height="2dp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@color/red" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                           <View
+                               android:layout_width="30dp"
+                               android:layout_height="2dp"
+                               android:layout_marginLeft="2dp"
+                               android:layout_marginTop="5dp"
+                               android:background="@color/red" />
+                       </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/product_details_details_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                       <androidx.appcompat.widget.LinearLayoutCompat
+                           android:id="@+id/product_details_details_content"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/product_details_slogan"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/radley"
-                            android:paddingTop="10dp"
-                            android:text="This is some wack slogan that the product comes with"
+                           <TextView
+                               android:id="@+id/product_details_slogan"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:fontFamily="@font/radley"
+                               android:paddingTop="10dp"
+                               android:text="This is some wack slogan that the product comes with"
 
-                            android:textColor="@color/grey_medium_light"
-                            android:textSize="20sp" />
+                               android:textColor="@color/grey_medium_light"
+                               android:textSize="20sp" />
 
-                        <TextView
-                            android:id="@+id/product_details_description"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:fontFamily="@font/raleway"
-                            android:text="Bacon ipsum dolor amet turducken shoulder turkey short ribs venison jowl. Ham short ribs cupim prosciutto, jerky corned beef ball tip kevin jowl. Ground round bacon biltong sausage rump prosciutto bresaola landjaeger. Buffalo hamburger strip steak chuck ribeye pork loin. Ham hock spare ribs swine tenderloin, capicola shank burgdoggen chislic pig turducken."
-                            android:textColor="@color/black"
-                            android:textFontWeight="500"
-                            android:textSize="15dp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                           <TextView
+                               android:id="@+id/product_details_description"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:layout_marginTop="10dp"
+                               android:fontFamily="@font/raleway"
+                               android:text="Bacon ipsum dolor amet turducken shoulder turkey short ribs venison jowl. Ham short ribs cupim prosciutto, jerky corned beef ball tip kevin jowl. Ground round bacon biltong sausage rump prosciutto bresaola landjaeger. Buffalo hamburger strip steak chuck ribeye pork loin. Ham hock spare ribs swine tenderloin, capicola shank burgdoggen chislic pig turducken."
+                               android:textColor="@color/black"
+                               android:textFontWeight="500"
+                               android:textSize="15dp" />
+                       </androidx.appcompat.widget.LinearLayoutCompat>
+                   </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:animateLayoutChanges="true"
-                    android:orientation="vertical">
+                   <androidx.appcompat.widget.LinearLayoutCompat
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginBottom="20dp"
+                       android:animateLayoutChanges="true"
+                       android:orientation="vertical">
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/product_details_benefits_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:orientation="vertical">
+                       <androidx.appcompat.widget.LinearLayoutCompat
+                           android:id="@+id/product_details_benefits_title"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:background="?android:attr/selectableItemBackground"
+                           android:orientation="vertical">
 
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                           <androidx.appcompat.widget.LinearLayoutCompat
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/raleway"
-                                android:text="Benefits"
-                                android:textColor="@color/black"
-                                android:textFontWeight="400"
-                                android:textSize="20dp" />
+                               <TextView
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:layout_marginTop="5dp"
+                                   android:layout_weight="1"
+                                   android:fontFamily="@font/raleway"
+                                   android:text="Benefits"
+                                   android:textColor="@color/black"
+                                   android:textFontWeight="400"
+                                   android:textSize="20dp" />
 
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:id="@+id/product_details_benefits_chevron"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:layout_marginRight="10dp"
-                                android:scaleX="1.5"
-                                android:scaleY="1.5"
-                                android:src="@drawable/ic_dropdown_arrow" />
-                        </androidx.appcompat.widget.LinearLayoutCompat>
+                               <androidx.appcompat.widget.AppCompatImageView
+                                   android:id="@+id/product_details_benefits_chevron"
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:layout_gravity="bottom"
+                                   android:layout_marginRight="10dp"
+                                   android:scaleX="1.5"
+                                   android:scaleY="1.5"
+                                   android:src="@drawable/ic_dropdown_arrow" />
+                           </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <View
-                            android:layout_width="30dp"
-                            android:layout_height="2dp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@color/red" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                           <View
+                               android:layout_width="30dp"
+                               android:layout_height="2dp"
+                               android:layout_marginLeft="2dp"
+                               android:layout_marginTop="5dp"
+                               android:background="@color/red" />
+                       </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/product_details_benefits_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                       <androidx.appcompat.widget.LinearLayoutCompat
+                           android:id="@+id/product_details_benefits_content"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:orientation="vertical">
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/product_details_benefits"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                           <androidx.recyclerview.widget.RecyclerView
+                               android:id="@+id/product_details_benefits"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:layout_marginTop="15dp" />
+                       </androidx.appcompat.widget.LinearLayoutCompat>
+                   </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/product_details_usage_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:animateLayoutChanges="true"
-                    android:orientation="vertical">
+                   <androidx.appcompat.widget.LinearLayoutCompat
+                       android:id="@+id/product_details_usage_container"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginBottom="20dp"
+                       android:animateLayoutChanges="true"
+                       android:orientation="vertical">
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/product_details_usage_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:orientation="vertical">
+                       <androidx.appcompat.widget.LinearLayoutCompat
+                           android:id="@+id/product_details_usage_title"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:background="?android:attr/selectableItemBackground"
+                           android:orientation="vertical">
 
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                           <androidx.appcompat.widget.LinearLayoutCompat
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/raleway"
-                                android:text="Usage"
-                                android:textColor="@color/black"
-                                android:textFontWeight="400"
-                                android:textSize="20dp" />
+                               <TextView
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:layout_marginTop="5dp"
+                                   android:layout_weight="1"
+                                   android:fontFamily="@font/raleway"
+                                   android:text="Usage"
+                                   android:textColor="@color/black"
+                                   android:textFontWeight="400"
+                                   android:textSize="20dp" />
 
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:id="@+id/product_details_usage_chevron"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:layout_marginRight="10dp"
-                                android:scaleX="1.5"
-                                android:scaleY="1.5"
-                                android:src="@drawable/ic_dropdown_arrow" />
-                        </androidx.appcompat.widget.LinearLayoutCompat>
+                               <androidx.appcompat.widget.AppCompatImageView
+                                   android:id="@+id/product_details_usage_chevron"
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:layout_gravity="bottom"
+                                   android:layout_marginRight="10dp"
+                                   android:scaleX="1.5"
+                                   android:scaleY="1.5"
+                                   android:src="@drawable/ic_dropdown_arrow" />
+                           </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <View
-                            android:layout_width="30dp"
-                            android:layout_height="2dp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@color/red" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                           <View
+                               android:layout_width="30dp"
+                               android:layout_height="2dp"
+                               android:layout_marginLeft="2dp"
+                               android:layout_marginTop="5dp"
+                               android:background="@color/red" />
+                       </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/product_details_usage_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                       <androidx.appcompat.widget.LinearLayoutCompat
+                           android:id="@+id/product_details_usage_content"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/product_details_usage"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:fontFamily="@font/raleway"
-                            android:text="Bacon ipsum dolor amet turducken shoulder turkey short ribs venison jowl. Ham short ribs cupim prosciutto, jerky corned beef ball tip kevin jowl. Ground round bacon biltong sausage rump prosciutto bresaola landjaeger. Buffalo hamburger strip steak chuck ribeye pork loin. Ham hock spare ribs swine tenderloin, capicola shank burgdoggen chislic pig turducken."
-                            android:textColor="@color/black"
-                            android:textFontWeight="500"
-                            android:textSize="15dp" />
+                           <TextView
+                               android:id="@+id/product_details_usage"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:layout_marginTop="10dp"
+                               android:fontFamily="@font/raleway"
+                               android:text="Bacon ipsum dolor amet turducken shoulder turkey short ribs venison jowl. Ham short ribs cupim prosciutto, jerky corned beef ball tip kevin jowl. Ground round bacon biltong sausage rump prosciutto bresaola landjaeger. Buffalo hamburger strip steak chuck ribeye pork loin. Ham hock spare ribs swine tenderloin, capicola shank burgdoggen chislic pig turducken."
+                               android:textColor="@color/black"
+                               android:textFontWeight="500"
+                               android:textSize="15dp" />
 
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                       </androidx.appcompat.widget.LinearLayoutCompat>
+                   </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:animateLayoutChanges="true"
-                    android:orientation="vertical">
+                   <androidx.appcompat.widget.LinearLayoutCompat
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginBottom="20dp"
+                       android:animateLayoutChanges="true"
+                       android:orientation="vertical">
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/product_details_ingredients_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:orientation="vertical">
+                       <androidx.appcompat.widget.LinearLayoutCompat
+                           android:id="@+id/product_details_ingredients_title"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:background="?android:attr/selectableItemBackground"
+                           android:orientation="vertical">
 
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                           <androidx.appcompat.widget.LinearLayoutCompat
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/raleway"
-                                android:text="Ingredients"
-                                android:textColor="@color/black"
-                                android:textFontWeight="400"
-                                android:textSize="20dp" />
+                               <TextView
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:layout_marginTop="5dp"
+                                   android:layout_weight="1"
+                                   android:fontFamily="@font/raleway"
+                                   android:text="Ingredients"
+                                   android:textColor="@color/black"
+                                   android:textFontWeight="400"
+                                   android:textSize="20dp" />
 
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:id="@+id/product_details_ingredients_chevron"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:layout_marginRight="10dp"
-                                android:scaleX="1.5"
-                                android:scaleY="1.5"
-                                android:src="@drawable/ic_dropdown_arrow" />
-                        </androidx.appcompat.widget.LinearLayoutCompat>
+                               <androidx.appcompat.widget.AppCompatImageView
+                                   android:id="@+id/product_details_ingredients_chevron"
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:layout_gravity="bottom"
+                                   android:layout_marginRight="10dp"
+                                   android:scaleX="1.5"
+                                   android:scaleY="1.5"
+                                   android:src="@drawable/ic_dropdown_arrow" />
+                           </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <View
-                            android:layout_width="30dp"
-                            android:layout_height="2dp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@color/red" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                           <View
+                               android:layout_width="30dp"
+                               android:layout_height="2dp"
+                               android:layout_marginLeft="2dp"
+                               android:layout_marginTop="5dp"
+                               android:background="@color/red" />
+                       </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/product_details_ingredients_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                       <androidx.appcompat.widget.LinearLayoutCompat
+                           android:id="@+id/product_details_ingredients_content"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/product_details_ingredients"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:fontFamily="@font/raleway"
-                            android:text="Bacon ipsum dolor amet turducken shoulder turkey short ribs venison jowl. Ham short ribs cupim prosciutto, jerky corned beef ball tip kevin jowl. Ground round bacon biltong sausage rump prosciutto bresaola landjaeger. Buffalo hamburger strip steak chuck ribeye pork loin. Ham hock spare ribs swine tenderloin, capicola shank burgdoggen chislic pig turducken."
-                            android:textColor="@color/black"
-                            android:textFontWeight="500"
-                            android:textSize="15dp" />
+                           <TextView
+                               android:id="@+id/product_details_ingredients"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:layout_marginTop="10dp"
+                               android:fontFamily="@font/raleway"
+                               android:text="Bacon ipsum dolor amet turducken shoulder turkey short ribs venison jowl. Ham short ribs cupim prosciutto, jerky corned beef ball tip kevin jowl. Ground round bacon biltong sausage rump prosciutto bresaola landjaeger. Buffalo hamburger strip steak chuck ribeye pork loin. Ham hock spare ribs swine tenderloin, capicola shank burgdoggen chislic pig turducken."
+                               android:textColor="@color/black"
+                               android:textFontWeight="500"
+                               android:textSize="15dp" />
 
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                       </androidx.appcompat.widget.LinearLayoutCompat>
+                   </androidx.appcompat.widget.LinearLayoutCompat>
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.cardview.widget.CardView>
+               </androidx.appcompat.widget.LinearLayoutCompat>
+           </androidx.cardview.widget.CardView>
+       </ScrollView>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
