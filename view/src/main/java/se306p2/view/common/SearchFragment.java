@@ -44,7 +44,6 @@ public class SearchFragment extends DialogFragment {
 
     AutoCompleteTextView autoCompleteTextView;
 
-
     ArrayAdapter<String> adapter;
 
     MutableLiveData<List<String>> autoCompleteOptions = new MutableLiveData<>();

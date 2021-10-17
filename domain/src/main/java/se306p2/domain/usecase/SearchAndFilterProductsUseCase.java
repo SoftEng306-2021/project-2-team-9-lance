@@ -1,20 +1,18 @@
 package se306p2.domain.usecase;
 
-import android.util.Pair;
-
+import java.math.BigDecimal;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Single;
 import se306p2.domain.RepositoryRouter;
-import se306p2.domain.interfaces.entity.IBrand;
 import se306p2.domain.interfaces.entity.IProduct;
-import se306p2.domain.interfaces.usecase.ISearchProductsUseCase;
+import se306p2.domain.interfaces.usecase.ISearchAndFilterProductsUseCase;
 
-public class SearchProductsUseCase implements ISearchProductsUseCase {
-    public Single<Pair<List<IProduct>, List<IBrand>>> searchProducts(String term) {
+public class SearchAndFilterProductsUseCase implements ISearchAndFilterProductsUseCase {
+    public Single<List<IProduct>> searchAndFilterProducts(String term, String brandId, BigDecimal min, BigDecimal max) {
         return Single.create(emitter -> {
             try {
-                Pair<List<IProduct>, List<IBrand>> products = RepositoryRouter.getProductRepository().getProductsBySearch(term);
+                List<IProduct> products = RepositoryRouter.getProductRepository().getProductsBySearchAndFilter(term, brandId, min, max);
                 if (products == null) {
                     emitter.onError(new NullPointerException());
                     return;
