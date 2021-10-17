@@ -60,6 +60,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private ProductDetailViewModel viewModel;
 
+    private Menu optionsMenu;
     private TextView brandName, productName, priceDollars, priceCents;
     private TextView slogan, description;
     private TextView usage;
@@ -89,12 +90,16 @@ public class ProductDetailActivity extends AppCompatActivity {
         initProductVersions();
         initImages();
         initImageCountDots();
+        initFavourite();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.product_menu, menu);
+
+
+        optionsMenu = menu;
         return true;
     }
 
@@ -102,7 +107,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_heart:
-                
+                viewModel.toggleFavourite();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -114,6 +119,16 @@ public class ProductDetailActivity extends AppCompatActivity {
         LinearLayoutCompat rootLinearLayout = (LinearLayoutCompat)findViewById(R.id.product_details_container);
         LayoutTransition layoutTransition = rootLinearLayout.getLayoutTransition();
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
+    }
+
+    private void initFavourite() {
+        viewModel.getIsFavourited().observe(this, observedFavourited -> {
+            if (observedFavourited) {
+                optionsMenu.findItem(R.id.nav_heart).setIcon(R.drawable.ic_heart_filled);
+            } else {
+                optionsMenu.findItem(R.id.nav_heart).setIcon(R.drawable.ic_heart_empty);
+            }
+        });
     }
 
     private void initProductInfo() {

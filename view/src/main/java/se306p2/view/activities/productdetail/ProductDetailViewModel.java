@@ -119,6 +119,10 @@ public class ProductDetailViewModel extends ViewModel {
         );
     }
 
+    public void toggleFavourite() {
+        //TODO add logic here.
+    }
+
     public void setCurrentVersion(IProductVersion ver, int index) {
         currentProductVersion.postValue(ver);
         currentProductPosition.postValue(index);
@@ -138,6 +142,8 @@ public class ProductDetailViewModel extends ViewModel {
     }
 
     public LiveData<Integer> getCurrentProductPosition() { return currentProductPosition; };
+
+    public LiveData<Boolean> getIsFavourited() { return favourited; };
 
     public LiveData<IProductVersion> getCurrentProductVersion() {
         System.out.println("========================getCurentProductVersion in view model " + currentProductVersion + " value " + currentProductVersion.getValue());
