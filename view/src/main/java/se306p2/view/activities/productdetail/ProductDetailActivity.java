@@ -273,7 +273,6 @@ public class ProductDetailActivity extends AppCompatActivity {
                         ((RadioButton) buttonView).setChecked(false);
                     }
                 }
-
             }
         });
     }
