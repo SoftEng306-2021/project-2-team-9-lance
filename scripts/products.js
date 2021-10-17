@@ -69,6 +69,8 @@ const init = async () => {
         defaultImageURI: product.defaultImageURI,
         form: product.form,
         price: product.price,
+        numericRating: 3 + Math.random() * 2,
+        numReviews: 5 + Math.floor(Math.random() * 200)
       };
 
       await db.collection("product").doc(product.id).set(data);
