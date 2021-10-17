@@ -82,11 +82,18 @@ public class UserRepository implements IUserRepository {
             DocumentSnapshot snapshot = Tasks.await(db.collection("user").document(userId).get());
             List<DocumentReference> favouriteList = (List<DocumentReference>) snapshot.get("favourites");
 
-            favouriteList.add(db.collection("product").document(productId));
+            Set<DocumentReference> hashSet = new HashSet<>(favouriteList);
+
+            DocumentReference productRef = db.collection("product").document(productId);
+            if (hashSet.contains(productRef)) {
+                hashSet.add(productRef);
+            }else {
+                hashSet.remove(productRef);
+            }
 
             Tasks.await(db.collection("user")
                     .document(userId)
-                    .update("favourites", favouriteList)
+                    .update("favourites", hashSet.toArray())
             );
             return favourites();
         } catch (ExecutionException | InterruptedException e) {

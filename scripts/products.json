@@ -92,6 +92,7 @@
   },
   {
     "id": "8cOb6Xgpimak9gwYAUE4",
+    "order": 1,
     "name": "Soft Matte Complete Foundation",
     "category": "Makeup",
     "brand": "NARS",
@@ -259,6 +260,7 @@
   },
   {
     "id": "eCOlO9W8T1ALeoTXvZm1",
+    "order": 2,
     "name": "Soft Matte Tinted Lip Balm",
     "category": "Makeup",
     "brand": "NARS",
@@ -504,6 +506,7 @@
   },
   {
     "id": "kbw6f84mtIOF2LgVKU60",
+    "order": 3,
     "name": "Cheek You Out Cream Blush",
     "category": "Makeup",
     "brand": "Morphe",
@@ -576,6 +579,7 @@
   },
   {
     "id": "s95sr1kG5LyLjRIc4Tjh",
+    "order": 4,
     "name": "Blush Infusion",
     "category": "Makeup",
     "brand": "Laura Mercier",
@@ -701,6 +705,7 @@
   },
   {
     "id": "rYeH2nKmVVRncD7ZKXTO",
+    "order": 5,
     "name": "RoseGlow Caviar Stick Eye Shadow",
     "category": "Makeup",
     "brand": "Laura Mercier",
@@ -820,6 +825,7 @@
   },
   {
     "id": "9iPqFrATeD6YNgu2VSNv",
+    "order": 6,
     "name": "Translucent Loose Setting Powder",
     "category": "Makeup",
     "brand": "Laura Mercier",
@@ -880,6 +886,7 @@
   },
   {
     "id": "VzFWcHIdNYjlUPa5XTtl",
+    "order": 7,
     "name": "Face Illuminator",
     "category": "Makeup",
     "brand": "Laura Mercier",
@@ -940,6 +947,7 @@
   },
   {
     "id": "5eRGIYIN3DVuOJTkgBpc",
+    "order": 8,
     "name": "Secret Concealer",
     "category": "Makeup",
     "brand": "Laura Mercier",
@@ -1017,6 +1025,7 @@
   },
   {
     "id": "ygx14VfL7Vt8P4X1wU38",
+    "order": 9,
     "name": "Lip Glacé",
     "category": "Makeup",
     "brand": "Laura Mercier",
@@ -1134,6 +1143,7 @@
   },
   {
     "id": "hAPNrnlaHyolUqaz3og5",
+    "order": 10,
     "name": "Pure Radiant Tinted Moisturiser",
     "category": "Makeup",
     "brand": "NARS",
@@ -1339,6 +1349,7 @@
   },
   {
     "id": "tdStcUceGiDfKQnJ8wth",
+    "order": 11,
     "name": "Moisture Surge Sheer Tint SPF25",
     "category": "Makeup",
     "brand": "Clinique",
@@ -1639,6 +1650,7 @@
   },
   {
     "id": "7GIQShWyUzFRzhwN9VNP",
+    "order": 12,
     "name": "Lip Balm #1",
     "category": "Skin Care",
     "brand": "Kiehl's",
