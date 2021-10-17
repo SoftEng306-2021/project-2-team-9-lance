@@ -287,17 +287,17 @@ public class ProductRepository implements IProductRepository {
         com.algolia.search.saas.Query query = new com.algolia.search.saas.Query(searchTerm)
                 .setAttributesToRetrieve("name")
                 .setHitsPerPage(4);
-        index.searchAsync(query, (content, error) -> {
-            try {
-                System.out.println(content.toString());
-                JSONArray array = content.getJSONArray("hits");
-                for (int i = 0; i < array.length(); i++) {
-                    searchAutoCompletes.add(array.getJSONObject(i).getString("name"));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+
+        try {
+            JSONObject content = index.search(query, new RequestOptions());
+            JSONArray array = content.getJSONArray("hits");
+            for (int i = 0; i < array.length(); i++) {
+                searchAutoCompletes.add(array.getJSONObject(i).getString("name"));
             }
-        });
+        } catch (JSONException | AlgoliaException e) {
+            e.printStackTrace();
+            return null;
+        }
 
         return searchAutoCompletes;
     }
