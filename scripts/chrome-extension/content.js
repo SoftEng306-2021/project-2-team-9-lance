@@ -42,6 +42,27 @@ const html2text = (html) => {
   return html;
 };
 
+const copyIngredients = () => {
+  let ingredientsIndex = null;
+  const stuff = [
+    ...document.querySelectorAll('[data-cid="accordion-label"]'),
+  ].map((label, index) => {
+    switch (label.innerHTML) {
+      case "Ingredients":
+        ingredientsIndex = index;
+    }
+  });
+
+  const ingredients = !ingredientsIndex
+    ? ""
+    : html2text(
+        document.querySelectorAll('[data-cid="accordion-content"]')[
+          ingredientsIndex
+        ].innerHTML
+      );
+  copy(ingredients.replaceAll("\n", "\\n"));
+};
+
 const copyJSON = () => {
   // Images
   const images = [
@@ -67,6 +88,7 @@ const copyJSON = () => {
   let benefitsIndex = null;
   let detailsIndex = null;
   let usageIndex = null;
+  let ingredientsIndex = null;
 
   const stuff = [
     ...document.querySelectorAll('[data-cid="accordion-label"]'),
@@ -80,6 +102,9 @@ const copyJSON = () => {
         break;
       case "Usage":
         usageIndex = index;
+        break;
+      case "Ingredients":
+        ingredientsIndex = index;
         break;
     }
   });
@@ -96,6 +121,14 @@ const copyJSON = () => {
     : html2text(
         document.querySelectorAll('[data-cid="accordion-content"]')[
           detailsIndex
+        ].innerHTML
+      );
+
+  const ingredients = !ingredientsIndex
+    ? ""
+    : html2text(
+        document.querySelectorAll('[data-cid="accordion-content"]')[
+          ingredientsIndex
         ].innerHTML
       );
 
@@ -125,6 +158,7 @@ const copyJSON = () => {
     form: "",
     price: parseFloat(priceString),
     benefits: benefits,
+    ingredients: ingredients,
     productVersion: [
       {
         id: newid(20),
@@ -139,12 +173,18 @@ const copyJSON = () => {
   copy(JSON.stringify(json, null, 2));
 };
 
-console.log("LOADED EZ");
+console.log("LOADED EZ 2");
 
 let copyBtn = document.createElement("button");
 copyBtn.innerHTML = "Copy";
 copyBtn.style = "position: fixed; z-index:1000; top: 0; left: 0;";
 copyBtn.addEventListener("click", copyJSON);
 
+let ingredientsBtn = document.createElement("button");
+ingredientsBtn.innerHTML = "Copy Ingredients";
+ingredientsBtn.style = "position: fixed; z-index:1000; top: 0; left: 50px;";
+ingredientsBtn.addEventListener("click", copyIngredients);
+
 let body = document.getElementsByTagName("body")[0];
 body.appendChild(copyBtn);
+body.appendChild(ingredientsBtn);
