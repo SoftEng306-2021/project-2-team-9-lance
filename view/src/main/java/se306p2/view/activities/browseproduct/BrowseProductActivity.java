@@ -36,6 +36,7 @@ public class BrowseProductActivity extends AppCompatActivity {
 
     private String categoryId;
     private String categoryName;
+    private String searchTerm;
 
     private float startY;
 
@@ -50,6 +51,8 @@ public class BrowseProductActivity extends AppCompatActivity {
         Intent intent = getIntent();
         categoryId = intent.getStringExtra("categoryId");
         categoryName = intent.getStringExtra("categoryName");
+        searchTerm = intent.getStringExtra("searchTerm");
+        System.out.println("-------------------------BrowseProductActivity search term received: " + searchTerm);
 
         viewModel = new ViewModelProvider(this).get(BrowseProductViewModel.class);
         System.out.println(categoryId);

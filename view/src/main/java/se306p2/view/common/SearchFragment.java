@@ -1,11 +1,13 @@
 package se306p2.view.common;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,7 @@ import se306p2.domain.interfaces.usecase.IGetProductVersionsUseCase;
 import se306p2.domain.interfaces.usecase.ISearchAutoCompleteUseCase;
 import se306p2.domain.usecase.SearchAutoCompleteUseCase;
 import se306p2.view.R;
+import se306p2.view.activities.browseproduct.BrowseProductActivity;
 
 public class SearchFragment extends DialogFragment {
     private CompositeDisposable disposables = new CompositeDisposable();
@@ -53,9 +56,11 @@ public class SearchFragment extends DialogFragment {
 
         autoCompleteTextView = rootView.findViewById(R.id.search_auto_complete_view);
         autoCompleteTextView.setDropDownVerticalOffset(45);
+        autoCompleteTextView.setActivated(true);
+        autoCompleteTextView.requestFocus();
 
         autoCompleteOptions.observe(this, observedAutocomplete -> {
-            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + observedAutocomplete.toString());
+            System.out.println("======================== observedAutoComplete" + observedAutocomplete.toString());
             adapter = new ArrayAdapter<>(
                     getActivity(),
                     R.layout.support_simple_spinner_dropdown_item,
@@ -84,12 +89,29 @@ public class SearchFragment extends DialogFragment {
             }
         });
 
+        autoCompleteTextView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+
+                if ((keyEvent.getAction() == KeyEvent.ACTION_UP) && (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    System.out.println("------------------------------- enter pressed");
+
+                    Intent intent = new Intent(getActivity(), BrowseProductActivity.class);
+                    intent.putExtra("searchTerm", autoCompleteTextView.getText().toString());
+                    getActivity().startActivity(intent);
+
+                    return true;
+                }
+                return false;
+            }
+        });
+
         return rootView;
     }
 
     private void search(String str) {
 
-        System.out.println("+++++++++++++++++++++++++++ searching " + str);
+        System.out.println("======================== searching " + str);
         Single<List<String>> autocompleteSingle = searchAutoCompleteUseCase.searchAutoComplete(str);
         this.disposables.add(autocompleteSingle
                 .subscribeOn(Schedulers.io())
@@ -105,4 +127,5 @@ public class SearchFragment extends DialogFragment {
         this.disposables.dispose();
     }
 
+    
 }
