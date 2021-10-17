@@ -15,11 +15,13 @@ import se306p2.domain.interfaces.entity.IBenefit;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.entity.IProductVersion;
 import se306p2.domain.interfaces.entity.IRating;
+import se306p2.domain.interfaces.usecase.IFavouritesUseCase;
 import se306p2.domain.interfaces.usecase.IGetBenefitsUseCase;
 import se306p2.domain.interfaces.usecase.IGetFavouritesUseCase;
 import se306p2.domain.interfaces.usecase.IGetProductUseCase;
 import se306p2.domain.interfaces.usecase.IGetProductVersionsUseCase;
 import se306p2.domain.interfaces.usecase.IGetRatingUseCase;
+import se306p2.domain.usecase.FavouritesUseCase;
 import se306p2.domain.usecase.GetBenefitsUseCase;
 import se306p2.domain.usecase.GetFavouritesUseCase;
 import se306p2.domain.usecase.GetProductUseCase;
@@ -35,6 +37,7 @@ public class ProductDetailViewModel extends ViewModel {
     private IGetFavouritesUseCase getFavouritesUseCase;
     private IGetBenefitsUseCase getBenefitsUseCase;
     private IGetRatingUseCase getRatingUseCase;
+    private IFavouritesUseCase favouritesUseCase;
 
     private String productId;
 
@@ -52,6 +55,7 @@ public class ProductDetailViewModel extends ViewModel {
         this.getFavouritesUseCase = new GetFavouritesUseCase();
         this.getBenefitsUseCase = new GetBenefitsUseCase();
         this.getRatingUseCase = new GetRatingUseCase();
+        this.favouritesUseCase = new FavouritesUseCase();
     }
 
     public ProductDetailViewModel(
@@ -59,13 +63,15 @@ public class ProductDetailViewModel extends ViewModel {
             IGetProductVersionsUseCase getProductVersionsUseCase,
             IGetFavouritesUseCase getFavouritesUseCase,
             IGetBenefitsUseCase getBenefitsUseCase,
-            IGetRatingUseCase getRatingUseCase
+            IGetRatingUseCase getRatingUseCase,
+            IFavouritesUseCase favouritesUseCase
     ) {
         this.getProductUseCase = getProductUseCase;
         this.getProductVersionsUseCase = getProductVersionsUseCase;
         this.getFavouritesUseCase = getFavouritesUseCase;
         this.getBenefitsUseCase = getBenefitsUseCase;
         this.getRatingUseCase = getRatingUseCase;
+        this.favouritesUseCase = favouritesUseCase;
     }
 
     public void init(String productId) {
@@ -138,7 +144,15 @@ public class ProductDetailViewModel extends ViewModel {
     }
 
     public void toggleFavourite() {
-        //TODO add logic here.
+        Single<Set<String>> toggleFavouritesSingle = favouritesUseCase.favourite(productId);
+        this.disposables.add(toggleFavouritesSingle
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(retrievedFavourites -> {
+            if (retrievedFavourites.contains(productId) ^ favourited.getValue()) {
+                favourited.postValue(!favourited.getValue());
+            }
+        }));
     }
 
     public void setCurrentVersion(IProductVersion ver, int index) {

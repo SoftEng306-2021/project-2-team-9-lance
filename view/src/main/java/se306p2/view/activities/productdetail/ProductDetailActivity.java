@@ -328,57 +328,13 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         viewModel.getRating().observe(this, observedRating -> {
             DecimalFormat df = new DecimalFormat("#.#");
-            ratingValue.setText(df.toString());
+            ratingValue.setText(df.format(observedRating.getRating()));
             numRatings.setText(Integer.toString(observedRating.getNum()));
         });
 
 
     }
 
-    private void initImages() {
-        viewPager = (ViewPager2) findViewById(R.id.image_slider_viewpager);
-
-        viewModel.getCurrentProductVersion().observe(this, observedVersion -> {
-            ScreenSlidePagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(this, observedVersion);
-            viewPager.setAdapter(pagerAdapter);
-        });
-
-    }
-
-    private void initImageCountDots() {
-        LinearLayoutCompat dotsContainer = findViewById(R.id.dots_container);
-        dotsContainer.removeAllViews();
-
-        viewModel.getCurrentProductVersion().observe(this, observedVersion -> {
-            dotsContainer.removeAllViews();
-            for (int i = 0; i < observedVersion.getImageURI().size(); i++) {
-                ImageView iv = new ImageView(getApplicationContext());
-                iv.setImageDrawable(getDrawable(R.drawable.circle));
-                LinearLayoutCompat.LayoutParams lp =  new LinearLayoutCompat.LayoutParams(
-                        LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
-                        LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
-                lp.setMargins(8, 0, 8, 0);
-                iv.setLayoutParams(lp);
-
-                dotsContainer.addView(iv);
-            }
-        });
-
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                for (int i = 0; i < dotsContainer.getChildCount(); i++) {
-                    ImageView child = (ImageView) dotsContainer.getChildAt(i);
-                    if (i == position) {
-                        child.setImageDrawable(getDrawable(R.drawable.dark_circle));
-                    } else {
-                        child.setImageDrawable(getDrawable(R.drawable.circle));
-                    }
-                }
-            }
-        });
-    }
 
     private RadioButton createRadioButton(IProductVersion productVersion, int index) {
         RadioButton button = new RadioButton(this);
