@@ -40,7 +40,9 @@ public class ScreenSlidePagerAdapter extends RecyclerView.Adapter<ScreenSlidePag
                 .asBitmap()
                 .load(version.getImageURI().get(position))
                 .into(holder.singleImage);
-        holder.singleImage.setBackgroundColor(Color.parseColor(version.getHexColor()));
+        if (version.getHexColor() != null && !version.getHexColor().isEmpty()){
+            holder.singleImage.setBackgroundColor(Color.parseColor(version.getHexColor()));
+        }
     }
 
     @Override

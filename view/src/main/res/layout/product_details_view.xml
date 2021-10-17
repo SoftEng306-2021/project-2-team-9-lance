@@ -31,6 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:orientation="horizontal"
+                android:id="@+id/dots_container"
                 android:paddingVertical="15dp">
 
                 <ImageView

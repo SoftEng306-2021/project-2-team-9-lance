@@ -3,6 +3,7 @@ package se306p2.view.activities.productdetail;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.LayoutTransition;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -83,6 +84,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         initIngredients();
         initProductVersions();
         initImages();
+        initImageCountDots();
     }
 
 
@@ -245,6 +247,41 @@ public class ProductDetailActivity extends AppCompatActivity {
             viewPager.setAdapter(pagerAdapter);
         });
 
+    }
+
+    private void initImageCountDots() {
+        LinearLayoutCompat dotsContainer = findViewById(R.id.dots_container);
+        dotsContainer.removeAllViews();
+
+        viewModel.getCurrentProductVersion().observe(this, observedVersion -> {
+            dotsContainer.removeAllViews();
+            for (int i = 0; i < observedVersion.getImageURI().size(); i++) {
+                ImageView iv = new ImageView(getApplicationContext());
+                iv.setImageDrawable(getDrawable(R.drawable.circle));
+                LinearLayoutCompat.LayoutParams lp =  new LinearLayoutCompat.LayoutParams(
+                        LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
+                        LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
+                lp.setMargins(8, 0, 8, 0);
+                iv.setLayoutParams(lp);
+
+                dotsContainer.addView(iv);
+            }
+        });
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                for (int i = 0; i < dotsContainer.getChildCount(); i++) {
+                    ImageView child = (ImageView) dotsContainer.getChildAt(i);
+                    if (i == position) {
+                        child.setImageDrawable(getDrawable(R.drawable.dark_circle));
+                    } else {
+                        child.setImageDrawable(getDrawable(R.drawable.circle));
+                    }
+                }
+            }
+        });
     }
 
     private RadioButton createRadioButton(IProductVersion productVersion, int index) {
