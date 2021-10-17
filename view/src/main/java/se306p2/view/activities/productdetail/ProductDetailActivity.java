@@ -22,6 +22,9 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
@@ -37,6 +40,7 @@ import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.entity.IProductVersion;
 import se306p2.view.R;
 import se306p2.view.activities.productdetail.adapters.BenefitItemRecyclerViewAdapter;
+import se306p2.view.activities.productdetail.adapters.ScreenSlidePagerAdapter;
 import se306p2.view.common.adapters.ProductItemRecyclerViewAdapter;
 import se306p2.view.common.helper.DisplayDataFormatter;
 
@@ -55,7 +59,9 @@ public class ProductDetailActivity extends AppCompatActivity {
     private TextView slogan, description;
     private TextView usage;
     private TextView ingredients;
-    RadioGroup radioGroup;
+    private RadioGroup radioGroup;
+
+    private ViewPager2 viewPager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +82,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         initUsage();
         initIngredients();
         initProductVersions();
+        initImages();
     }
 
 
@@ -228,6 +235,16 @@ public class ProductDetailActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void initImages() {
+        viewPager = (ViewPager2) findViewById(R.id.image_slider_viewpager);
+
+        viewModel.getCurrentProductVersion().observe(this, observedVersion -> {
+            ScreenSlidePagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(this, observedVersion.getImageURI());
+            viewPager.setAdapter(pagerAdapter);
+        });
+
     }
 
     private RadioButton createRadioButton(IProductVersion productVersion, int index) {
