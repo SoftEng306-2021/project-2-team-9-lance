@@ -1,5 +1,7 @@
 package se306p2.view.activities.browseproduct;
 
+import android.util.Pair;
+
 import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableInt;
 import androidx.lifecycle.LiveData;
@@ -22,11 +24,13 @@ import se306p2.domain.interfaces.usecase.IGetBrandsUseCase;
 import se306p2.domain.interfaces.usecase.IGetMaxPriceUseCase;
 import se306p2.domain.interfaces.usecase.IGetMinPriceUseCase;
 import se306p2.domain.interfaces.usecase.IGetProductsByFilterUseCase;
+import se306p2.domain.interfaces.usecase.ISearchAndFilterProductsUseCase;
 import se306p2.domain.interfaces.usecase.ISearchProductsUseCase;
 import se306p2.domain.usecase.GetBrandsUseCase;
 import se306p2.domain.usecase.GetMaxPriceUseCase;
 import se306p2.domain.usecase.GetMinPriceUseCase;
 import se306p2.domain.usecase.GetProductsByFilterUseCase;
+import se306p2.domain.usecase.SearchAndFilterProductsUseCase;
 import se306p2.domain.usecase.SearchProductsUseCase;
 
 public class BrowseProductViewModel extends ViewModel {
@@ -37,6 +41,7 @@ public class BrowseProductViewModel extends ViewModel {
     private IGetProductsByFilterUseCase getProductsByFilterUseCase = new GetProductsByFilterUseCase();
     private IGetBrandsUseCase getBrandsUseCase = new GetBrandsUseCase();
     private ISearchProductsUseCase searchProductsUseCase = new SearchProductsUseCase();
+    private ISearchAndFilterProductsUseCase searchAndFilterProductsUseCase = new SearchAndFilterProductsUseCase();
 
     /**
      * Two way bound with the price bracket spinner in browse_products_view.xml
@@ -65,7 +70,7 @@ public class BrowseProductViewModel extends ViewModel {
             new Integer[]{0, 15},
             new Integer[]{15, 50},
             new Integer[]{50, 100},
-            new Integer[]{100, -1}
+            new Integer[]{100, 999}
     );
 
     public void setCategoryId(String categoryId) {
@@ -77,17 +82,46 @@ public class BrowseProductViewModel extends ViewModel {
     }
 
     public void init() {
-        loadBrands();
         loadPriceBrackets();
         if (searchTerm != null) {
+            // Load Search
             loadProductsBySearchTerm();
         } else {
-            loadProductsByFilter();
+            // Load Category
+            loadBrands();
         }
     }
 
     public void loadProductsBySearchTerm() {
-        Single<List<IProduct>> productsSingle = searchProductsUseCase.searchProducts(this.searchTerm);
+        Single<Pair<List<IProduct>, List<IBrand>>> productsSingle = searchProductsUseCase.searchProducts(this.searchTerm);
+        this.disposables.add(productsSingle.
+                subscribeOn(Schedulers.io()).
+                observeOn(AndroidSchedulers.mainThread()).
+                subscribe(pair -> {
+                            products.postValue(pair.first);
+                            brands = pair.second;
+                            observableBrandsList.clear();
+                            observableBrandsList.add("All");
+                            observableBrandsList.addAll(brands
+                                    .stream()
+                                    .map(brand -> brand.getName())
+                                    .collect(Collectors.toList()));
+
+                            observableBrandIndexSelected.set(0);
+                        },
+                        e -> e.printStackTrace()));
+    }
+
+    private void loadProductsBySearchAndFilter() {
+        int selectedPriceBracketIndex = observablePriceBracketIndexSelected.get() - 1; //-1 is required to account for the "All" option at the start of the list
+        Integer[] selectedPriceBracket = PRICE_BRACKETS.get(selectedPriceBracketIndex != -1 ? selectedPriceBracketIndex : 0);
+
+        String brandId = brands == null || brands.size() == 0 || observableBrandIndexSelected.get() == 0 ? null :
+                brands.get(observableBrandIndexSelected.get() - 1).getId();
+        Single<List<IProduct>> productsSingle = searchAndFilterProductsUseCase.searchAndFilterProducts(this.searchTerm,
+                brandId,
+                new BigDecimal(selectedPriceBracketIndex != -1 ? selectedPriceBracket[0] : 0),
+                new BigDecimal(selectedPriceBracketIndex != -1 ? selectedPriceBracket[1] : 1000));
         this.disposables.add(productsSingle.
                 subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread()).
@@ -96,6 +130,11 @@ public class BrowseProductViewModel extends ViewModel {
     }
 
     public void loadProductsByFilter() {
+        if (searchTerm != null) {
+            // Load Search
+            loadProductsBySearchAndFilter();
+            return;
+        }
 
         System.out.println("+++++++++++++++" + observablePriceBracketIndexSelected.get() + " " + observableBrandIndexSelected.get());
 
@@ -107,8 +146,8 @@ public class BrowseProductViewModel extends ViewModel {
         Single<List<IProduct>> productsSingle = getProductsByFilterUseCase.getProductsByFilter(
                 categoryId,
                 brandId, //-1 is required to account for the "All" option at the start of the list
-                new BigDecimal(selectedPriceBracketIndex != -1 ? selectedPriceBracket[0]: 0),
-                new BigDecimal(selectedPriceBracketIndex != -1 ? selectedPriceBracket[1]: 1000)
+                new BigDecimal(selectedPriceBracketIndex != -1 ? selectedPriceBracket[0] : 0),
+                new BigDecimal(selectedPriceBracketIndex != -1 ? selectedPriceBracket[1] : 1000)
         );
         this.disposables.add(productsSingle.
                 subscribeOn(Schedulers.io()).
@@ -152,7 +191,13 @@ public class BrowseProductViewModel extends ViewModel {
     public void clearFilter() {
         observableBrandIndexSelected.set(0);
         observablePriceBracketIndexSelected.set(0);
-        loadProductsByFilter();
+        if (searchTerm != null) {
+            // Load Search
+            loadProductsBySearchTerm();
+        } else {
+            // Load Category
+            loadProductsByFilter();
+        }
     }
 
     public LiveData<List<IProduct>> getProducts() {

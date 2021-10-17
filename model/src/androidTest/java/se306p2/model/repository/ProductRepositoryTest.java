@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import android.util.Pair;
+
 import androidx.test.core.app.ApplicationProvider;
 
 import com.google.android.gms.tasks.Tasks;
@@ -29,6 +31,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import se306p2.domain.interfaces.entity.IBenefit;
+import se306p2.domain.interfaces.entity.IBrand;
 import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.entity.IProductVersion;
@@ -1004,8 +1007,8 @@ public class ProductRepositoryTest {
 
         @Test
         void testGetProductsBySearchNoMatchingString() {
-            List<IProduct> products = productRepository.getProductsBySearch("nomatchingterm");
-            assertEquals(0, products.size());
+            Pair<List<IProduct>, List<IBrand>> pair = productRepository.getProductsBySearch("nomatchingterm");
+            assertEquals(0, pair.first.size());
         }
     }
 

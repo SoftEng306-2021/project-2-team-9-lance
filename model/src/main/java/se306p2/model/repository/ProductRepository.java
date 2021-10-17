@@ -1,5 +1,7 @@
 package se306p2.model.repository;
 
+import android.util.Pair;
+
 import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.Index;
@@ -16,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,11 +29,13 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import se306p2.domain.interfaces.entity.IBenefit;
+import se306p2.domain.interfaces.entity.IBrand;
 import se306p2.domain.interfaces.entity.ICategory;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.entity.IProductVersion;
 import se306p2.domain.interfaces.repositories.IProductRepository;
 import se306p2.model.transformers.BenefitTransformer;
+import se306p2.model.transformers.BrandTransformer;
 import se306p2.model.transformers.ProductTransformer;
 import se306p2.model.transformers.ProductVersionTransformer;
 
@@ -303,7 +308,7 @@ public class ProductRepository implements IProductRepository {
     }
 
 
-    public List<IProduct> getProductsBySearch(String searchTerm) {
+    public Pair<List<IProduct>, List<IBrand>> getProductsBySearch(String searchTerm) {
         Index index = algolia.getIndex("products");
         com.algolia.search.saas.Query query = new com.algolia.search.saas.Query(searchTerm)
                 .setAttributesToRetrieve("id")
@@ -331,7 +336,80 @@ public class ProductRepository implements IProductRepository {
         try {
             List<DocumentSnapshot> documentSnapshots = Tasks.await(Tasks.whenAllSuccess(tasks));
 
-            System.out.println(documentSnapshots);
+            Set<DocumentReference> brandsRefUnique = new HashSet<>();
+            for (DocumentSnapshot ds : documentSnapshots) {
+                if (ds.getData() == null) break;
+                DocumentReference brandRef = (DocumentReference) ds.getData().get("brand");
+                brandsRefUnique.add(brandRef);
+            }
+
+            List<Task<DocumentSnapshot>> brands = new ArrayList<>();
+            for (DocumentReference df : brandsRefUnique) {
+                brands.add(df.get());
+            }
+
+            List<DocumentSnapshot> brandsDocumentSnapshots = Tasks.await(Tasks.whenAllSuccess(brands));
+
+            Map<DocumentReference, String> brandsMap = new HashMap<>();
+            List<IBrand> brandsArray = new ArrayList<>();
+            for (DocumentSnapshot ds : brandsDocumentSnapshots) {
+                brandsMap.put(ds.getReference(), ds.getData().get("name").toString());
+                brandsArray.add(BrandTransformer.unpack(ds.getId(), ds.getData()));
+            }
+
+            List<IProduct> products = new ArrayList<>();
+            for (DocumentSnapshot ds : documentSnapshots) {
+                if (ds.getData() == null) break;
+                DocumentReference brandRef = (DocumentReference) ds.getData().get("brand");
+                products.add(ProductTransformer.unpack(ds.getId(), brandsMap.get(brandRef), ds.getData()));
+            }
+            return new Pair(products, brandsArray);
+
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<IProduct> getProductsBySearchAndFilter(String searchTerm, String brandId, BigDecimal min, BigDecimal max) {
+        Index index = algolia.getIndex("products");
+        com.algolia.search.saas.Query query = new com.algolia.search.saas.Query(searchTerm)
+                .setAttributesToRetrieve("id")
+                .setHitsPerPage(100);
+
+        if (brandId != null && min != null && max != null) {
+            try {
+                DocumentSnapshot brand = Tasks.await(db.collection("brand").document(brandId).get());
+                System.out.println(brand.getString("name"));
+                query.setFilters("brand:" + brand.getString("name") + " AND price:" + min + " TO " + max);
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+                query.setFilters("price:" + min + " TO " + max);
+            }
+        } else if (min != null && max != null) {
+            query.setFilters("price:" + min + " TO " + max);
+        }
+
+        List<String> productIds = new ArrayList<>();
+        try {
+            JSONObject content = index.search(query, new RequestOptions());
+            JSONArray array = content.getJSONArray("hits");
+            for (int i = 0; i < array.length(); i++) {
+                productIds.add(array.getJSONObject(i).getString("id"));
+            }
+            System.out.println(productIds);
+        } catch (JSONException | AlgoliaException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        List<Task<DocumentSnapshot>> tasks = new ArrayList<>();
+        for (String productId : productIds) {
+            tasks.add(db.collection("product").document(productId).get());
+        }
+
+        try {
+            List<DocumentSnapshot> documentSnapshots = Tasks.await(Tasks.whenAllSuccess(tasks));
 
             Map<DocumentReference, String> brandsMap = getBrandsFromSnapshot(documentSnapshots);
 
