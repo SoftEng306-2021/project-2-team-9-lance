@@ -14,16 +14,17 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import se306p2.domain.interfaces.entity.IProductVersion;
 import se306p2.view.R;
 
 public class ScreenSlidePagerAdapter extends RecyclerView.Adapter<ScreenSlidePagerAdapter.ViewHolder> {
 
     private Context context;
-    private List<String> imageList;
+    private IProductVersion version;
 
-    public ScreenSlidePagerAdapter(Context context, List<String> imageList) {
+    public ScreenSlidePagerAdapter(Context context, IProductVersion version) {
         this.context = context;
-        this.imageList = imageList;
+        this.version = version;
     }
 
     @NonNull
@@ -37,14 +38,14 @@ public class ScreenSlidePagerAdapter extends RecyclerView.Adapter<ScreenSlidePag
     public void onBindViewHolder(@NonNull ScreenSlidePagerAdapter.ViewHolder holder, int position) {
         Glide.with(context)
                 .asBitmap()
-                .load(imageList.get(position))
+                .load(version.getImageURI().get(position))
                 .into(holder.singleImage);
-        holder.singleImage.setBackgroundColor(Color.parseColor(imageList.get(position).get));
+        holder.singleImage.setBackgroundColor(Color.parseColor(version.getHexColor()));
     }
 
     @Override
     public int getItemCount() {
-        return imageList.size();
+        return version.getImageURI().size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

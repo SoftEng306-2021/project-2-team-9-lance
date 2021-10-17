@@ -241,7 +241,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         viewPager = (ViewPager2) findViewById(R.id.image_slider_viewpager);
 
         viewModel.getCurrentProductVersion().observe(this, observedVersion -> {
-            ScreenSlidePagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(this, observedVersion.getImageURI());
+            ScreenSlidePagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(this, observedVersion);
             viewPager.setAdapter(pagerAdapter);
         });
 
