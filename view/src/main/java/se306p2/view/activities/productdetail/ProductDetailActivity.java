@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -42,6 +45,7 @@ import se306p2.domain.interfaces.entity.IProductVersion;
 import se306p2.view.R;
 import se306p2.view.activities.productdetail.adapters.BenefitItemRecyclerViewAdapter;
 import se306p2.view.activities.productdetail.adapters.ScreenSlidePagerAdapter;
+import se306p2.view.common.SearchFragment;
 import se306p2.view.common.adapters.ProductItemRecyclerViewAdapter;
 import se306p2.view.common.helper.DisplayDataFormatter;
 
@@ -86,6 +90,24 @@ public class ProductDetailActivity extends AppCompatActivity {
         initImages();
         initImageCountDots();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.product_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_heart:
+                
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    };
 
 
     private void setUpAnimationEnvironment() {

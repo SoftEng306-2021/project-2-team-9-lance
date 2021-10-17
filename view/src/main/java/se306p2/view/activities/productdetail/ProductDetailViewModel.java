@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
+import java.util.Set;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Single;
@@ -40,6 +41,7 @@ public class ProductDetailViewModel extends ViewModel {
     private MutableLiveData<List<IProductVersion>> productVersions = new MutableLiveData<>();
     private MutableLiveData<IProductVersion> currentProductVersion = new MutableLiveData<>();
     private MutableLiveData<Integer> currentProductPosition = new MutableLiveData<>();
+    private MutableLiveData<Boolean> favourited = new MutableLiveData<>();
 
     public ProductDetailViewModel() {
         this.getProductUseCase = new GetProductUseCase();
@@ -66,6 +68,7 @@ public class ProductDetailViewModel extends ViewModel {
         loadProduct();
         loadBenefits();
         loadProductVersions();
+        loadFavourte();
     }
 
     private void loadProduct() {
@@ -99,6 +102,21 @@ public class ProductDetailViewModel extends ViewModel {
                             currentProductPosition.postValue(0);
                         },
                         e -> e.printStackTrace()));
+    }
+
+    private void loadFavourte() {
+        Single<Set<String>> favouritesSingle = getFavouritesUseCase.getFavourites();
+        this.disposables.add(favouritesSingle
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(retrievedFavourites -> {
+                    if (retrievedFavourites.contains(product)) {
+                        favourited.postValue(true);
+                    } else {
+                        favourited.postValue(false);
+                    }
+                })
+        );
     }
 
     public void setCurrentVersion(IProductVersion ver, int index) {
