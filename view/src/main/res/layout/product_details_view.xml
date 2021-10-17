@@ -10,17 +10,53 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:paddingHorizontal="25dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp"
+            >
+
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_star"
+                />
+            <TextView
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5.0"
+                android:fontFamily="@font/raleway"
+                android:textFontWeight="800"
+                android:id="@+id/product_details_rating"
+                android:textSize="19sp"
+                android:textColor="@color/red_dark"
+                />
+            <TextView
+                android:layout_marginLeft="7dp"
+                android:layout_width="wrap_content"
+                android:id="@+id/product_details_num_reviews"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/raleway"
+                android:textSize="17dp"
+                android:text="(123)"
+                />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="380dp"
+            android:layout_height="360dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="0"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
             <androidx.viewpager2.widget.ViewPager2
-                android:layout_marginTop="30dp"
                 android:id="@+id/image_slider_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

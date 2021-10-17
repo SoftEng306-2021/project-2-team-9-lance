@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -34,6 +37,7 @@ import com.google.android.flexbox.JustifyContent;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import se306p2.domain.interfaces.entity.IBenefit;
@@ -42,6 +46,7 @@ import se306p2.domain.interfaces.entity.IProductVersion;
 import se306p2.view.R;
 import se306p2.view.activities.productdetail.adapters.BenefitItemRecyclerViewAdapter;
 import se306p2.view.activities.productdetail.adapters.ScreenSlidePagerAdapter;
+import se306p2.view.common.SearchFragment;
 import se306p2.view.common.adapters.ProductItemRecyclerViewAdapter;
 import se306p2.view.common.helper.DisplayDataFormatter;
 
@@ -56,12 +61,13 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private ProductDetailViewModel viewModel;
 
+    private Menu optionsMenu;
     private TextView brandName, productName, priceDollars, priceCents;
     private TextView slogan, description;
     private TextView usage;
     private TextView ingredients;
     private RadioGroup radioGroup;
-
+    private TextView ratingValue, numRatings;
     private ViewPager2 viewPager;
 
     @Override
@@ -85,13 +91,46 @@ public class ProductDetailActivity extends AppCompatActivity {
         initProductVersions();
         initImages();
         initImageCountDots();
+        initFavourite();
+        initRating();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.product_menu, menu);
+
+
+        optionsMenu = menu;
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_heart:
+                viewModel.toggleFavourite();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    };
 
 
     private void setUpAnimationEnvironment() {
         LinearLayoutCompat rootLinearLayout = (LinearLayoutCompat)findViewById(R.id.product_details_container);
         LayoutTransition layoutTransition = rootLinearLayout.getLayoutTransition();
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
+    }
+
+    private void initFavourite() {
+        viewModel.getIsFavourited().observe(this, observedFavourited -> {
+            if (observedFavourited) {
+                optionsMenu.findItem(R.id.nav_heart).setIcon(R.drawable.ic_heart_filled);
+            } else {
+                optionsMenu.findItem(R.id.nav_heart).setIcon(R.drawable.ic_heart_empty);
+            }
+        });
     }
 
     private void initProductInfo() {
@@ -234,7 +273,6 @@ public class ProductDetailActivity extends AppCompatActivity {
                         ((RadioButton) buttonView).setChecked(false);
                     }
                 }
-
             }
         });
     }
@@ -283,6 +321,20 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void initRating() {
+        ratingValue = findViewById(R.id.product_details_rating);
+        numRatings = findViewById(R.id.product_details_num_reviews);
+
+        viewModel.getRating().observe(this, observedRating -> {
+            DecimalFormat df = new DecimalFormat("#.#");
+            ratingValue.setText(df.format(observedRating.getRating()));
+            numRatings.setText("(" + Integer.toString(observedRating.getNum()) + ")");
+        });
+
+
+    }
+
 
     private RadioButton createRadioButton(IProductVersion productVersion, int index) {
         RadioButton button = new RadioButton(this);
