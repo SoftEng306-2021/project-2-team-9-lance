@@ -10,20 +10,20 @@ import java.util.Set;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.observers.DisposableSingleObserver;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import se306p2.domain.interfaces.entity.IBenefit;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.entity.IProductVersion;
+import se306p2.domain.interfaces.entity.IRating;
 import se306p2.domain.interfaces.usecase.IGetBenefitsUseCase;
 import se306p2.domain.interfaces.usecase.IGetFavouritesUseCase;
 import se306p2.domain.interfaces.usecase.IGetProductUseCase;
 import se306p2.domain.interfaces.usecase.IGetProductVersionsUseCase;
+import se306p2.domain.interfaces.usecase.IGetRatingUseCase;
 import se306p2.domain.usecase.GetBenefitsUseCase;
 import se306p2.domain.usecase.GetFavouritesUseCase;
 import se306p2.domain.usecase.GetProductUseCase;
 import se306p2.domain.usecase.GetProductVersionsUseCase;
-import se306p2.view.common.placeholders.PlaceholderGenerator;
 
 public class ProductDetailViewModel extends ViewModel {
     private static final String TAG = "ProductDetailViewModel";
@@ -33,6 +33,7 @@ public class ProductDetailViewModel extends ViewModel {
     private IGetProductVersionsUseCase getProductVersionsUseCase;
     private IGetFavouritesUseCase getFavouritesUseCase;
     private IGetBenefitsUseCase getBenefitsUseCase;
+    private IGetRatingUseCase getRatingUseCase;
 
     private String productId;
 
@@ -42,6 +43,7 @@ public class ProductDetailViewModel extends ViewModel {
     private MutableLiveData<IProductVersion> currentProductVersion = new MutableLiveData<>();
     private MutableLiveData<Integer> currentProductPosition = new MutableLiveData<>();
     private MutableLiveData<Boolean> favourited = new MutableLiveData<>();
+    private MutableLiveData<IRating> rating = new MutableLiveData<>();
 
     public ProductDetailViewModel() {
         this.getProductUseCase = new GetProductUseCase();
@@ -68,7 +70,8 @@ public class ProductDetailViewModel extends ViewModel {
         loadProduct();
         loadBenefits();
         loadProductVersions();
-        loadFavourte();
+        loadFavourite();
+        loadRating();
     }
 
     private void loadProduct() {
@@ -104,7 +107,7 @@ public class ProductDetailViewModel extends ViewModel {
                         e -> e.printStackTrace()));
     }
 
-    private void loadFavourte() {
+    private void loadFavourite() {
         Single<Set<String>> favouritesSingle = getFavouritesUseCase.getFavourites();
         this.disposables.add(favouritesSingle
             .subscribeOn(Schedulers.io())
@@ -115,8 +118,19 @@ public class ProductDetailViewModel extends ViewModel {
                     } else {
                         favourited.postValue(false);
                     }
-                })
-        );
+                }));
+    }
+
+    private void loadRating() {
+        Single<IRating> ratingSingle = getRatingUseCase.getRating(productId);
+        this.disposables.add(ratingSingle
+        .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(retrievedRating -> {
+                    rating.postValue(retrievedRating);
+                },
+                e -> e.printStackTrace()));
+
     }
 
     public void toggleFavourite() {
@@ -144,6 +158,8 @@ public class ProductDetailViewModel extends ViewModel {
     public LiveData<Integer> getCurrentProductPosition() { return currentProductPosition; };
 
     public LiveData<Boolean> getIsFavourited() { return favourited; };
+
+    public LiveData<IRating> getRating() { return rating; };
 
     public LiveData<IProductVersion> getCurrentProductVersion() {
         System.out.println("========================getCurentProductVersion in view model " + currentProductVersion + " value " + currentProductVersion.getValue());

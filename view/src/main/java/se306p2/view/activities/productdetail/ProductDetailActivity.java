@@ -37,6 +37,7 @@ import com.google.android.flexbox.JustifyContent;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import se306p2.domain.interfaces.entity.IBenefit;
@@ -66,7 +67,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private TextView usage;
     private TextView ingredients;
     private RadioGroup radioGroup;
-
+    private TextView ratingValue, numRatings;
     private ViewPager2 viewPager;
 
     @Override
@@ -91,6 +92,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         initImages();
         initImageCountDots();
         initFavourite();
+        initRating();
     }
 
     @Override
@@ -319,6 +321,19 @@ public class ProductDetailActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void initRating() {
+        ratingValue = findViewById(R.id.product_details_rating);
+        numRatings = findViewById(R.id.product_details_num_reviews);
+
+        viewModel.getRating().observe(this, observedRating -> {
+            DecimalFormat df = new DecimalFormat("#.#");
+            ratingValue.setText(df.toString());
+            numRatings.setText(Integer.toString(observedRating.getNum()));
+        });
+
+
     }
 
     private RadioButton createRadioButton(IProductVersion productVersion, int index) {
