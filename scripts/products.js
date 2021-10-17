@@ -64,6 +64,7 @@ const init = async () => {
         usage: product.usage,
         details: product.details,
         link: product.link,
+        ingredients: product.ingredients,
         defaultImageURI: product.defaultImageURI,
         form: product.form,
         price: product.price,
