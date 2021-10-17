@@ -123,7 +123,7 @@ public class ProductDetailViewModel extends ViewModel {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(retrievedFavourites -> {
-                    if (retrievedFavourites.contains(product)) {
+                    if (retrievedFavourites.contains(productId)) {
                         favourited.postValue(true);
                     } else {
                         favourited.postValue(false);

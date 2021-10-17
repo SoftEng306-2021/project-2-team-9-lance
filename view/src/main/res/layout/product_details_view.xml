@@ -110,7 +110,8 @@
             android:layout_weight="1"
             android:background="@color/white"
             app:cardElevation="20dp"
-            app:cardMaxElevation="20dp">
+            app:cardMaxElevation="20dp"
+            android:foreground="?android:attr/selectableItemBackground">
 
 
             <androidx.appcompat.widget.LinearLayoutCompat
