@@ -24,6 +24,7 @@ import se306p2.domain.usecase.GetBenefitsUseCase;
 import se306p2.domain.usecase.GetFavouritesUseCase;
 import se306p2.domain.usecase.GetProductUseCase;
 import se306p2.domain.usecase.GetProductVersionsUseCase;
+import se306p2.domain.usecase.GetRatingUseCase;
 
 public class ProductDetailViewModel extends ViewModel {
     private static final String TAG = "ProductDetailViewModel";
@@ -50,18 +51,21 @@ public class ProductDetailViewModel extends ViewModel {
         this.getProductVersionsUseCase = new GetProductVersionsUseCase();
         this.getFavouritesUseCase = new GetFavouritesUseCase();
         this.getBenefitsUseCase = new GetBenefitsUseCase();
+        this.getRatingUseCase = new GetRatingUseCase();
     }
 
     public ProductDetailViewModel(
             IGetProductUseCase getProductUseCase,
             IGetProductVersionsUseCase getProductVersionsUseCase,
             IGetFavouritesUseCase getFavouritesUseCase,
-            IGetBenefitsUseCase getBenefitsUseCase
+            IGetBenefitsUseCase getBenefitsUseCase,
+            IGetRatingUseCase getRatingUseCase
     ) {
         this.getProductUseCase = getProductUseCase;
         this.getProductVersionsUseCase = getProductVersionsUseCase;
         this.getFavouritesUseCase = getFavouritesUseCase;
         this.getBenefitsUseCase = getBenefitsUseCase;
+        this.getRatingUseCase = getRatingUseCase;
     }
 
     public void init(String productId) {
