@@ -31,9 +31,11 @@ public class AddRatingDialogueFragment extends DialogFragment {
         starsContainer = rootView.findViewById(R.id.add_review_stars_container);
         doneButton = rootView.findViewById(R.id.add_review_done);
 
-        viewModel.getGivenRating().observe(getActivity(), observedGivenRating -> {
+        System.out.println("================================== able to reach here ?");
+        viewModel.test();
+        viewModel.getGivenRating().observe(requireActivity(), observedGivenRating -> {
             starsContainer.removeAllViews();
-
+            System.out.println("===================we here");
             if (observedGivenRating == null || observedGivenRating == 0) {
                 doneButton.setEnabled(false);
                 for (int i = 0; i < 5; i++) {
@@ -42,6 +44,8 @@ public class AddRatingDialogueFragment extends DialogFragment {
 
                     int finalI = i;
                     star.setOnClickListener(e -> {
+                        System.out.println("=================== CLICKed!!");
+
                         viewModel.giveRating(finalI + 1);
                     });
 
@@ -58,6 +62,13 @@ public class AddRatingDialogueFragment extends DialogFragment {
                     } else {
                         star.setImageDrawable(getActivity().getDrawable(R.drawable.ic_star_large_outline));
                     }
+
+                    int finalI = i;
+                    star.setOnClickListener(e -> {
+                        System.out.println("=================== CLICKed!!");
+
+                        viewModel.giveRating(finalI + 1);
+                    });
 
                     starsContainer.addView(star);
                 }

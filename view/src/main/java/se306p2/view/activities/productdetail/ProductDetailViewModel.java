@@ -97,6 +97,7 @@ public class ProductDetailViewModel extends ViewModel {
         loadProductVersions();
         loadFavourite();
         loadRating();
+        givenRating.postValue(0);
     }
 
     private void loadUser() {
@@ -229,6 +230,10 @@ public class ProductDetailViewModel extends ViewModel {
     }
 
     ;
+
+    public void test() {
+        System.out.println("------------- TESST TEST DELETE THIS");
+    }
 
     public LiveData<IProductVersion> getCurrentProductVersion() {
         System.out.println("========================getCurentProductVersion in view model " + currentProductVersion + " value " + currentProductVersion.getValue());

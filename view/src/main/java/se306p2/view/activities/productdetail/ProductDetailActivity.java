@@ -71,6 +71,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     private TextView ratingValue, numRatings, addReview;
     private ViewPager2 viewPager;
 
+    AddRatingDialogueFragment fragment;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -338,8 +340,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
 
         addReview.setOnClickListener(e -> {
-            AddRatingDialogueFragment fragment = new AddRatingDialogueFragment();
-            fragment.show(getSupportFragmentManager(), "AddRating");
+            if (this.fragment == null) {
+                this.fragment = new AddRatingDialogueFragment();
+            }
+            this.fragment.show(getSupportFragmentManager(), "AddRating");
         });
 
     }
