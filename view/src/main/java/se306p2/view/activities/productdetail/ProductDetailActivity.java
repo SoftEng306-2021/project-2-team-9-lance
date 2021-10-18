@@ -338,9 +338,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
 
         addReview.setOnClickListener(e -> {
-            viewModel.
+            AddRatingDialogueFragment fragment = new AddRatingDialogueFragment();
+            fragment.show(getSupportFragmentManager(), "AddRating");
         });
-
 
     }
 

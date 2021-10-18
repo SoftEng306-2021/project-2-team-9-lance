@@ -48,6 +48,7 @@ public class ProductDetailViewModel extends ViewModel {
     private MutableLiveData<Integer> currentProductPosition = new MutableLiveData<>();
     private MutableLiveData<Boolean> favourited = new MutableLiveData<>();
     private MutableLiveData<IRating> rating = new MutableLiveData<>();
+    private MutableLiveData<Integer> givenRating;
 
     public ProductDetailViewModel() {
         this.getProductUseCase = new GetProductUseCase();
@@ -160,6 +161,10 @@ public class ProductDetailViewModel extends ViewModel {
         currentProductPosition.postValue(index);
     }
 
+    public void giveRating(int r) {
+        givenRating.postValue(r);
+    }
+
 
     public LiveData<IProduct> getProduct() {
         return product;
@@ -178,6 +183,8 @@ public class ProductDetailViewModel extends ViewModel {
     public LiveData<Boolean> getIsFavourited() { return favourited; };
 
     public LiveData<IRating> getRating() { return rating; };
+
+    public LiveData<Integer> getGivenRating() { return givenRating; };
 
     public LiveData<IProductVersion> getCurrentProductVersion() {
         System.out.println("========================getCurentProductVersion in view model " + currentProductVersion + " value " + currentProductVersion.getValue());
