@@ -66,6 +66,7 @@ public class AddRatingDialogueFragment extends DialogFragment {
 
         doneButton.setOnClickListener(e -> {
             viewModel.sendRating();
+            dismiss();
         });
 
 
