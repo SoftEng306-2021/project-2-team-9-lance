@@ -40,8 +40,9 @@ public class AddRatingDialogueFragment extends DialogFragment {
                     ImageView star = new ImageView(getActivity().getApplicationContext());
                     star.setImageDrawable(getActivity().getDrawable(R.drawable.ic_star_large_outline));
 
+                    int finalI = i;
                     star.setOnClickListener(e -> {
-                        viewModel.giveRating(i + 1);
+                        viewModel.giveRating(finalI + 1);
                     });
 
                     starsContainer.addView(star);
@@ -62,6 +63,13 @@ public class AddRatingDialogueFragment extends DialogFragment {
                 }
             }
         });
+
+        doneButton.setOnClickListener(e -> {
+            viewModel.sendRating();
+        });
+
+
+        return rootView;
     }
 
 }

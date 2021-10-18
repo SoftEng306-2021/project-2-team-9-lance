@@ -165,6 +165,10 @@ public class ProductDetailViewModel extends ViewModel {
         givenRating.postValue(r);
     }
 
+    public void sendRating() {
+        System.out.println("------------------------------------SENDING RATING: " + givenRating.getValue() + "------------------------------------");
+    }
+
 
     public LiveData<IProduct> getProduct() {
         return product;
