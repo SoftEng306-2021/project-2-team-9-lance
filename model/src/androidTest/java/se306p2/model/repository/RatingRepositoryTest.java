@@ -1,6 +1,8 @@
 package se306p2.model.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import androidx.test.core.app.ApplicationProvider;
@@ -32,6 +34,7 @@ public class RatingRepositoryTest {
     private static FirebaseFirestore firestore;
     private static IRatingRepository ratingRepository;
     private static String dummyUserId = "ysjrdemq74zDG3HVpMDT";
+    private static String dummyUserId2 = "ysjrdemq74zDG3HVpMJK";
 
     @BeforeAll
     static void setUp() {
@@ -98,7 +101,8 @@ public class RatingRepositoryTest {
         try {
             // Delete documents
 
-            Tasks.await(firestore.collection("user").document("ysjrdemq74zDG3HVpMDT").delete());
+            Tasks.await(firestore.collection("user").document(dummyUserId).delete());
+            Tasks.await(firestore.collection("user").document(dummyUserId2).delete());
 
             Tasks.await(firestore.collection("product").document("vwyuy5Ft4UAU67WBNfjv").delete());
             Tasks.await(firestore.collection("product").document("JTSj6g2d2hLWDqKPXYTC").delete());
@@ -237,7 +241,26 @@ public class RatingRepositoryTest {
                 assertEquals("This product has not been rated by the user yet", e.getMessage());
             }
         }
-
     }
 
+    @Nested
+    @DisplayName("Ratings Test")
+    class ratedTests {
+        @Test
+        void testRatedNoRating() {
+            assertFalse(ratingRepository.rated("vwyuy5Ft4UAU67WBNfjv", dummyUserId2));
+        }
+
+        @Test
+        void testRatedNoProduct() {
+            assertFalse(ratingRepository.rated("aaaaaaaaaaaaaaaaaaaa", dummyUserId2));
+        }
+
+        @Test
+        void testRatedTrue() {
+            ratingRepository.addRating("JTSj6g2d2hLWDqKPXYTC", dummyUserId2, 5);
+            assertTrue(ratingRepository.rated("JTSj6g2d2hLWDqKPXYTC", dummyUserId2));
+            ratingRepository.removeRating("JTSj6g2d2hLWDqKPXYTC", dummyUserId2);
+        }
+    }
 }
