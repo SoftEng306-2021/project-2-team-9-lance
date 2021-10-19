@@ -107,10 +107,6 @@ public class LandingPageViewModel extends ViewModel {
         return featuredProducts;
     }
 
-    //TODO move this to Search activity potentially
-//    private void loadAutocompleteStrings() {
-//        Single<List<String>>  autocompleteSingle = searchAutoCompleteUseCase.searchAutoComplete(searchTerm)
-//    }
     public void dispose() {
         this.disposables.dispose();
     }

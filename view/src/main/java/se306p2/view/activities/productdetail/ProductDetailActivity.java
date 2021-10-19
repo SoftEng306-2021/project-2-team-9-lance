@@ -7,6 +7,7 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -67,8 +68,10 @@ public class ProductDetailActivity extends AppCompatActivity {
     private TextView usage;
     private TextView ingredients;
     private RadioGroup radioGroup;
-    private TextView ratingValue, numRatings;
+    private TextView ratingValue, numRatings, addReview;
     private ViewPager2 viewPager;
+
+    AddRatingDialogueFragment fragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -263,12 +266,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         );
 
-        viewModel.getCurrentProductVersion().observe(this, observedVersion -> {
-            System.out.println("!!!!!!!!!!!!!!!!! Version changed to " + observedVersion.getId());
-        });
-
         viewModel.getCurrentProductPosition().observe(this, observedPosition -> {
-            System.out.println("!!!!!!!!!!!!!!!!! Position changed to " + observedPosition);
 
             for (int i = 0; i < radioGroup.getChildCount(); i++) {
                 View buttonView = radioGroup.getChildAt(i);
@@ -331,6 +329,9 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void initRating() {
         ratingValue = findViewById(R.id.product_details_rating);
         numRatings = findViewById(R.id.product_details_num_reviews);
+        addReview = findViewById(R.id.product_details_add_review);
+
+        addReview.setPaintFlags(addReview.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         viewModel.getRating().observe(this, observedRating -> {
             DecimalFormat df = new DecimalFormat("#.#");
@@ -338,6 +339,12 @@ public class ProductDetailActivity extends AppCompatActivity {
             numRatings.setText("(" + Integer.toString(observedRating.getNum()) + ")");
         });
 
+        addReview.setOnClickListener(e -> {
+            if (this.fragment == null) {
+                this.fragment = new AddRatingDialogueFragment();
+            }
+            this.fragment.show(getSupportFragmentManager(), "AddRating");
+        });
 
     }
 
