@@ -22,6 +22,7 @@ import se306p2.domain.interfaces.usecase.IGetCurrentUserIdUseCase;
 import se306p2.domain.interfaces.usecase.IGetFavouritesUseCase;
 import se306p2.domain.interfaces.usecase.IGetProductUseCase;
 import se306p2.domain.interfaces.usecase.IGetProductVersionsUseCase;
+import se306p2.domain.interfaces.usecase.IGetRatedUseCase;
 import se306p2.domain.interfaces.usecase.IGetRatingUseCase;
 import se306p2.domain.usecase.AddRatingUseCase;
 import se306p2.domain.usecase.FavouritesUseCase;
@@ -30,6 +31,7 @@ import se306p2.domain.usecase.GetCurrentUserIdUseCase;
 import se306p2.domain.usecase.GetFavouritesUseCase;
 import se306p2.domain.usecase.GetProductUseCase;
 import se306p2.domain.usecase.GetProductVersionsUseCase;
+import se306p2.domain.usecase.GetRatedUseCase;
 import se306p2.domain.usecase.GetRatingUseCase;
 
 public class ProductDetailViewModel extends ViewModel {
@@ -44,6 +46,7 @@ public class ProductDetailViewModel extends ViewModel {
     private IFavouritesUseCase favouritesUseCase;
     private IAddRatingUseCase addRatingUseCase;
     private IGetCurrentUserIdUseCase getCurrentUserIdUseCase;
+    private IGetRatedUseCase getRatedUseCase;
 
     private String productId;
     private String userId;
@@ -56,6 +59,7 @@ public class ProductDetailViewModel extends ViewModel {
     private MutableLiveData<Boolean> favourited = new MutableLiveData<>();
     private MutableLiveData<IRating> rating = new MutableLiveData<>();
     private MutableLiveData<Integer> givenRating = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isRated = new MutableLiveData<>();
 
     public ProductDetailViewModel() {
         this.getProductUseCase = new GetProductUseCase();
@@ -66,6 +70,7 @@ public class ProductDetailViewModel extends ViewModel {
         this.favouritesUseCase = new FavouritesUseCase();
         this.addRatingUseCase = new AddRatingUseCase();
         this.getCurrentUserIdUseCase = new GetCurrentUserIdUseCase();
+        this.getRatedUseCase = new GetRatedUseCase();
     }
 
     public ProductDetailViewModel(
@@ -76,7 +81,8 @@ public class ProductDetailViewModel extends ViewModel {
             IGetRatingUseCase getRatingUseCase,
             IFavouritesUseCase favouritesUseCase,
             IAddRatingUseCase addRatingUseCase,
-            IGetCurrentUserIdUseCase getCurrentUserIdUseCase
+            IGetCurrentUserIdUseCase getCurrentUserIdUseCase,
+            IGetRatedUseCase getRatedUseCase
     ) {
         this.getProductUseCase = getProductUseCase;
         this.getProductVersionsUseCase = getProductVersionsUseCase;
@@ -86,6 +92,7 @@ public class ProductDetailViewModel extends ViewModel {
         this.favouritesUseCase = favouritesUseCase;
         this.addRatingUseCase = addRatingUseCase;
         this.getCurrentUserIdUseCase = getCurrentUserIdUseCase;
+        this.getRatedUseCase = getRatedUseCase;
     }
 
     public void init(String productId) {
@@ -168,6 +175,17 @@ public class ProductDetailViewModel extends ViewModel {
 
     }
 
+    public void loadIsRated() {
+        Single<Boolean> ratedSingle = getRatedUseCase.rated(productId, userId);
+        this.disposables.add(ratedSingle
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(retrievedRated -> {
+                            isRated.postValue(retrievedRated);
+                        },
+                        e -> e.printStackTrace()));
+    }
+
     public void toggleFavourite() {
         Single<Set<String>> toggleFavouritesSingle = favouritesUseCase.favourite(productId);
         this.disposables.add(toggleFavouritesSingle
@@ -191,7 +209,19 @@ public class ProductDetailViewModel extends ViewModel {
 
     public void sendRating() {
         System.out.println("------------------------------------SENDING RATING: " + givenRating.getValue() + "------------------------------------");
-        addRatingUseCase.addRating(productId, userId, givenRating.getValue());
+        Single<IRating> addedRatingSingle = addRatingUseCase.addRating(productId, userId, givenRating.getValue());
+        this.disposables.add(addedRatingSingle
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(retrievedFavourites -> {
+                            if (retrievedFavourites != null) {
+                                loadRating();
+                            }
+                        },
+                        e -> e.printStackTrace()
+                )
+        );
+
     }
 
 

@@ -31,49 +31,7 @@ public class AddRatingDialogueFragment extends DialogFragment {
         starsContainer = rootView.findViewById(R.id.add_review_stars_container);
         doneButton = rootView.findViewById(R.id.add_review_done);
 
-        System.out.println("================================== able to reach here ?");
-        viewModel.test();
-        viewModel.getGivenRating().observe(requireActivity(), observedGivenRating -> {
-            starsContainer.removeAllViews();
-            System.out.println("===================we here");
-            if (observedGivenRating == null || observedGivenRating == 0) {
-                doneButton.setEnabled(false);
-                for (int i = 0; i < 5; i++) {
-                    ImageView star = new ImageView(getActivity().getApplicationContext());
-                    star.setImageDrawable(getActivity().getDrawable(R.drawable.ic_star_large_outline));
-
-                    int finalI = i;
-                    star.setOnClickListener(e -> {
-                        System.out.println("=================== CLICKed!!");
-
-                        viewModel.giveRating(finalI + 1);
-                    });
-
-                    starsContainer.addView(star);
-                }
-            } else {
-                doneButton.setEnabled(true);
-
-                for (int i = 0; i < 5; i++) {
-                    ImageView star = new ImageView(getActivity().getApplicationContext());
-
-                    if (i < observedGivenRating) {
-                        star.setImageDrawable(getActivity().getDrawable(R.drawable.ic_star_large_filled));
-                    } else {
-                        star.setImageDrawable(getActivity().getDrawable(R.drawable.ic_star_large_outline));
-                    }
-
-                    int finalI = i;
-                    star.setOnClickListener(e -> {
-                        System.out.println("=================== CLICKed!!");
-
-                        viewModel.giveRating(finalI + 1);
-                    });
-
-                    starsContainer.addView(star);
-                }
-            }
-        });
+        renderReviewable();
 
         doneButton.setOnClickListener(e -> {
             viewModel.sendRating();
@@ -82,6 +40,35 @@ public class AddRatingDialogueFragment extends DialogFragment {
 
 
         return rootView;
+    }
+
+    private void renderReviewable() {
+        System.out.println("================================== able to reach here ?");
+        viewModel.getGivenRating().observe(requireActivity(), observedGivenRating -> {
+            starsContainer.removeAllViews();
+            System.out.println("===================we here");
+
+            for (int i = 0; i < 5; i++) {
+                ImageView star = new ImageView(getActivity().getApplicationContext());
+
+                if (!(observedGivenRating == null || observedGivenRating == 0) && i < observedGivenRating) {
+                    star.setImageDrawable(getActivity().getDrawable(R.drawable.ic_star_large_filled));
+                } else {
+                    star.setImageDrawable(getActivity().getDrawable(R.drawable.ic_star_large_outline));
+                }
+
+                int finalI = i;
+                star.setOnClickListener(e -> {
+                    System.out.println("=================== CLICKed!!");
+
+                    viewModel.giveRating(finalI + 1);
+                });
+
+                starsContainer.addView(star);
+            }
+            doneButton.setEnabled(!(observedGivenRating == null || observedGivenRating == 0));
+
+        });
     }
 
 }
