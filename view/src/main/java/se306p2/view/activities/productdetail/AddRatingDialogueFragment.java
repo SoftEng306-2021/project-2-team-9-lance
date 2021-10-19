@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.DialogFragment;
@@ -17,6 +18,8 @@ public class AddRatingDialogueFragment extends DialogFragment {
 
     ProductDetailViewModel viewModel;
 
+    LinearLayoutCompat contentContainer;
+    TextView titleText;
     LinearLayoutCompat starsContainer;
     Button doneButton;
 
@@ -24,18 +27,19 @@ public class AddRatingDialogueFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.add_review_fragment, container, false);
-
-
         viewModel = new ViewModelProvider(requireActivity()).get(ProductDetailViewModel.class);
 
+        contentContainer = rootView.findViewById(R.id.add_review_content_container);
+        titleText = rootView.findViewById(R.id.add_review_title);
         starsContainer = rootView.findViewById(R.id.add_review_stars_container);
         doneButton = rootView.findViewById(R.id.add_review_done);
 
-        renderReviewable();
-
-        doneButton.setOnClickListener(e -> {
-            viewModel.sendRating();
-            dismiss();
+        viewModel.getIsRated().observe(requireActivity(), observedIsRated -> {
+            if (observedIsRated) {
+                renderNonReviewable();
+            } else {
+                renderReviewable();
+            }
         });
 
 
@@ -67,8 +71,20 @@ public class AddRatingDialogueFragment extends DialogFragment {
                 starsContainer.addView(star);
             }
             doneButton.setEnabled(!(observedGivenRating == null || observedGivenRating == 0));
-
         });
+
+        doneButton.setOnClickListener(e -> {
+            viewModel.sendRating();
+            dismiss();
+        });
+
+    }
+
+    private void renderNonReviewable() {
+        contentContainer.removeView(starsContainer);
+        contentContainer.removeView(doneButton);
+
+        titleText.setText("You've already rated this product. Thank you for your feedback!");
     }
 
 }

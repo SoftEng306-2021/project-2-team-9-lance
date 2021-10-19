@@ -216,6 +216,7 @@ public class ProductDetailViewModel extends ViewModel {
                 .subscribe(retrievedFavourites -> {
                             if (retrievedFavourites != null) {
                                 loadRating();
+                                loadIsRated();
                             }
                         },
                         e -> e.printStackTrace()
@@ -241,25 +242,25 @@ public class ProductDetailViewModel extends ViewModel {
         return currentProductPosition;
     }
 
-    ;
+
 
     public LiveData<Boolean> getIsFavourited() {
         return favourited;
     }
 
-    ;
-
     public LiveData<IRating> getRating() {
         return rating;
     }
 
-    ;
+
 
     public LiveData<Integer> getGivenRating() {
         return givenRating;
     }
 
-    ;
+    public LiveData<Boolean> getIsRated() {
+        return isRated;
+    }
 
     public void test() {
         System.out.println("------------- TESST TEST DELETE THIS");
