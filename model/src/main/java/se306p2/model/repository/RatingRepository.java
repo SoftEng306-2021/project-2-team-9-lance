@@ -212,6 +212,7 @@ public class RatingRepository implements IRatingRepository {
 
     public Boolean rated(String productId, String userId) {
         try {
+            System.out.println("///////////////////////////////////////////////////////" + userId);
             DocumentSnapshot userSnapshot = Tasks.await(db.collection("user").document(userId).get());
 
             if (userSnapshot.get("ratings") == null) {

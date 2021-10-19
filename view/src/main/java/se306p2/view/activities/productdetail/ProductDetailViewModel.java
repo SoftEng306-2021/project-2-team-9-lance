@@ -112,7 +112,12 @@ public class ProductDetailViewModel extends ViewModel {
         this.disposables.add(userSingle.
                 subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread()).
-                subscribe(retrievedId -> userId = retrievedId,
+                subscribe(retrievedId -> {
+                            System.out.println("---------------------------------------userId retrieved:" + retrievedId);
+                            userId = retrievedId;
+
+                            loadIsRated();
+                        },
                         e -> e.printStackTrace()));
     }
 
@@ -176,11 +181,14 @@ public class ProductDetailViewModel extends ViewModel {
     }
 
     public void loadIsRated() {
+        System.out.println("----------------------------------------- load isRated id " + userId);
+
         Single<Boolean> ratedSingle = getRatedUseCase.rated(productId, userId);
         this.disposables.add(ratedSingle
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(retrievedRated -> {
+                            System.out.println("----------------------------------------- rated retrieved");
                             isRated.postValue(retrievedRated);
                         },
                         e -> e.printStackTrace()));
@@ -209,6 +217,8 @@ public class ProductDetailViewModel extends ViewModel {
 
     public void sendRating() {
         System.out.println("------------------------------------SENDING RATING: " + givenRating.getValue() + "------------------------------------");
+        System.out.println("---------------------------------------uesr id in sendRating:" + userId);
+
         Single<IRating> addedRatingSingle = addRatingUseCase.addRating(productId, userId, givenRating.getValue());
         this.disposables.add(addedRatingSingle
                 .subscribeOn(Schedulers.io())

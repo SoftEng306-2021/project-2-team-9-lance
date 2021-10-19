@@ -35,6 +35,7 @@ public class AddRatingDialogueFragment extends DialogFragment {
         doneButton = rootView.findViewById(R.id.add_review_done);
 
         viewModel.getIsRated().observe(requireActivity(), observedIsRated -> {
+            System.out.println("---------------------------------we here bois");
             if (observedIsRated) {
                 renderNonReviewable();
             } else {
