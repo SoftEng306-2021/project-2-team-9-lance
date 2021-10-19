@@ -7,4 +7,5 @@ public interface IRatingRepository {
     IRating getRating(String productId);
     IRating addRating(String productId, String userId, Integer addedRating);
     IRating removeRating(String productId, String userId);
+    Boolean rated(String productId, String userId);
 }
