@@ -35,7 +35,6 @@ public class AddRatingDialogueFragment extends DialogFragment {
         doneButton = rootView.findViewById(R.id.add_review_done);
 
         viewModel.getIsRated().observe(requireActivity(), observedIsRated -> {
-            System.out.println("---------------------------------we here bois");
             if (observedIsRated) {
                 renderNonReviewable();
             } else {
@@ -43,15 +42,12 @@ public class AddRatingDialogueFragment extends DialogFragment {
             }
         });
 
-
         return rootView;
     }
 
     private void renderReviewable() {
-        System.out.println("================================== able to reach here ?");
         viewModel.getGivenRating().observe(requireActivity(), observedGivenRating -> {
             starsContainer.removeAllViews();
-            System.out.println("===================we here");
 
             for (int i = 0; i < 5; i++) {
                 ImageView star = new ImageView(getActivity().getApplicationContext());
@@ -64,8 +60,6 @@ public class AddRatingDialogueFragment extends DialogFragment {
 
                 int finalI = i;
                 star.setOnClickListener(e -> {
-                    System.out.println("=================== CLICKed!!");
-
                     viewModel.giveRating(finalI + 1);
                 });
 
@@ -85,7 +79,7 @@ public class AddRatingDialogueFragment extends DialogFragment {
         contentContainer.removeView(starsContainer);
         contentContainer.removeView(doneButton);
 
-        titleText.setText("You've already rated this product. Thank you for your feedback!");
+        titleText.setText("You've already rated this product.");
     }
 
 }

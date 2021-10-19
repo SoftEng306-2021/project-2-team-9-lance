@@ -113,7 +113,6 @@ public class ProductDetailViewModel extends ViewModel {
                 subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread()).
                 subscribe(retrievedId -> {
-                            System.out.println("---------------------------------------userId retrieved:" + retrievedId);
                             userId = retrievedId;
 
                             loadIsRated();
@@ -147,7 +146,6 @@ public class ProductDetailViewModel extends ViewModel {
                 observeOn(AndroidSchedulers.mainThread()).
                 subscribe(retrievedVersions -> {
                             productVersions.postValue(retrievedVersions);
-                            System.out.println("===============load product versions in view model... curernt version set to " + retrievedVersions.get(0).getId());
                             currentProductVersion.postValue(retrievedVersions.get(0));
                             currentProductPosition.postValue(0);
                         },
@@ -181,14 +179,12 @@ public class ProductDetailViewModel extends ViewModel {
     }
 
     public void loadIsRated() {
-        System.out.println("----------------------------------------- load isRated id " + userId);
 
         Single<Boolean> ratedSingle = getRatedUseCase.rated(productId, userId);
         this.disposables.add(ratedSingle
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(retrievedRated -> {
-                            System.out.println("----------------------------------------- rated retrieved");
                             isRated.postValue(retrievedRated);
                         },
                         e -> e.printStackTrace()));
@@ -216,8 +212,6 @@ public class ProductDetailViewModel extends ViewModel {
     }
 
     public void sendRating() {
-        System.out.println("------------------------------------SENDING RATING: " + givenRating.getValue() + "------------------------------------");
-        System.out.println("---------------------------------------uesr id in sendRating:" + userId);
 
         Single<IRating> addedRatingSingle = addRatingUseCase.addRating(productId, userId, givenRating.getValue());
         this.disposables.add(addedRatingSingle
@@ -253,7 +247,6 @@ public class ProductDetailViewModel extends ViewModel {
     }
 
 
-
     public LiveData<Boolean> getIsFavourited() {
         return favourited;
     }
@@ -261,7 +254,6 @@ public class ProductDetailViewModel extends ViewModel {
     public LiveData<IRating> getRating() {
         return rating;
     }
-
 
 
     public LiveData<Integer> getGivenRating() {
@@ -272,17 +264,9 @@ public class ProductDetailViewModel extends ViewModel {
         return isRated;
     }
 
-    public void test() {
-        System.out.println("------------- TESST TEST DELETE THIS");
-    }
-
     public LiveData<IProductVersion> getCurrentProductVersion() {
-        System.out.println("========================getCurentProductVersion in view model " + currentProductVersion + " value " + currentProductVersion.getValue());
         return currentProductVersion;
     }
-
-    ;
-
 
     public void dispose() {
         this.disposables.dispose();
