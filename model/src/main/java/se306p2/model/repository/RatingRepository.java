@@ -55,11 +55,11 @@ public class RatingRepository implements IRatingRepository {
             DocumentSnapshot userSnapshot = Tasks.await(db.collection("user").document(userId).get());
             DocumentSnapshot productSnapshot = Tasks.await(db.collection("product").document(productId).get());
 
-            if (productSnapshot.getData() == null ) {
+            if (productSnapshot.getData() == null) {
                 throw new UnsupportedOperationException("product does not exist");
             }
 
-            IProduct product = ProductTransformer.unpack(productSnapshot.getId(), productSnapshot.getData().get("brand").toString(),productSnapshot.getData());
+            IProduct product = ProductTransformer.unpack(productSnapshot.getId(), productSnapshot.getData().get("brand").toString(), productSnapshot.getData());
 
             Double currentRatingInProduct = product.getNumericRating();
             Number currentNumReviews = product.getNumReviews();
@@ -70,19 +70,20 @@ public class RatingRepository implements IRatingRepository {
             Double newRating;
 
             Map<String, Object> entry;
-            Map<String,Integer> userRatings = new HashMap<String,Integer>();;
+            Map<String, Integer> userRatings = new HashMap<String, Integer>();
+            ;
 
-            if (userSnapshot.get("ratings") != null ) {
-                Map<String,Number> userRatingsObject = (Map<String,Number>) userSnapshot.get("ratings");
+            if (userSnapshot.get("ratings") != null) {
+                Map<String, Number> userRatingsObject = (Map<String, Number>) userSnapshot.get("ratings");
 
                 for (Map.Entry<String, Number> userInfo : userRatingsObject.entrySet()) {
-                    userRatings.put(userInfo.getKey(),userInfo.getValue().intValue());
+                    userRatings.put(userInfo.getKey(), userInfo.getValue().intValue());
                 }
 
 
             } else {
 
-                if (userSnapshot.get("favourites") == null ) {
+                if (userSnapshot.get("favourites") == null) {
 
                     entry = new HashMap<String, Object>() {{
                         put("favourites", new ArrayList<DocumentReference>() {{
@@ -107,7 +108,7 @@ public class RatingRepository implements IRatingRepository {
 
             }
 
-            userRatings.put(productId,addedRating);
+            userRatings.put(productId, addedRating);
 
             Tasks.await(db.collection("user")
                     .document(userId)
@@ -141,11 +142,11 @@ public class RatingRepository implements IRatingRepository {
             DocumentSnapshot userSnapshot = Tasks.await(db.collection("user").document(userId).get());
             DocumentSnapshot productSnapshot = Tasks.await(db.collection("product").document(productId).get());
 
-            if (productSnapshot.getData() == null ) {
+            if (productSnapshot.getData() == null) {
                 throw new UnsupportedOperationException("product does not exist");
             }
 
-            IProduct product = ProductTransformer.unpack(productSnapshot.getId(), productSnapshot.getData().get("brand").toString(),productSnapshot.getData());
+            IProduct product = ProductTransformer.unpack(productSnapshot.getId(), productSnapshot.getData().get("brand").toString(), productSnapshot.getData());
 
             Double currentRatingInProduct = product.getNumericRating();
             Number currentNumReviews = product.getNumReviews();
@@ -155,13 +156,14 @@ public class RatingRepository implements IRatingRepository {
             Number newNumReviews;
             Double newRating;
 
-            Map<String,Integer> userRatings = new HashMap<String,Integer>();;
+            Map<String, Integer> userRatings = new HashMap<String, Integer>();
+            ;
 
-            if (userSnapshot.get("ratings") != null ) {
-                Map<String,Number> userRatingsObject = (Map<String,Number>) userSnapshot.get("ratings");
+            if (userSnapshot.get("ratings") != null) {
+                Map<String, Number> userRatingsObject = (Map<String, Number>) userSnapshot.get("ratings");
 
                 for (Map.Entry<String, Number> userInfo : userRatingsObject.entrySet()) {
-                    userRatings.put(userInfo.getKey(),userInfo.getValue().intValue());
+                    userRatings.put(userInfo.getKey(), userInfo.getValue().intValue());
                 }
                 if (!userRatings.containsKey(productId)) {
                     throw new UnsupportedOperationException("This product has not been rated by the user yet");
@@ -176,7 +178,7 @@ public class RatingRepository implements IRatingRepository {
                         newRating = 0.0;
 
                     } else {
-                        newRating = (cumulativeRating - Double.valueOf(initValue) ) / newNumReviews.doubleValue();
+                        newRating = (cumulativeRating - Double.valueOf(initValue)) / newNumReviews.doubleValue();
                     }
 
                 } else {
@@ -207,6 +209,23 @@ public class RatingRepository implements IRatingRepository {
         } catch (ExecutionException | InterruptedException ex) {
             ex.printStackTrace();
             return null;
+        }
+    }
+
+    public Boolean rated(String productId, String userId) {
+        try {
+            DocumentSnapshot userSnapshot = Tasks.await(db.collection("user").document(userId).get());
+
+            if (userSnapshot.get("ratings") == null) {
+                return false;
+            }
+
+            Map<String, Number> userRatingsObject = (Map<String, Number>) userSnapshot.get("ratings");
+            return userRatingsObject.containsKey(productId);
+
+        } catch (ExecutionException | InterruptedException ex) {
+            ex.printStackTrace();
+            return false;
         }
     }
 }
