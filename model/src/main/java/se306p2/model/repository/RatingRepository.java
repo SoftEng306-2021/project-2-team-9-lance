@@ -70,8 +70,7 @@ public class RatingRepository implements IRatingRepository {
             Double newRating;
 
             Map<String, Object> entry;
-            Map<String, Integer> userRatings = new HashMap<String, Integer>();
-            ;
+            Map<String, Integer> userRatings = new HashMap<>();
 
             if (userSnapshot.get("ratings") != null) {
                 Map<String, Number> userRatingsObject = (Map<String, Number>) userSnapshot.get("ratings");
