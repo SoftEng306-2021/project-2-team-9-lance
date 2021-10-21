@@ -52,6 +52,7 @@ import se306p2.view.common.adapters.ProductItemRecyclerViewAdapter;
 import se306p2.view.common.helper.DisplayDataFormatter;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 
 import se306p2.view.common.placeholders.PlaceholderGenerator;
@@ -96,6 +97,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         initImageCountDots();
         initFavourite();
         initRating();
+
+        initToast();
     }
 
     @Override
@@ -130,6 +133,12 @@ public class ProductDetailActivity extends AppCompatActivity {
         LinearLayoutCompat rootLinearLayout = (LinearLayoutCompat)findViewById(R.id.product_details_container);
         LayoutTransition layoutTransition = rootLinearLayout.getLayoutTransition();
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
+    }
+
+    private void initToast() {
+        viewModel.getToastMessage().observe(this, observedToastMessage -> {
+            Toast.makeText(this, observedToastMessage, Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void initFavourite() {

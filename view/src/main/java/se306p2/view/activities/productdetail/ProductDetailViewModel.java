@@ -61,6 +61,8 @@ public class ProductDetailViewModel extends ViewModel {
     private MutableLiveData<Integer> givenRating = new MutableLiveData<>();
     private MutableLiveData<Boolean> isRated = new MutableLiveData<>();
 
+    private MutableLiveData<String> toastMessage = new MutableLiveData<>();
+
     public ProductDetailViewModel() {
         this.getProductUseCase = new GetProductUseCase();
         this.getProductVersionsUseCase = new GetProductVersionsUseCase();
@@ -221,9 +223,13 @@ public class ProductDetailViewModel extends ViewModel {
                             if (retrievedFavourites != null) {
                                 loadRating();
                                 loadIsRated();
+                                toastMessage.postValue("Your rating has been saved");
                             }
                         },
-                        e -> e.printStackTrace()
+                        e -> {
+                            toastMessage.postValue("Something went wrong... Try again later");
+                            e.printStackTrace();
+                        }
                 )
         );
 
@@ -266,6 +272,10 @@ public class ProductDetailViewModel extends ViewModel {
 
     public LiveData<IProductVersion> getCurrentProductVersion() {
         return currentProductVersion;
+    }
+
+    public LiveData<String> getToastMessage() {
+        return toastMessage;
     }
 
     public void dispose() {
