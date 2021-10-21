@@ -219,13 +219,11 @@ public class ProductDetailViewModel extends ViewModel {
         this.disposables.add(addedRatingSingle
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(retrievedFavourites -> {
-                            if (retrievedFavourites != null) {
+                .subscribe(retrievedRating -> {
                                 loadRating();
                                 loadIsRated();
 
                                 toastMessage.postValue("Your rating has been saved");
-                            }
                         },
                         e -> {
                             toastMessage.postValue("Something went wrong... Try again later");
