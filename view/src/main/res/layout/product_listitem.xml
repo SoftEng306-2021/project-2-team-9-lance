@@ -15,9 +15,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.utils.widget.ImageFilterView
+            <ImageView
+                android:layout_margin="10dp"
                 android:id="@+id/product_listitem_image"
-                android:layout_width="85dp"
+                android:layout_width="75dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_placeholder" />
 
