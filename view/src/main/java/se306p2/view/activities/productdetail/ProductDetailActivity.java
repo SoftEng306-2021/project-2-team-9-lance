@@ -52,6 +52,7 @@ import se306p2.view.common.adapters.ProductItemRecyclerViewAdapter;
 import se306p2.view.common.helper.DisplayDataFormatter;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 
 import se306p2.view.common.placeholders.PlaceholderGenerator;
@@ -81,6 +82,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         productId = intent.getStringExtra("productId");
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button
+
         viewModel = new ViewModelProvider(this).get(ProductDetailViewModel.class);
         viewModel.init(productId);
 
@@ -96,12 +99,20 @@ public class ProductDetailActivity extends AppCompatActivity {
         initImageCountDots();
         initFavourite();
         initRating();
+
+        initToast();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         viewModel.dispose();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 
     @Override
@@ -132,6 +143,12 @@ public class ProductDetailActivity extends AppCompatActivity {
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
     }
 
+    private void initToast() {
+        viewModel.getToastMessage().observe(this, observedToastMessage -> {
+            Toast.makeText(this, observedToastMessage, Toast.LENGTH_SHORT).show();
+        });
+    }
+
     private void initFavourite() {
         viewModel.getIsFavourited().observe(this, observedFavourited -> {
             if (observedFavourited) {
@@ -149,6 +166,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         priceCents = (TextView) findViewById(R.id.product_details_cents);
 
         viewModel.getProduct().observe(this, observedProduct -> {
+            setTitle(observedProduct.getName());
+
             brandName.setText(observedProduct.getBrandName());
             productName.setText(observedProduct.getName());
 

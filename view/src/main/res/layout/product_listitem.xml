@@ -10,15 +10,20 @@
         android:layout_height="85dp"
         android:background="?android:attr/selectableItemBackground"
         android:foreground="?android:attr/selectableItemBackground">
-      
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.utils.widget.ImageFilterView
+            <ImageView
                 android:id="@+id/product_listitem_image"
-                android:layout_width="85dp"
+                android:layout_width="75dp"
                 android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:src="@drawable/ic_placeholder" />
 
         </RelativeLayout>
