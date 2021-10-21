@@ -49,6 +49,10 @@ public class BrowseProductActivity extends AppCompatActivity {
         searchTerm = intent.getStringExtra("searchTerm");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button
+        setTitle((categoryName != null && !categoryName.isEmpty()) ? categoryName :
+                (searchTerm != null && !searchTerm.isEmpty()) ? "Results for: '" + searchTerm + "'" :
+                        "");
+
 
         viewModel = new ViewModelProvider(this).get(BrowseProductViewModel.class);
         System.out.println("BrowseProductActivity categoryId: " + categoryId);
@@ -126,7 +130,7 @@ public class BrowseProductActivity extends AppCompatActivity {
             viewModel.clearFilter();
         });
 
-     }
+    }
 
     private void animateStickyFilterBar(int dx, int dy) {
         LinearLayoutCompat filtersBar = (LinearLayoutCompat) findViewById(R.id.filtersBar);

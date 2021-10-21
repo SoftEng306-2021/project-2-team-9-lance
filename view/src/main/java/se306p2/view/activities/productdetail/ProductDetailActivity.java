@@ -166,6 +166,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         priceCents = (TextView) findViewById(R.id.product_details_cents);
 
         viewModel.getProduct().observe(this, observedProduct -> {
+            setTitle(observedProduct.getName());
+
             brandName.setText(observedProduct.getBrandName());
             productName.setText(observedProduct.getName());
 
