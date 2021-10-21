@@ -48,11 +48,17 @@ public class BrowseProductActivity extends AppCompatActivity {
         categoryName = intent.getStringExtra("categoryName");
         searchTerm = intent.getStringExtra("searchTerm");
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button
-        setTitle((categoryName != null && !categoryName.isEmpty()) ? categoryName :
-                (searchTerm != null && !searchTerm.isEmpty()) ? "Results for: '" + searchTerm + "'" :
-                        "");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button'
 
+        String title = "";
+
+        if (categoryName != null && !categoryName.isEmpty()) {
+            title = categoryName;
+        } else if (searchTerm != null && !searchTerm.isEmpty()) {
+            title = searchTerm;
+        }
+
+        setTitle(title);
 
         viewModel = new ViewModelProvider(this).get(BrowseProductViewModel.class);
         System.out.println("BrowseProductActivity categoryId: " + categoryId);
