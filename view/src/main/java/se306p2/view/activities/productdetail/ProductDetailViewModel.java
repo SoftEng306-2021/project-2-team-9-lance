@@ -223,6 +223,7 @@ public class ProductDetailViewModel extends ViewModel {
                             if (retrievedFavourites != null) {
                                 loadRating();
                                 loadIsRated();
+
                                 toastMessage.postValue("Your rating has been saved");
                             }
                         },
@@ -251,7 +252,6 @@ public class ProductDetailViewModel extends ViewModel {
     public LiveData<Integer> getCurrentProductPosition() {
         return currentProductPosition;
     }
-
 
     public LiveData<Boolean> getIsFavourited() {
         return favourited;
