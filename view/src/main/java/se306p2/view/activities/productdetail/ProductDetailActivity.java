@@ -82,6 +82,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         productId = intent.getStringExtra("productId");
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button
+
         viewModel = new ViewModelProvider(this).get(ProductDetailViewModel.class);
         viewModel.init(productId);
 
@@ -105,6 +107,12 @@ public class ProductDetailActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         viewModel.dispose();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 
     @Override
