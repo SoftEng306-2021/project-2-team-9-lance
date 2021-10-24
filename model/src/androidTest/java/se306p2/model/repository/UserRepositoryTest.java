@@ -161,7 +161,7 @@ class UserRepositoryTest {
 
             Set<String> favourites = userRepository.favourite("vwyuy5Ft4UAU67WBNfjv");
 
-            assertEquals(2, favourites.size());
+            assertEquals(1, favourites.size());
 
             assertTrue(favourites.remove("vwyuy5Ft4UAU67WBNfjv"));
             assertTrue(favourites.remove("JTSj6g2d2hLWDqKPXYTC"));
