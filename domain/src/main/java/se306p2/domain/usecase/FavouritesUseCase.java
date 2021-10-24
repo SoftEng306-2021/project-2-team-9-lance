@@ -6,6 +6,9 @@ import io.reactivex.rxjava3.core.Single;
 import se306p2.domain.RepositoryRouter;
 import se306p2.domain.interfaces.usecase.IFavouritesUseCase;
 
+/**
+ * This class is responsible for handling the favourites use case.
+ */
 public class FavouritesUseCase implements IFavouritesUseCase {
     public Single<Set<String>> favourite(String productId) {
         return Single.create(emitter -> {

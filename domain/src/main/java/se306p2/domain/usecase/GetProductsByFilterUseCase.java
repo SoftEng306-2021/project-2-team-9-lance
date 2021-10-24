@@ -8,6 +8,9 @@ import se306p2.domain.RepositoryRouter;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.usecase.IGetProductsByFilterUseCase;
 
+/**
+ * This class gets products by filtering a category.
+ */
 public class GetProductsByFilterUseCase implements IGetProductsByFilterUseCase {
     public Single<List<IProduct>> getProductsByFilter(String categoryId, String brandId, BigDecimal min, BigDecimal max) {
         return Single.create(emitter -> {

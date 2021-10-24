@@ -3,6 +3,9 @@ package se306p2.domain.interfaces.entity;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Interface for a product.
+ */
 public interface IProduct {
 
 

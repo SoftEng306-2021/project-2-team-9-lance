@@ -10,6 +10,9 @@ import se306p2.domain.interfaces.entity.IBrand;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.usecase.ISearchProductsUseCase;
 
+/**
+ * This class is used to search for products.
+ */
 public class SearchProductsUseCase implements ISearchProductsUseCase {
     public Single<Pair<List<IProduct>, List<IBrand>>> searchProducts(String term) {
         return Single.create(emitter -> {

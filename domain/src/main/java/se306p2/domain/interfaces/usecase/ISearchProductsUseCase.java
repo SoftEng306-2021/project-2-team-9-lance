@@ -8,6 +8,9 @@ import io.reactivex.rxjava3.core.Single;
 import se306p2.domain.interfaces.entity.IBrand;
 import se306p2.domain.interfaces.entity.IProduct;
 
+/**
+ * Interface for the SearchProductsUseCase
+ */
 public interface ISearchProductsUseCase {
     Single<Pair<List<IProduct>, List<IBrand>>> searchProducts(String term);
 }
