@@ -1,6 +1,7 @@
 package se306p2.model.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -161,9 +162,9 @@ class UserRepositoryTest {
 
             Set<String> favourites = userRepository.favourite("vwyuy5Ft4UAU67WBNfjv");
 
-            assertEquals(2, favourites.size());
+            assertEquals(1, favourites.size());
 
-            assertTrue(favourites.remove("vwyuy5Ft4UAU67WBNfjv"));
+            assertFalse(favourites.remove("vwyuy5Ft4UAU67WBNfjv"));
             assertTrue(favourites.remove("JTSj6g2d2hLWDqKPXYTC"));
 
             Tasks.await(firestore.collection("user").document(userRepository.getCurrentUserId()).delete());
