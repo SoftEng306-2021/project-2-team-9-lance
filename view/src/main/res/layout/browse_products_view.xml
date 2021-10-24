@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
-        <variable name="viewModel" type="se306p2.view.activities.browseproduct.BrowseProductViewModel" />
+
+        <variable
+            name="viewModel"
+            type="se306p2.view.activities.browseproduct.BrowseProductViewModel" />
     </data>
-    <ScrollView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    <ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -41,8 +44,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:background="@android:color/transparent"
-                        android:gravity="center"
                         android:entries="@{viewModel.observablePriceBracketsList}"
+                        android:gravity="center"
                         android:selectedItemPosition="@={viewModel.observablePriceBracketIndexSelected}"
                         android:spinnerMode="dropdown" />
 
@@ -82,24 +85,30 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <ImageView
+                    android:id="@+id/browse_products_filter_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:paddingHorizontal="5dp"
-                    android:id="@+id/browse_products_filter_icon"
                     android:src="@drawable/ic_filter" />
 
                 <ImageView
+                    android:id="@+id/browse_products_cancel_filter"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:id="@+id/browse_products_cancel_filter"
                     android:paddingLeft="5dp"
                     android:src="@drawable/ic_close" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/browse_products_list"
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:id="@+id/browse_products_list_container"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/browse_products_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>
 </layout>
