@@ -39,6 +39,9 @@ public class UserRepository implements IUserRepository {
         return instance;
     }
 
+    /**
+     * @see IUserRepository#getCurrentUserId()
+     */
     public String getCurrentUserId() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
@@ -47,6 +50,9 @@ public class UserRepository implements IUserRepository {
         return currentUser.getUid();
     }
 
+    /**
+     * @see IUserRepository#signInAnonymously()
+     */
     public String signInAnonymously() {
         try {
             AuthResult result = Tasks.await(mAuth.signInAnonymously());
@@ -58,6 +64,9 @@ public class UserRepository implements IUserRepository {
         }
     }
 
+    /**
+     * @see IUserRepository#favourites()
+     */
     public Set<String> favourites() {
         String userId = getCurrentUserId();
         if (userId == null) {
@@ -82,6 +91,9 @@ public class UserRepository implements IUserRepository {
         }
     }
 
+    /**
+     * @see IUserRepository#favourite(String productId)
+     */
     public Set<String> favourite(String productId) {
         String userId = getCurrentUserId();
         System.out.println(userId);

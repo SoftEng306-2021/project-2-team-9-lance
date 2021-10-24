@@ -2,6 +2,9 @@ package se306p2.model.entities;
 
 import se306p2.domain.interfaces.entity.IRating;
 
+/**
+ * @see IRating
+ */
 public class Rating implements IRating {
     private String productId;
     private double numericRating;

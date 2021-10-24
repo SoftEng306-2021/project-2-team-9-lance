@@ -2,6 +2,9 @@ package se306p2.model.entities;
 
 import se306p2.domain.interfaces.entity.IBrand;
 
+/**
+ * @see IBrand
+ */
 public class Brand implements IBrand {
     private String id;
     private String name;

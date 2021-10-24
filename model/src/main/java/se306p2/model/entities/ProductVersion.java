@@ -4,6 +4,9 @@ import java.util.List;
 
 import se306p2.domain.interfaces.entity.IProductVersion;
 
+/**
+ * @see ProductVersion
+ */
 public class ProductVersion implements IProductVersion {
     private String versionId;
     private String name;

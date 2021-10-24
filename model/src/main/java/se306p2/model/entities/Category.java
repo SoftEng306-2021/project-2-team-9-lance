@@ -2,6 +2,9 @@ package se306p2.model.entities;
 
 import se306p2.domain.interfaces.entity.ICategory;
 
+/**
+ * @see ICategory
+ */
 public class Category implements ICategory {
     private String categoryId;
     private String categoryName;

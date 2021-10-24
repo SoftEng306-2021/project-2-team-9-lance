@@ -33,6 +33,9 @@ public class CategoryRepository implements ICategoryRepository {
         return instance;
     }
 
+    /**
+     * @see ICategoryRepository#getCategories()
+     */
     public List<ICategory> getCategories() {
         List<ICategory> categories = new ArrayList<>();
         try {
@@ -48,6 +51,9 @@ public class CategoryRepository implements ICategoryRepository {
         }
     }
 
+    /**
+     * @see ICategoryRepository#getCategoryById(String categoryId)
+     */
     public ICategory getCategoryById(String categoryId) {
         try {
             DocumentSnapshot snapshot = Tasks.await(db.collection("category").document(categoryId).get());
@@ -62,6 +68,9 @@ public class CategoryRepository implements ICategoryRepository {
         }
     }
 
+    /**
+     * @see ICategoryRepository#getMaxPrice(String categoryId)
+     */
     public BigDecimal getMaxPrice(String categoryId) {
         try {
             DocumentReference docRef = db.collection("category").document(categoryId);
@@ -78,6 +87,9 @@ public class CategoryRepository implements ICategoryRepository {
         }
     }
 
+    /**
+     * @see ICategoryRepository#getMinPrice(String categoryId)
+     */
     public BigDecimal getMinPrice(String categoryId) {
         try {
             DocumentReference docRef = db.collection("category").document(categoryId);

@@ -2,6 +2,9 @@ package se306p2.model.entities;
 
 import se306p2.domain.interfaces.entity.IBenefit;
 
+/**
+ * @see IBenefit
+ */
 public class Benefit implements IBenefit {
     private String id;
     private String name;
