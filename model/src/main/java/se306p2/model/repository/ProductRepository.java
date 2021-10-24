@@ -107,8 +107,6 @@ public class ProductRepository implements IProductRepository {
 
             Map<DocumentReference, String> brandsMap = getBrandsFromSnapshot(snapshot.getDocuments());
 
-            Map<DocumentReference, String> brandsMap = getBrandsFromSnapshot(snapshot.getDocuments());
-
             for (DocumentSnapshot ds : snapshot.getDocuments()) {
                 if (ds.getData() == null) break;
                 DocumentReference brandRef = (DocumentReference) ds.getData().get("brand");

@@ -1,6 +1,4 @@
-package se306p2.domain.interfaces.repositories;<<<<<<< HEAD
-        List<IProduct> getProductsBySearch(String searchTerm);
-        =======
+package se306p2.domain.interfaces.repositories;
 
 import android.util.Pair;
 
@@ -20,10 +18,8 @@ public interface IProductRepository {
     IProduct getProductById(String id);
     List<IProduct> getProductsByCategoryId(String id);
     List<IProduct> getProductsByCategory(ICategory category);
-
     Pair<List<IProduct>, List<IBrand>> getProductsBySearch(String searchTerm);
     List<IProduct> getProductsBySearchAndFilter(String searchTerm, String brandId, BigDecimal min, BigDecimal max);
->>>>>>> master
     List<IProduct> getProductsByFilter(String categoryId, String brandId, BigDecimal min, BigDecimal max);
     List<IProductVersion> getProductVersions(String productId);
     List<IBenefit> getBenefits(String productId);
