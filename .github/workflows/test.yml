@@ -71,4 +71,4 @@ jobs:
           disable-animations: true
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot-save
-          script: ./gradlew connectedAndroidTest
+          script: firebase emulators:exec \"./gradlew connectedAndroidTest\"
