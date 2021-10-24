@@ -57,7 +57,6 @@ public class LandingPageActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_search:
-                System.out.println("+------------------------------------------------------------");
                 SearchFragment searchFragment = new SearchFragment();
                 searchFragment.show(getSupportFragmentManager(), "SearchFragment");
                 return true;

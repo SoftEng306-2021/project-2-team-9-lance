@@ -27,6 +27,7 @@
 
         <activity
             android:name=".activities.landingpage.LandingPageActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false">
             <intent-filter>
 
@@ -36,6 +37,7 @@
 
         <activity
             android:name=".activities.productdetail.ProductDetailActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false">
             <intent-filter>
 
@@ -45,6 +47,7 @@
 
         <activity
             android:name=".activities.browseproduct.BrowseProductActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false">
             <intent-filter>
 

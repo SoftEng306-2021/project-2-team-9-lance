@@ -23,7 +23,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
 
@@ -37,22 +36,22 @@ import se306p2.domain.interfaces.usecase.ISearchAutoCompleteUseCase;
 import se306p2.domain.usecase.SearchAutoCompleteUseCase;
 import se306p2.view.R;
 import se306p2.view.activities.browseproduct.BrowseProductActivity;
-import se306p2.view.activities.landingpage.LandingPageViewModel;
 
 public class SearchFragment extends DialogFragment {
     private CompositeDisposable disposables = new CompositeDisposable();
 
-    LandingPageViewModel viewModel;
+    ISearchAutoCompleteUseCase searchAutoCompleteUseCase = new SearchAutoCompleteUseCase();
 
     AutoCompleteTextView autoCompleteTextView;
 
     ArrayAdapter<String> adapter;
 
+    MutableLiveData<List<String>> autoCompleteOptions = new MutableLiveData<>();
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.search_fragment, container, false);
-        viewModel = new ViewModelProvider(getActivity()).get(LandingPageViewModel.class);
 
 
         autoCompleteTextView = rootView.findViewById(R.id.search_auto_complete_view);
@@ -60,7 +59,7 @@ public class SearchFragment extends DialogFragment {
         autoCompleteTextView.requestFocus();
         showKeyboard();
 
-        viewModel.getAutocompleteOptions().observe(this, observedAutocomplete -> {
+        autoCompleteOptions.observe(this, observedAutocomplete -> {
             System.out.println("======================== observedAutoComplete" + observedAutocomplete.toString());
             adapter = new ArrayAdapter<>(
                     getActivity(),
@@ -86,7 +85,7 @@ public class SearchFragment extends DialogFragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 System.out.println("========================after text changed");
-                viewModel.search(autoCompleteTextView.getText().toString());
+                search(autoCompleteTextView.getText().toString());
             }
         });
 
@@ -109,6 +108,24 @@ public class SearchFragment extends DialogFragment {
         });
 
         return rootView;
+    }
+
+    private void search(String str) {
+
+        System.out.println("======================== searching " + str);
+        Single<List<String>> autocompleteSingle = searchAutoCompleteUseCase.searchAutoComplete(str);
+        this.disposables.add(autocompleteSingle
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(autocompleteList -> {
+                    autoCompleteOptions.postValue(autocompleteList);
+                    System.out.println("==========RESULTS==============RESULTS========= " + autocompleteList);
+                }));
+
+    }
+
+    public void dispose() {
+        this.disposables.dispose();
     }
 
     public void showKeyboard(){

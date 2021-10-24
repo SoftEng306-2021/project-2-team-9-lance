@@ -58,15 +58,19 @@ const init = async () => {
 
       const data = {
         name: product.name,
+        order: product.order ? product.order : 1000,
         category: db.doc(`category/${categoriesMap[product.category].id}`),
         brand: db.doc(`brand/${brandsMap[product.brand].id}`),
         slogan: product.slogan,
         usage: product.usage,
         details: product.details,
         link: product.link,
+        ingredients: product.ingredients,
         defaultImageURI: product.defaultImageURI,
         form: product.form,
         price: product.price,
+        numericRating: 3 + Math.random() * 2,
+        numReviews: 5 + Math.floor(Math.random() * 200)
       };
 
       await db.collection("product").doc(product.id).set(data);

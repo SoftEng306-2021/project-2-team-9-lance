@@ -3,10 +3,15 @@ package se306p2.view.activities.productdetail;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.LayoutTransition;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -22,6 +27,9 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
@@ -30,6 +38,7 @@ import com.google.android.flexbox.JustifyContent;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import se306p2.domain.interfaces.entity.IBenefit;
@@ -37,10 +46,13 @@ import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.entity.IProductVersion;
 import se306p2.view.R;
 import se306p2.view.activities.productdetail.adapters.BenefitItemRecyclerViewAdapter;
+import se306p2.view.activities.productdetail.adapters.ScreenSlidePagerAdapter;
+import se306p2.view.common.SearchFragment;
 import se306p2.view.common.adapters.ProductItemRecyclerViewAdapter;
 import se306p2.view.common.helper.DisplayDataFormatter;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 
 import se306p2.view.common.placeholders.PlaceholderGenerator;
@@ -51,11 +63,16 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private ProductDetailViewModel viewModel;
 
+    private Menu optionsMenu;
     private TextView brandName, productName, priceDollars, priceCents;
     private TextView slogan, description;
     private TextView usage;
     private TextView ingredients;
-    RadioGroup radioGroup;
+    private RadioGroup radioGroup;
+    private TextView ratingValue, numRatings, addReview;
+    private ViewPager2 viewPager;
+
+    AddRatingDialogueFragment fragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +81,8 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         productId = intent.getStringExtra("productId");
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button
 
         viewModel = new ViewModelProvider(this).get(ProductDetailViewModel.class);
         viewModel.init(productId);
@@ -76,13 +95,68 @@ public class ProductDetailActivity extends AppCompatActivity {
         initUsage();
         initIngredients();
         initProductVersions();
+        initImages();
+        initImageCountDots();
+        initFavourite();
+        initRating();
+
+        initToast();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        viewModel.dispose();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.product_menu, menu);
+
+
+        optionsMenu = menu;
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_heart:
+                viewModel.toggleFavourite();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    };
 
 
     private void setUpAnimationEnvironment() {
         LinearLayoutCompat rootLinearLayout = (LinearLayoutCompat)findViewById(R.id.product_details_container);
         LayoutTransition layoutTransition = rootLinearLayout.getLayoutTransition();
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
+    }
+
+    private void initToast() {
+        viewModel.getToastMessage().observe(this, observedToastMessage -> {
+            Toast.makeText(this, observedToastMessage, Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void initFavourite() {
+        viewModel.getIsFavourited().observe(this, observedFavourited -> {
+            if (observedFavourited) {
+                optionsMenu.findItem(R.id.nav_heart).setIcon(R.drawable.ic_heart_filled);
+            } else {
+                optionsMenu.findItem(R.id.nav_heart).setIcon(R.drawable.ic_heart_empty);
+            }
+        });
     }
 
     private void initProductInfo() {
@@ -92,6 +166,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         priceCents = (TextView) findViewById(R.id.product_details_cents);
 
         viewModel.getProduct().observe(this, observedProduct -> {
+            setTitle(observedProduct.getName());
+
             brandName.setText(observedProduct.getBrandName());
             productName.setText(observedProduct.getName());
 
@@ -209,12 +285,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         );
 
-        viewModel.getCurrentProductVersion().observe(this, observedVersion -> {
-            System.out.println("!!!!!!!!!!!!!!!!! Version changed to " + observedVersion.getId());
-        });
-
         viewModel.getCurrentProductPosition().observe(this, observedPosition -> {
-            System.out.println("!!!!!!!!!!!!!!!!! Position changed to " + observedPosition);
 
             for (int i = 0; i < radioGroup.getChildCount(); i++) {
                 View buttonView = radioGroup.getChildAt(i);
@@ -225,10 +296,77 @@ public class ProductDetailActivity extends AppCompatActivity {
                         ((RadioButton) buttonView).setChecked(false);
                     }
                 }
-
             }
         });
     }
+
+    private void initImages() {
+        viewPager = (ViewPager2) findViewById(R.id.image_slider_viewpager);
+
+        viewModel.getCurrentProductVersion().observe(this, observedVersion -> {
+            ScreenSlidePagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(this, observedVersion);
+            viewPager.setAdapter(pagerAdapter);
+        });
+
+    }
+
+    private void initImageCountDots() {
+        LinearLayoutCompat dotsContainer = findViewById(R.id.dots_container);
+        dotsContainer.removeAllViews();
+
+        viewModel.getCurrentProductVersion().observe(this, observedVersion -> {
+            dotsContainer.removeAllViews();
+            for (int i = 0; i < observedVersion.getImageURI().size(); i++) {
+                ImageView iv = new ImageView(getApplicationContext());
+                iv.setImageDrawable(getDrawable(R.drawable.circle));
+                LinearLayoutCompat.LayoutParams lp =  new LinearLayoutCompat.LayoutParams(
+                        LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
+                        LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
+                lp.setMargins(8, 0, 8, 0);
+                iv.setLayoutParams(lp);
+
+                dotsContainer.addView(iv);
+            }
+        });
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                for (int i = 0; i < dotsContainer.getChildCount(); i++) {
+                    ImageView child = (ImageView) dotsContainer.getChildAt(i);
+                    if (i == position) {
+                        child.setImageDrawable(getDrawable(R.drawable.dark_circle));
+                    } else {
+                        child.setImageDrawable(getDrawable(R.drawable.circle));
+                    }
+                }
+            }
+        });
+    }
+
+    private void initRating() {
+        ratingValue = findViewById(R.id.product_details_rating);
+        numRatings = findViewById(R.id.product_details_num_reviews);
+        addReview = findViewById(R.id.product_details_add_review);
+
+        addReview.setPaintFlags(addReview.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        viewModel.getRating().observe(this, observedRating -> {
+            DecimalFormat df = new DecimalFormat("#.#");
+            ratingValue.setText(df.format(observedRating.getRating()));
+            numRatings.setText("(" + Integer.toString(observedRating.getNum()) + ")");
+        });
+
+        addReview.setOnClickListener(e -> {
+            if (this.fragment == null) {
+                this.fragment = new AddRatingDialogueFragment();
+            }
+            this.fragment.show(getSupportFragmentManager(), "AddRating");
+        });
+
+    }
+
 
     private RadioButton createRadioButton(IProductVersion productVersion, int index) {
         RadioButton button = new RadioButton(this);

@@ -36,7 +36,7 @@ public class CategoryRepository implements ICategoryRepository {
     public List<ICategory> getCategories() {
         List<ICategory> categories = new ArrayList<>();
         try {
-            QuerySnapshot snapshot = Tasks.await(db.collection("category").get());
+            QuerySnapshot snapshot = Tasks.await(db.collection("category").orderBy("order").get());
 
             for (DocumentSnapshot ds : snapshot.getDocuments()) {
                 categories.add(CategoryTransformer.unpack(ds.getId(), ds.getData()));

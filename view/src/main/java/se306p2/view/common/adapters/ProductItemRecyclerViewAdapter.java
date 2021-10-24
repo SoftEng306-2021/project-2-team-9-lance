@@ -72,6 +72,7 @@ public class ProductItemRecyclerViewAdapter extends RecyclerView.Adapter<Product
         holder.itemView.setOnClickListener(e -> {
             Log.d(TAG, "onBinderViewHolder, " + currentProduct.getBrandName() + " " + currentProduct.getName() + "clicked");
             Intent intent = new Intent(context, ProductDetailActivity.class);
+            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++productId " + currentProduct.getId());
             intent.putExtra("productId", currentProduct.getId());
             context.startActivity(intent);
         });

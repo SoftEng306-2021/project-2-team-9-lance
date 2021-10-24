@@ -8,25 +8,121 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white_off"
+        android:background="@color/white"
         android:orientation="vertical">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:paddingHorizontal="25dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp"
+            >
 
-        <View
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_star"
+                />
+            <TextView
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5.0"
+                android:fontFamily="@font/raleway"
+                android:textFontWeight="800"
+                android:id="@+id/product_details_rating"
+                android:textSize="19sp"
+                android:textColor="@color/red_dark"
+                />
+            <TextView
+                android:layout_marginLeft="7dp"
+                android:layout_width="wrap_content"
+                android:id="@+id/product_details_num_reviews"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/raleway"
+                android:textSize="17dp"
+                android:text="(123)"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add a product review"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/raleway"
+                android:textFontWeight="400"
+                android:id="@+id/product_details_add_review"
+
+                />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="360dp"
+            android:layout_gravity="center_vertical"
             android:layout_weight="0"
-            android:background="@color/white_off">
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
-        </View>
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/image_slider_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"/>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:id="@+id/dots_container"
+                android:paddingVertical="15dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginHorizontal="5dp"
+                    android:src="@drawable/circle" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginHorizontal="5dp"
+                    android:foregroundGravity="center"
+                    android:src="@drawable/circle" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginHorizontal="5dp"
+                    android:src="@drawable/dark_circle" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginHorizontal="5dp"
+                    android:src="@drawable/circle" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/white"
-            app:cardElevation="8dp"
-            app:cardMaxElevation="8dp"
-            >
+            app:cardElevation="20dp"
+            app:cardMaxElevation="20dp"
+            android:foreground="?android:attr/selectableItemBackground">
 
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -314,13 +410,12 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/product_details_usage_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:animateLayoutChanges="true"
-                    android:orientation="vertical"
-                    android:id="@+id/product_details_usage_container"
-                    >
+                    android:orientation="vertical">
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/product_details_usage_title"
@@ -449,7 +544,7 @@
                             android:textColor="@color/black"
                             android:textFontWeight="500"
                             android:textSize="15dp" />
-                      
+
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

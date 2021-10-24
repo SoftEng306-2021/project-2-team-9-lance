@@ -48,6 +48,18 @@ public class BrowseProductActivity extends AppCompatActivity {
         categoryName = intent.getStringExtra("categoryName");
         searchTerm = intent.getStringExtra("searchTerm");
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button'
+
+        String title = "";
+
+        if (categoryName != null && !categoryName.isEmpty()) {
+            title = categoryName;
+        } else if (searchTerm != null && !searchTerm.isEmpty()) {
+            title = searchTerm;
+        }
+
+        setTitle(title);
+
         viewModel = new ViewModelProvider(this).get(BrowseProductViewModel.class);
         System.out.println("BrowseProductActivity categoryId: " + categoryId);
         viewModel.setCategoryId(categoryId);
@@ -65,12 +77,25 @@ public class BrowseProductActivity extends AppCompatActivity {
         initFilterButtons();
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.nav_menu, menu);
-//        return true;
-//    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        viewModel.dispose();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.nav_menu, menu);
+        menu.removeItem(R.id.nav_search);
+        return true;
+    }
 
 
     private void initProductsRecyclerView() {
@@ -111,7 +136,7 @@ public class BrowseProductActivity extends AppCompatActivity {
             viewModel.clearFilter();
         });
 
-     }
+    }
 
     private void animateStickyFilterBar(int dx, int dy) {
         LinearLayoutCompat filtersBar = (LinearLayoutCompat) findViewById(R.id.filtersBar);

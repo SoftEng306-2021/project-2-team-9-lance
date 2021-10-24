@@ -101,20 +101,6 @@ public class LandingPageViewModel extends ViewModel {
                         e -> e.printStackTrace()));
     }
 
-    public void search(String str) {
-
-        System.out.println("======================== searching " + str);
-        Single<List<String>> autocompleteSingle = searchAutoCompleteUseCase.searchAutoComplete(str);
-        this.disposables.add(autocompleteSingle
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(autocompleteList -> {
-                    autoCompleteOptions.postValue(autocompleteList);
-                    System.out.println("==========RESULTS==============RESULTS========= " + autocompleteList);
-                }));
-
-    }
-
     public LiveData<List<String>> getAutocompleteOptions() { return autoCompleteOptions; };
 
     public LiveData<List<ICategory>> getCategories() {
@@ -125,10 +111,6 @@ public class LandingPageViewModel extends ViewModel {
         return featuredProducts;
     }
 
-    //TODO move this to Search activity potentially
-//    private void loadAutocompleteStrings() {
-//        Single<List<String>>  autocompleteSingle = searchAutoCompleteUseCase.searchAutoComplete(searchTerm)
-//    }
     public void dispose() {
         this.disposables.dispose();
     }

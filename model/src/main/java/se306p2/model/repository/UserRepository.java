@@ -8,8 +8,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -63,7 +66,14 @@ public class UserRepository implements IUserRepository {
 
         try {
             DocumentSnapshot snapshot = Tasks.await(db.collection("user").document(userId).get());
+            if (snapshot == null) {
+                return new HashSet<>();
+            }
+
             List<DocumentReference> favouriteList = (List<DocumentReference>) snapshot.get("favourites");
+            if (favouriteList == null) {
+                return new HashSet<>();
+            }
 
             return new HashSet<>(favouriteList.stream().map(s -> s.getId()).collect(Collectors.toList()));
         } catch (ExecutionException | InterruptedException e) {
@@ -74,23 +84,43 @@ public class UserRepository implements IUserRepository {
 
     public Set<String> favourite(String productId) {
         String userId = getCurrentUserId();
+        System.out.println(userId);
         if (userId == null) {
             return null;
         }
 
         try {
+            Set<DocumentReference> hashSet = new HashSet<>();
             DocumentSnapshot snapshot = Tasks.await(db.collection("user").document(userId).get());
-            List<DocumentReference> favouriteList = (List<DocumentReference>) snapshot.get("favourites");
+            if (snapshot != null) {
+                List<DocumentReference> favouriteList = (List<DocumentReference>) snapshot.get("favourites");
+                if (favouriteList != null) {
+                    hashSet = new HashSet<>(favouriteList);
+                }
+            }
 
-            favouriteList.add(db.collection("product").document(productId));
+
+            DocumentReference productRef = db.collection("product").document(productId);
+            if (!hashSet.contains(productRef)) {
+                hashSet.add(productRef);
+            } else {
+                hashSet.remove(productRef);
+            }
+
+            Set<DocumentReference> finalHashSet = hashSet;
+            Map<String, Object> data = new HashMap<String, Object>() {{
+                put("favourites", new ArrayList<>(finalHashSet));
+            }};
+
 
             Tasks.await(db.collection("user")
                     .document(userId)
-                    .update("favourites", favouriteList)
+                    .set(data)
             );
             return favourites();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
+            System.out.println(userId);
             return null;
         }
     }
