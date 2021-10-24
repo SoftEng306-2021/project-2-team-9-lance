@@ -81,6 +81,7 @@ public class LandingPageActivity extends AppCompatActivity {
         RecyclerView featuredRecyclerView = findViewById(R.id.featured_list);
 
         viewModel.getFeaturedProducts().observe(this, featuredProducts -> {
+
             ProductItemRecyclerViewAdapter adapter = new ProductItemRecyclerViewAdapter(this, featuredProducts);
 
             LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

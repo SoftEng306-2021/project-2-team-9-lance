@@ -2,12 +2,15 @@ package se306p2.view.activities.browseproduct;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -102,15 +105,26 @@ public class BrowseProductActivity extends AppCompatActivity {
         Log.d(TAG, "initFeaturedListRecyclerView entered");
 
         RecyclerView recyclerView = findViewById(R.id.browse_products_list);
-
+        LinearLayoutCompat recyclerViewContainer = findViewById(R.id.browse_products_list_container);
+        View noResult = getLayoutInflater().inflate(R.layout.no_results_widget, null);
 
         viewModel.getProducts().observe(this, products -> {
-            ProductItemRecyclerViewAdapter adapter = new ProductItemRecyclerViewAdapter(this, products);
 
-            LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            recyclerView.setLayoutManager(manager);
+            recyclerViewContainer.removeAllViews();
+            if (products.size() == 0) {
+                recyclerViewContainer.addView(noResult);
 
-            recyclerView.setAdapter(adapter);
+            } else {
+                recyclerViewContainer.addView(recyclerView);
+
+                ProductItemRecyclerViewAdapter adapter = new ProductItemRecyclerViewAdapter(this, products);
+
+                LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+                recyclerView.setLayoutManager(manager);
+
+                recyclerView.setAdapter(adapter);
+            }
+
         });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
