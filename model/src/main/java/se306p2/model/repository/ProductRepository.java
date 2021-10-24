@@ -18,7 +18,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,6 +60,9 @@ public class ProductRepository implements IProductRepository {
     }
 
 
+    /**
+     * @see IProductRepository#getProducts()
+     */
     public List<IProduct> getProducts() {
 
         List<IProduct> products = new ArrayList<>();
@@ -81,6 +83,9 @@ public class ProductRepository implements IProductRepository {
 
     }
 
+    /**
+     * @see IProductRepository#getProductById(String id)
+     */
     public IProduct getProductById(String id) {
         try {
             DocumentSnapshot snapshot = Tasks.await(db.collection("product").document(id).get());
@@ -98,6 +103,9 @@ public class ProductRepository implements IProductRepository {
         }
     }
 
+    /**
+     * @see IProductRepository#getProductsByCategoryId(String id)
+     */
     public List<IProduct> getProductsByCategoryId(String id) {
         List<IProduct> products = new ArrayList<>();
         try {
@@ -120,6 +128,9 @@ public class ProductRepository implements IProductRepository {
         }
     }
 
+    /**
+     * @see IProductRepository#getProductsByCategory(ICategory category)
+     */
     public List<IProduct> getProductsByCategory(ICategory category) {
         List<IProduct> products = new ArrayList<>();
         try {
@@ -142,6 +153,9 @@ public class ProductRepository implements IProductRepository {
         }
     }
 
+    /**
+     * @see IProductRepository#getProductsByFilter(String categoryId, String brandId, BigDecimal min, BigDecimal max)
+     */
     public List<IProduct> getProductsByFilter(String categoryId, String brandId, BigDecimal min, BigDecimal max) {
         List<IProduct> products = new ArrayList<>();
         try {
@@ -227,6 +241,9 @@ public class ProductRepository implements IProductRepository {
         return brandsMap;
     }
 
+    /**
+     * @see IProductRepository#getProductVersions(String productId)
+     */
     public List<IProductVersion> getProductVersions(String productId) {
         List<IProductVersion> productVersions = new ArrayList<>();
 
@@ -247,6 +264,9 @@ public class ProductRepository implements IProductRepository {
 
     }
 
+    /**
+     * @see IProductRepository#getBenefits(String productId)
+     */
     public List<IBenefit> getBenefits(String productId) {
         List<IBenefit> benefits = new ArrayList<>();
 
@@ -267,6 +287,9 @@ public class ProductRepository implements IProductRepository {
         }
     }
 
+    /**
+     * @see IProductRepository#getFeaturedProducts()
+     */
     public List<IProduct> getFeaturedProducts() {
         List<IProduct> products = new ArrayList<>();
         try {
@@ -286,6 +309,9 @@ public class ProductRepository implements IProductRepository {
         }
     }
 
+    /**
+     * @see IProductRepository#searchAutoComplete(String searchTerm)
+     */
     public List<String> searchAutoComplete(String searchTerm) {
         List<String> searchAutoCompletes = new ArrayList<>();
 
@@ -308,7 +334,9 @@ public class ProductRepository implements IProductRepository {
         return searchAutoCompletes;
     }
 
-
+    /**
+     * @see IProductRepository#getProductsBySearch(String searchTerm)
+     */
     public Pair<List<IProduct>, List<IBrand>> getProductsBySearch(String searchTerm) {
         Index index = algolia.getIndex("products");
         com.algolia.search.saas.Query query = new com.algolia.search.saas.Query(searchTerm)
@@ -372,6 +400,9 @@ public class ProductRepository implements IProductRepository {
         }
     }
 
+    /**
+     * @see IProductRepository#getProductsBySearchAndFilter(String searchTerm, String brandId, BigDecimal min, BigDecimal max)
+     */
     public List<IProduct> getProductsBySearchAndFilter(String searchTerm, String brandId, BigDecimal min, BigDecimal max) {
         Index index = algolia.getIndex("products");
         com.algolia.search.saas.Query query = new com.algolia.search.saas.Query(searchTerm)

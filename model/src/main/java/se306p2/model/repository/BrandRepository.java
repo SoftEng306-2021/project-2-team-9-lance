@@ -34,6 +34,9 @@ public class BrandRepository implements IBrandRepository {
         return instance;
     }
 
+    /**
+     * @see IBrandRepository#getBrands()
+     */
     public List<IBrand> getBrands() {
         List<IBrand> brands = new ArrayList<>();
         try {
@@ -49,6 +52,9 @@ public class BrandRepository implements IBrandRepository {
         }
     }
 
+    /**
+     * @see IBrandRepository#getBrands(String categoryId)
+     */
     public List<IBrand> getBrands(String categoryId) {
         List<IBrand> brands = new ArrayList<>();
         try {

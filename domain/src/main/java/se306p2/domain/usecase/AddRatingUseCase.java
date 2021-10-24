@@ -5,6 +5,9 @@ import se306p2.domain.RepositoryRouter;
 import se306p2.domain.interfaces.entity.IRating;
 import se306p2.domain.interfaces.usecase.IAddRatingUseCase;
 
+/**
+ * This class is used to add a rating to a user.
+ */
 public class AddRatingUseCase implements IAddRatingUseCase {
     public Single<IRating> addRating(String productId, String userId, Integer addedRating) {
         return Single.create(emitter -> {

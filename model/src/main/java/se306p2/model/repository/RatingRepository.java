@@ -33,6 +33,9 @@ public class RatingRepository implements IRatingRepository {
         return instance;
     }
 
+    /**
+     * @see IRatingRepository#getRating(String productId)
+     */
     public IRating getRating(String productId) {
         try {
             DocumentSnapshot snapshot = Tasks.await(db.collection("product").document(productId).get());
@@ -47,7 +50,9 @@ public class RatingRepository implements IRatingRepository {
         }
     }
 
-
+    /**
+     * @see IRatingRepository#addRating(String productId, String userId, Integer addedRating)
+     */
     public IRating addRating(String productId, String userId, Integer addedRating) {
 
         try {
@@ -134,7 +139,9 @@ public class RatingRepository implements IRatingRepository {
 
     }
 
-
+    /**
+     * @see IRatingRepository#removeRating(String productId, String userId)
+     */
     public IRating removeRating(String productId, String userId) {
         try {
 
@@ -210,6 +217,9 @@ public class RatingRepository implements IRatingRepository {
         }
     }
 
+    /**
+     * @see IRatingRepository#rated(String productId, String userId)
+     */
     public Boolean rated(String productId, String userId) {
         try {
             DocumentSnapshot userSnapshot = Tasks.await(db.collection("user").document(userId).get());

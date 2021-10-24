@@ -6,6 +6,9 @@ import io.reactivex.rxjava3.core.Single;
 import se306p2.domain.RepositoryRouter;
 import se306p2.domain.interfaces.usecase.IGetMinPriceUseCase;
 
+/**
+ * This class is used to get the minimum price of a product in a category.
+ */
 public class GetMinPriceUseCase implements IGetMinPriceUseCase {
     public Single<BigDecimal> getMinPrice(String categoryId) {
         return Single.create(emitter -> {

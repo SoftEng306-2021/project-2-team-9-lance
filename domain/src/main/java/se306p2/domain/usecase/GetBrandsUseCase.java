@@ -7,6 +7,9 @@ import se306p2.domain.RepositoryRouter;
 import se306p2.domain.interfaces.entity.IBrand;
 import se306p2.domain.interfaces.usecase.IGetBrandsUseCase;
 
+/**
+ * This class is the implementation of the IGetBrandsUseCase interface.
+ */
 public class GetBrandsUseCase implements IGetBrandsUseCase {
     public Single<List<IBrand>> getBrands(String categoryId) {
         return Single.create(emitter -> {

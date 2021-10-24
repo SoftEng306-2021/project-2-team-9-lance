@@ -5,6 +5,9 @@ import se306p2.domain.RepositoryRouter;
 import se306p2.domain.interfaces.entity.IRating;
 import se306p2.domain.interfaces.usecase.IGetRatingUseCase;
 
+/**
+ * This class is used to get a rating from the repository.
+ */
 public class GetRatingUseCase implements IGetRatingUseCase {
     public Single<IRating> getRating(String productId) {
         return Single.create(emitter -> {

@@ -5,6 +5,9 @@ import se306p2.domain.RepositoryRouter;
 import se306p2.domain.interfaces.entity.IRating;
 import se306p2.domain.interfaces.usecase.IGetRatedUseCase;
 
+/**
+ * This class is used to get the ratings of a user.
+ */
 public class GetRatedUseCase implements IGetRatedUseCase {
     public Single<Boolean> rated(String productId, String userId) {
         return Single.create(emitter -> {

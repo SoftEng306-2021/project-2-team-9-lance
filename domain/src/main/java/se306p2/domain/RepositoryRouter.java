@@ -6,6 +6,9 @@ import se306p2.domain.interfaces.repositories.IProductRepository;
 import se306p2.domain.interfaces.repositories.IRatingRepository;
 import se306p2.domain.interfaces.repositories.IUserRepository;
 
+/**
+ * This class is responsible for routing requests to the correct repository.
+ */
 public class RepositoryRouter {
     private IBrandRepository brandRepo;
     private ICategoryRepository categoryRepo;
@@ -15,6 +18,14 @@ public class RepositoryRouter {
 
     public static RepositoryRouter instance;
 
+    /**
+     * Constructor for RepositoryRouter.
+     * @param brandRepo
+     * @param categoryRepo
+     * @param productRepo
+     * @param ratingRepo
+     * @param userRepo
+     */
     private RepositoryRouter(IBrandRepository brandRepo, ICategoryRepository categoryRepo,
                              IProductRepository productRepo, IRatingRepository ratingRepo, IUserRepository userRepo) {
         this.brandRepo = brandRepo;
@@ -24,6 +35,15 @@ public class RepositoryRouter {
         this.userRepo = userRepo;
     }
 
+    /**
+     * Setup RespositoryRouter.
+     * @param brandRepo
+     * @param categoryRepo
+     * @param productRepo
+     * @param ratingRepo
+     * @param userRepo
+     * @return
+     */
     public static RepositoryRouter init(IBrandRepository brandRepo, ICategoryRepository categoryRepo,
                                         IProductRepository productRepo, IRatingRepository ratingRepo, IUserRepository userRepo) {
         instance = new RepositoryRouter(brandRepo, categoryRepo, productRepo, ratingRepo, userRepo);

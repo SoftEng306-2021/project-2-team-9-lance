@@ -5,6 +5,9 @@ import se306p2.domain.RepositoryRouter;
 import se306p2.domain.interfaces.entity.IRating;
 import se306p2.domain.interfaces.usecase.IRemoveRatingUseCase;
 
+/**
+ * RemoveRatingUseCase is a use case that removes a rating from the database.
+ */
 public class RemoveRatingUseCase implements IRemoveRatingUseCase {
     public Single<IRating> removeRating(String productId, String userId) {
         return Single.create(emitter -> {

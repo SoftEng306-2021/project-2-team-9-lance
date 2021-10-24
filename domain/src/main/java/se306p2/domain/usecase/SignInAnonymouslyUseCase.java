@@ -4,6 +4,9 @@ import io.reactivex.rxjava3.core.Single;
 import se306p2.domain.RepositoryRouter;
 import se306p2.domain.interfaces.usecase.ISignInAnonymouslyUseCase;
 
+/**
+ * This class is the implementation of the SignInAnonymouslyUseCase interface.
+ */
 public class SignInAnonymouslyUseCase implements ISignInAnonymouslyUseCase {
     public Single<String> signInAnonymously() {
         return Single.create(emitter -> {

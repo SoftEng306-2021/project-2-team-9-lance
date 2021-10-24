@@ -5,6 +5,9 @@ import java.util.List;
 
 import se306p2.domain.interfaces.entity.IProduct;
 
+/**
+ * @see IProduct
+ */
 public class Product implements IProduct {
 
     private String productId;

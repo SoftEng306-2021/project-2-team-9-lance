@@ -7,6 +7,9 @@ import se306p2.domain.RepositoryRouter;
 import se306p2.domain.interfaces.entity.IProductVersion;
 import se306p2.domain.interfaces.usecase.IGetProductVersionsUseCase;
 
+/**
+ * This class is used to get the product versions of a single product.
+ */
 public class GetProductVersionsUseCase implements IGetProductVersionsUseCase {
     public Single<List<IProductVersion>> getProductVersions(String productId) {
         return Single.create(emitter -> {

@@ -5,6 +5,9 @@ import se306p2.domain.RepositoryRouter;
 import se306p2.domain.interfaces.entity.IProduct;
 import se306p2.domain.interfaces.usecase.IGetProductUseCase;
 
+/**
+ * This class is used to get a product from the repository.
+ */
 public class GetProductUseCase implements IGetProductUseCase {
     public Single<IProduct> getProduct(String productId) {
         return Single.create(emitter -> {
